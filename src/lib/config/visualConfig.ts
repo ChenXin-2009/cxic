@@ -395,10 +395,10 @@ export const HEADER_CONFIG = {
   borderColor: 'rgba(255, 255, 255, 0.1)',
   
   // 网站标题文本
-  titleText: 'SOLMAP',
+  titleText: 'SOMAP',
   
   // 网站副标题文本
-  subtitleText: 'solmap.cxin.tech',
+  subtitleText: 'somap.cxin.tech',
   
   // 标题字体大小（像素）
   titleFontSize: 24,
