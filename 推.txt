@@ -8,9 +8,9 @@
 ==================
 git status
 git add .
-git commit -m "Release 5.0.1: 修正更高层级与银河系相对的方向"
+git commit -m "Release 5.1.0: 项目名称将从solmap更改为somap"
 git checkout main
 git pull origin main
-git tag v5.0.1
+git tag v5.1.0
 git push origin main
-git push origin v5.0.1
+git push origin v5.1.0

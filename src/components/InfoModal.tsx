@@ -89,7 +89,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
             <div className="flex items-center gap-3 mb-2">
               <div className="w-1 h-8 bg-white/80" />
               <h2 className="text-3xl font-light text-white tracking-wider" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-                SOLMAP
+                SOMAP
               </h2>
             </div>
             <div className="ml-4 pl-3 border-l border-white/20">
@@ -102,7 +102,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
             <section className="relative pl-4 border-l border-white/15">
               <h3 className="text-lg font-light text-white/80 mb-3 tracking-wide">项目简介</h3>
               <p className="text-sm text-gray-400 leading-relaxed">
-                SOLMAP 是一个交互式太阳系可视化应用，使用 Three.js 和 Next.js 构建。
+                SOMAP 是一个交互式太阳系可视化应用，使用 Three.js 和 Next.js 构建。
                 通过真实的天文数据和精确的轨道计算，为您呈现太阳系的动态模拟。
               </p>
             </section>

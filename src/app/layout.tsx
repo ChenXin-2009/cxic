@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SolMap-太阳系实时地图",
-  description: "SolMap - 太阳系实时地图，可视化太阳系行星轨道和位置",
+  title: "SoMap-太阳系实时地图",
+  description: "SoMap - 太阳系实时地图，可视化太阳系行星轨道和位置",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },

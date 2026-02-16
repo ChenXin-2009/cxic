@@ -191,7 +191,7 @@ interface LogoProps {
   alt?: string;
 }
 
-function Logo({ size, alt = 'SOLMAP Logo' }: LogoProps): React.ReactElement {
+function Logo({ size, alt = 'SOMAP Logo' }: LogoProps): React.ReactElement {
   return (
     <Image
       src={HEADER_CONFIG.logoPath}
