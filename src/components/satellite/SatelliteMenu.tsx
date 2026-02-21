@@ -217,7 +217,7 @@ export function SatelliteMenu({ lang = 'zh' }: SatelliteMenuProps) {
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
           clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)',
         }}
-        aria-label={lang === 'zh' ? '卫星' : 'Satellites'}
+        aria-label={lang === 'zh' ? '地球卫星' : 'Earth Satellites'}
       >
         {/* 左上角菱形装饰 */}
         <div 
@@ -245,7 +245,7 @@ export function SatelliteMenu({ lang = 'zh' }: SatelliteMenuProps) {
           }}
         />
         
-        {lang === 'zh' ? '卫星' : 'SATELLITES'}
+        {lang === 'zh' ? '地球卫星' : 'EARTH SATELLITES'}
       </button>
 
       {/* 卫星菜单面板 */}

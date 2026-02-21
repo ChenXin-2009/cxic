@@ -199,14 +199,11 @@ export class SatelliteRenderer {
    * ```
    */
   updatePositions(satellites: Map<number, SatelliteState>): void {
-    console.log('[SatelliteRenderer] updatePositions called with', satellites.size, 'satellites');
-    
     this.satellites = satellites;
     let index = 0;
     
     // 如果没有卫星数据，隐藏点云
     if (satellites.size === 0) {
-      console.log('[SatelliteRenderer] No satellites, hiding point cloud');
       this.pointCloud.visible = false;
       this.geometry.setDrawRange(0, 0);
       return;
@@ -214,7 +211,6 @@ export class SatelliteRenderer {
     
     satellites.forEach((sat) => {
       if (index >= MAX_SATELLITES) {
-        console.warn(`[SatelliteRenderer] 卫星数量超过最大限制 ${MAX_SATELLITES}`);
         return;
       }
       
@@ -232,9 +228,6 @@ export class SatelliteRenderer {
       index++;
     });
     
-    console.log('[SatelliteRenderer] Updated', index, 'satellites, first position:', 
-      this.positionBuffer[0], this.positionBuffer[1], this.positionBuffer[2]);
-    
     // 设置实际绘制的点数量
     this.geometry.setDrawRange(0, index);
     
@@ -242,12 +235,11 @@ export class SatelliteRenderer {
     this.geometry.attributes.position.needsUpdate = true;
     this.geometry.attributes.color.needsUpdate = true;
     
-    // 更新包围球(用于视锥剔除)
-    this.geometry.computeBoundingSphere();
+    // 注意：不再每次都调用 computeBoundingSphere()
+    // 包围球将由 AdaptiveBoundingSphere 管理
     
     // 显示点云
     this.pointCloud.visible = true;
-    console.log('[SatelliteRenderer] Point cloud visible:', this.pointCloud.visible);
   }
   
   /**
