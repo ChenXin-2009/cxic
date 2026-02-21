@@ -21,6 +21,10 @@ import { useSolarSystemStore } from '../state';
 import { useSatelliteStore } from '../store/useSatelliteStore';
 import { satelliteConfig } from '../config/satelliteConfig';
 import * as THREE from 'three';
+import { PositionInterpolator } from '../performance/PositionInterpolator';
+import { PerformanceMonitor } from '../performance/PerformanceMonitor';
+import { QualityController } from '../performance/QualityController';
+import { logDebug, logError } from '../performance/performanceConfig';
 
 /**
  * SatelliteLayer - 卫星图层管理器
@@ -62,10 +66,17 @@ export class SatelliteLayer {
   private calculator: SGP4Calculator;
   private visible: boolean = true;
   
-  // 性能优化：节流计算
-  private lastUpdateTime: number = 0;
-  private updateInterval: number = 1000; // 每秒更新一次
-  private isCalculating: boolean = false; // 防止重复计算
+  // 性能优化组件
+  private interpolator: PositionInterpolator;
+  private performanceMonitor: PerformanceMonitor;
+  private qualityController: QualityController;
+  
+  // 双缓冲：存储完整的卫星状态
+  private satelliteStates: Map<number, any>;
+  
+  // 计算调度
+  private nextCalculationTime: number = 0;
+  private isCalculating: boolean = false;
   
   /**
    * 创建卫星图层实例
@@ -76,6 +87,18 @@ export class SatelliteLayer {
     this.sceneManager = sceneManager;
     this.renderer = new SatelliteRenderer(sceneManager);
     this.calculator = new SGP4Calculator();
+    
+    // 初始化性能优化组件
+    this.interpolator = new PositionInterpolator();
+    this.performanceMonitor = new PerformanceMonitor();
+    this.qualityController = new QualityController(this.performanceMonitor);
+    
+    // 初始化卫星状态存储
+    this.satelliteStates = new Map();
+    
+    // 设置首次计算时间为当前模拟时间
+    const currentSimulatedTime = useSolarSystemStore.getState().currentTime.getTime();
+    this.nextCalculationTime = currentSimulatedTime;
   }
   
   /**
@@ -116,50 +139,139 @@ export class SatelliteLayer {
       return;
     }
     
-    // 节流：避免每帧都计算，减少性能开销
-    const now = Date.now();
-    if (now - this.lastUpdateTime < this.updateInterval) {
-      return;
+    // 开始性能监控
+    this.performanceMonitor.beginFrame();
+    
+    // 使用模拟时间而不是实际时间
+    const solarSystemState = useSolarSystemStore.getState();
+    const currentSimulatedTime = solarSystemState.currentTime.getTime();
+    
+    // 1. 检查是否需要触发新的 SGP4 计算
+    if (currentSimulatedTime >= this.nextCalculationTime && !this.isCalculating) {
+      this.scheduleCalculation();
     }
     
-    // 防止重复计算
-    if (this.isCalculating) {
-      return;
+    // 2. 获取插值位置（使用模拟时间）
+    const interpolationStart = performance.now();
+    const interpolatedPositions = this.interpolator.getInterpolatedPositions(currentSimulatedTime);
+    this.performanceMonitor.recordInterpolation(performance.now() - interpolationStart);
+    
+    // 3. 如果有插值位置，更新渲染器
+    if (interpolatedPositions.size > 0) {
+      // 获取地球位置
+      const solarSystemState = useSolarSystemStore.getState();
+      const earthBody = solarSystemState.celestialBodies.find((b: any) => b.name.toLowerCase() === 'earth');
+      
+      if (earthBody) {
+        const earthPosition = new THREE.Vector3(earthBody.x, earthBody.y, earthBody.z);
+        
+        // 创建旋转矩阵：X轴旋转66.56度
+        const rotationMatrix = new THREE.Matrix4();
+        rotationMatrix.makeRotationX(THREE.MathUtils.degToRad(66.56));
+        
+        // 转换为太阳系坐标，并保留完整的卫星状态
+        const adjustedPositions = new Map<number, any>();
+        interpolatedPositions.forEach((position, noradId) => {
+          const rotatedPosition = position.clone().applyMatrix4(rotationMatrix);
+          const adjustedPosition = rotatedPosition.add(earthPosition);
+          
+          // 从保存的状态获取完整的卫星信息
+          const savedState = this.satelliteStates.get(noradId);
+          if (savedState) {
+            adjustedPositions.set(noradId, {
+              ...savedState,
+              position: adjustedPosition,
+            });
+          } else {
+            // 如果没有保存的状态，创建一个基本状态
+            adjustedPositions.set(noradId, {
+              noradId,
+              position: adjustedPosition,
+              orbitType: 'LEO' as any, // 默认轨道类型
+            });
+          }
+        });
+        
+        // 更新渲染器
+        const uploadStart = performance.now();
+        this.renderer.updatePositions(adjustedPositions as any);
+        this.performanceMonitor.recordGPUUpload(performance.now() - uploadStart);
+        
+        // 更新相机距离相关的透明度和大小
+        const cameraPosition = this.sceneManager.getCamera().position;
+        const distanceToEarth = cameraPosition.distanceTo(earthPosition);
+        
+        const threshold1 = 100000 / 149597870.7;
+        const threshold2 = 350000 / 149597870.7;
+        
+        let opacity: number;
+        let size: number;
+        
+        if (distanceToEarth < threshold1) {
+          opacity = 1.0;
+          size = satelliteConfig.rendering.pointSize;
+        } else if (distanceToEarth < threshold2) {
+          opacity = 1;
+          size = 4;
+        } else {
+          opacity = 0.2;
+          size = 2;
+        }
+        
+        this.renderer.setOpacity(opacity);
+        this.renderer.setSize(size);
+      }
     }
     
-    this.lastUpdateTime = now;
+    // 4. 自适应质量控制
+    this.qualityController.adjustQuality();
     
-    // 从Zustand Store获取当前时间
-    const currentTime = useSolarSystemStore.getState().currentTime;
+    // 5. 更新性能监控器的卫星数量
+    this.performanceMonitor.setSatelliteCount(interpolatedPositions.size);
+    this.performanceMonitor.setVisibleSatelliteCount(interpolatedPositions.size);
     
-    // 转换为Julian Date
-    // JD = (timestamp_ms / 86400000) + 2440587.5
-    const timestamp = currentTime.getTime(); // 毫秒时间戳
+    // 结束性能监控
+    this.performanceMonitor.endFrame();
+    
+    // 输出性能指标（仅开发环境）
+    const metrics = this.performanceMonitor.getMetrics();
+    logDebug(
+      `[SatelliteLayer] FPS: ${metrics.fps.toFixed(1)}, ` +
+      `Frame: ${metrics.frameTime.toFixed(2)}ms, ` +
+      `Interpolation: ${metrics.interpolationTime.toFixed(2)}ms, ` +
+      `Satellites: ${metrics.satelliteCount}`
+    );
+  }
+  
+  /**
+   * 触发 SGP4 计算
+   * 
+   * 根据质量设置的更新间隔触发计算。
+   * 计算完成后更新插值器的目标位置。
+   */
+  private scheduleCalculation(): void {
+    // 从 Zustand Store 获取当前模拟时间
+    const solarSystemState = useSolarSystemStore.getState();
+    const currentTime = solarSystemState.currentTime;
+    
+    // 转换为 Julian Date
+    const timestamp = currentTime.getTime();
     const julianDate = timestamp / 86400000 + 2440587.5;
     
-    // 从useSatelliteStore获取可见卫星列表和TLE数据
+    // 从 useSatelliteStore 获取可见卫星列表和 TLE 数据
     const satelliteState = useSatelliteStore.getState();
     const visibleSatellites = Array.from(satelliteState.visibleSatellites);
     const tleData = satelliteState.tleData;
     
     // 如果没有可见卫星，跳过计算
     if (visibleSatellites.length === 0) {
+      // 设置下次计算时间（使用模拟时间）
+      const settings = this.qualityController.getSettings();
+      this.nextCalculationTime = timestamp + settings.updateInterval;
       return;
     }
     
-    // 获取地球在太阳系中的位置
-    const solarSystemState = useSolarSystemStore.getState();
-    const earthBody = solarSystemState.celestialBodies.find((b: any) => b.name.toLowerCase() === 'earth');
-    
-    if (!earthBody) {
-      console.warn('[SatelliteLayer] 未找到地球位置');
-      return;
-    }
-    
-    const earthPosition = new THREE.Vector3(earthBody.x, earthBody.y, earthBody.z);
-    
-    // 更新SGP4Calculator的TLE缓存
-    // 只传递可见卫星的TLE数据
+    // 收集可见卫星的 TLE 数据
     const visibleTLEs: any[] = [];
     visibleSatellites.forEach(noradId => {
       const tle = tleData.get(noradId);
@@ -168,91 +280,61 @@ export class SatelliteLayer {
       }
     });
     
-    // 如果没有有效的TLE数据，跳过计算
+    // 如果没有有效的 TLE 数据，跳过计算
     if (visibleTLEs.length === 0) {
+      const settings = this.qualityController.getSettings();
+      this.nextCalculationTime = timestamp + settings.updateInterval;
       return;
     }
     
-    // 更新TLE缓存
+    // 更新 TLE 缓存
     this.calculator.updateTLECache(visibleTLEs);
     
     // 标记正在计算
     this.isCalculating = true;
     
-    // 使用SGP4Calculator计算所有卫星的位置
-    // 这是一个异步操作，使用Web Worker进行计算
+    // 记录计算开始时间
+    const calculationStart = performance.now();
+    
+    // 使用 SGP4Calculator 计算所有卫星的位置
     this.calculator.calculatePositions(visibleSatellites, julianDate)
       .then((positions) => {
-        console.log('[SatelliteLayer] SGP4 calculated', positions.size, 'positions');
-        console.log('[SatelliteLayer] Earth position:', earthPosition.x, earthPosition.y, earthPosition.z);
+        // 记录计算耗时
+        this.performanceMonitor.recordSGP4Calculation(performance.now() - calculationStart);
         
-        // 将卫星位置从地心坐标转换为太阳系坐标，并应用坐标系修正
-        // 卫星位置 = 地球位置 + 旋转(相对于地心的位置)
-        // 
-        // 坐标系修正：X轴旋转66.56度
-        // 原因：ECI坐标系的Z轴（北极）需要对齐到Three.js的赤道平面
-        // 66.56° = 90° - 23.44°（地轴倾角）
-        const adjustedPositions = new Map<number, any>();
+        logDebug('[SatelliteLayer] SGP4 calculated', positions.size, 'positions');
         
-        // 创建旋转矩阵：X轴旋转66.56度
-        const rotationMatrix = new THREE.Matrix4();
-        rotationMatrix.makeRotationX(THREE.MathUtils.degToRad(66.56));
+        // 获取质量设置
+        const settings = this.qualityController.getSettings();
+        // 下次计算时间 = 当前模拟时间 + 更新间隔
+        const nextCalcTime = timestamp + settings.updateInterval;
         
+        // 更新插值器的目标位置，并保存完整的卫星状态
         positions.forEach((state, noradId) => {
-          // 应用旋转到相对位置
-          const rotatedPosition = state.position.clone().applyMatrix4(rotationMatrix);
-          
-          // 将旋转后的相对位置加上地球在太阳系中的位置
-          const adjustedPosition = rotatedPosition.add(earthPosition);
-          
-          console.log('[SatelliteLayer] Satellite', noradId, 
-            'relative:', state.position.x, state.position.y, state.position.z,
-            'adjusted:', adjustedPosition.x, adjustedPosition.y, adjustedPosition.z);
-          
-          adjustedPositions.set(noradId, {
-            ...state,
-            position: adjustedPosition
+          // 保存完整的卫星状态（包括 orbitType 等信息）
+          this.satelliteStates.set(noradId, {
+            noradId: state.noradId,
+            name: state.name,
+            orbitType: state.orbitType,
+            category: state.category,
+            altitude: state.altitude,
+            orbitalElements: state.orbitalElements,
           });
+          
+          // 设置插值目标（使用模拟时间）
+          this.interpolator.setTarget(noradId, state.position.clone(), nextCalcTime);
         });
         
-        console.log('[SatelliteLayer] Calling renderer.updatePositions with', adjustedPositions.size, 'satellites');
-        
-        // 计算相机到地球的距离，并根据距离调整透明度和大小
-        const cameraPosition = this.sceneManager.getCamera().position;
-        const distanceToEarth = cameraPosition.distanceTo(earthPosition);
-        
-        // 距离阈值转换为AU
-        const threshold1 = 100000 / 149597870.7;   // 100千公里
-        const threshold2 = 350000 / 149597870.7;   // 350千公里
-        
-        // 根据距离分三个阶段调整透明度和大小
-        let opacity: number;
-        let size: number;
-        
-        if (distanceToEarth < threshold1) {
-          // 近距离：完全不透明，正常大小
-          opacity = 1.0;
-          size = satelliteConfig.rendering.pointSize;
-        } else if (distanceToEarth < threshold2) {
-          // 中距离：半透明，中等大小
-          opacity = 1;
-          size = 4;
-        } else {
-          // 远距离：半透明，小尺寸
-          opacity = 0.2;
-          size = 2;
-        }
-        
-        // 更新渲染器的透明度和大小
-        this.renderer.setOpacity(opacity);
-        this.renderer.setSize(size);
-        
-        // 更新渲染器的位置缓冲区
-        this.renderer.updatePositions(adjustedPositions);
+        // 设置下次计算时间
+        this.nextCalculationTime = nextCalcTime;
         this.isCalculating = false;
       })
       .catch((error) => {
-        console.error('[SatelliteLayer] 卫星位置计算失败:', error);
+        logError('[SatelliteLayer] 卫星位置计算失败:', error);
+        
+        // 设置下次计算时间（即使失败也要继续尝试）
+        const settings = this.qualityController.getSettings();
+        this.nextCalculationTime = timestamp + settings.updateInterval;
         this.isCalculating = false;
       });
   }
@@ -338,5 +420,8 @@ export class SatelliteLayer {
   dispose(): void {
     this.renderer.dispose();
     this.calculator.dispose();
+    this.interpolator.clearAll();
+    this.performanceMonitor.reset();
+    this.qualityController.reset();
   }
 }
