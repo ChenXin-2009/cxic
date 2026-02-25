@@ -206,17 +206,17 @@ export class SatelliteLayer {
         const fadeThreshold = 1000000 / 149597870.7; // 1,000,000 km in AU (开始渐隐)
         
         // 计算可见性和透明度
-        const isVisible = distanceToEarth < visibilityThreshold;
+        const isVisibleByDistance = distanceToEarth < visibilityThreshold;
         let opacity: number;
         let size: number;
         
-        if (!isVisible) {
+        if (!isVisibleByDistance) {
           // 超出可见范围，完全隐藏
           opacity = 0;
           size = 0;
           this.renderer.setVisible(false);
         } else {
-          // 在可见范围内
+          // 在可见范围内，显示卫星
           this.renderer.setVisible(true);
           
           if (distanceToEarth < fadeThreshold) {
@@ -320,6 +320,25 @@ export class SatelliteLayer {
         this.performanceMonitor.recordSGP4Calculation(performance.now() - calculationStart);
         
         logDebug('[SatelliteLayer] SGP4 calculated', positions.size, 'positions');
+        
+        // 清除不在可见列表中的卫星数据
+        const visibleSet = new Set(visibleSatellites);
+        const toRemove: number[] = [];
+        
+        this.satelliteStates.forEach((_, noradId) => {
+          if (!visibleSet.has(noradId)) {
+            toRemove.push(noradId);
+          }
+        });
+        
+        toRemove.forEach(noradId => {
+          this.satelliteStates.delete(noradId);
+          this.interpolator.clear(noradId);
+        });
+        
+        if (toRemove.length > 0) {
+          logDebug('[SatelliteLayer] Removed', toRemove.length, 'invisible satellites');
+        }
         
         // 获取质量设置
         const settings = this.qualityController.getSettings();
