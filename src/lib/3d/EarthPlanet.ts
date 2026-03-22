@@ -215,13 +215,16 @@ export class EarthPlanet extends Planet {
       // 保留 mesh 可见但换成 depth-only 材质：
       // - 写入深度缓冲，让地球后面的卫星被正确遮挡
       // - 不写颜色（colorWrite=false），地球区域透明，Cesium 地球从下层透出来
+      // renderOrder=-2000：比天空盒(-1000)更先渲染，确保深度值在天空盒渲染前已写入
       mesh.visible = true;
       if (this.originalMaterial) {
         const depthOnlyMat = new THREE.MeshBasicMaterial({
-          colorWrite: false,   // 不写颜色 → 透明，Cesium 地球透出来
-          depthWrite: true,    // 写深度 → 地球后面的卫星被遮挡
+          colorWrite: false,
+          depthWrite: true,
           side: THREE.FrontSide,
         });
+        depthOnlyMat.depthTest = true;
+        mesh.renderOrder = -2000;
         mesh.material = depthOnlyMat;
       }
       console.log('[EarthPlanet] Cesium enabled, mesh switched to depth-only');
@@ -232,6 +235,7 @@ export class EarthPlanet extends Planet {
       if (this.originalMaterial) {
         mesh.material = this.originalMaterial;
       }
+      mesh.renderOrder = 0; // 恢复默认渲染顺序
       mesh.visible = true;
       console.log('[EarthPlanet] Cesium disabled, planet mesh restored');
     }

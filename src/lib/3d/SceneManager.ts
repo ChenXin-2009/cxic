@@ -781,18 +781,18 @@ export class SceneManager {
    * 更新银河系背景透明度
    */
   private updateSkyboxOpacity(cameraDistance: number, deltaTime: number): void {
-    const config = SCALE_VIEW_CONFIG;
+    const scaleConfig = SCALE_VIEW_CONFIG;
     
     // 0.7 光年 = 0.7 * LIGHT_YEAR_TO_AU
     const fadeEnd = 0.7 * 63241.077; // 约 44269 AU
     
     // 直接根据距离计算，不使用平滑过渡
     let targetOpacity = 1;
-    if (cameraDistance < config.milkyWayBackgroundFadeStart) {
+    if (cameraDistance < scaleConfig.milkyWayBackgroundFadeStart) {
       targetOpacity = 1;
     } else if (cameraDistance < fadeEnd) {
-      const range = fadeEnd - config.milkyWayBackgroundFadeStart;
-      targetOpacity = 1 - (cameraDistance - config.milkyWayBackgroundFadeStart) / range;
+      const range = fadeEnd - scaleConfig.milkyWayBackgroundFadeStart;
+      targetOpacity = 1 - (cameraDistance - scaleConfig.milkyWayBackgroundFadeStart) / range;
     } else {
       targetOpacity = 0;
     }
@@ -1055,11 +1055,23 @@ export class SceneManager {
     if (enabled) {
       this.renderer.setClearColor(0x000000, 0); // 透明背景，让 Cesium 地球从下层透出来
       this.scene.background = null;
-      // 天空盒保持可见：它在 Three.js canvas 里渲染，renderOrder=-1000 最先渲染
-      // depth-only 地球 mesh 会正确遮挡它，银河系背景仍然可见
+      // Cesium 模式下：保持天空盒可见（银河系背景），但开启 depthTest
+      // 地球 depth-only mesh (renderOrder=-2000) 先写入深度缓冲
+      // 天空盒 (renderOrder=-1000) 渲染时，地球区域深度测试失败 → 地球区域透明 → Cesium 透出
+      if (this.skybox) {
+        this.skybox.visible = true;
+        const mat = this.skybox.material as THREE.MeshBasicMaterial;
+        mat.depthTest = true;
+      }
     } else {
       this.renderer.setClearColor(0x000000, 1); // 不透明黑色
       this.scene.background = new THREE.Color(0x000000);
+      // 恢复天空盒默认状态（depthTest=false，始终在最后面）
+      if (this.skybox) {
+        this.skybox.visible = true;
+        const mat = this.skybox.material as THREE.MeshBasicMaterial;
+        mat.depthTest = false;
+      }
     }
   }
 
