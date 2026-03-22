@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const CONFIG = {
   colors: {
@@ -26,15 +26,7 @@ interface EarthLockButtonProps {
 
 export default function EarthLockButton({ onToggle, initialEnabled = false }: EarthLockButtonProps) {
   const [enabled, setEnabled] = useState(initialEnabled);
-  const [isMobile, setIsMobile] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const handleToggle = () => {
     const newState = !enabled;
@@ -42,26 +34,22 @@ export default function EarthLockButton({ onToggle, initialEnabled = false }: Ea
     onToggle?.(newState);
   };
 
-  const bottom = isMobile ? 'calc(10rem + 4rem)' : 'calc(2rem + 4rem)';
-  const left = isMobile ? '1rem' : '2rem';
-
   return (
     <button
       onClick={handleToggle}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="fixed group"
       style={{
-        bottom,
-        left,
+        position: 'relative',
+        display: 'block',
         width: '11rem',
         height: '3rem',
-        zIndex: 1000,
         background: enabled ? CONFIG.colors.accent : CONFIG.colors.dark,
         border: `2px solid ${isHovered ? CONFIG.colors.primary : (enabled ? CONFIG.colors.accent : CONFIG.colors.border)}`,
         clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)',
         transition: 'all 0.3s ease',
         boxShadow: isHovered ? `0 0 20px ${enabled ? CONFIG.colors.accent : CONFIG.colors.primary}80` : 'none',
+        cursor: 'pointer',
       }}
       aria-label={enabled ? '解除地球锁定' : '锁定相机到地球'}
     >

@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 // 明日方舟风格配置
 const ARKNIGHTS_CONFIG = {
@@ -40,22 +40,7 @@ interface CesiumToggleButtonProps {
 
 export default function CesiumToggleButton({ onToggle, initialEnabled = false }: CesiumToggleButtonProps) {
   const [enabled, setEnabled] = useState(initialEnabled);
-  const [isMobile, setIsMobile] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-
-  // 检测是否为移动端
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
 
   const handleToggle = () => {
     const newState = !enabled;
@@ -69,18 +54,17 @@ export default function CesiumToggleButton({ onToggle, initialEnabled = false }:
         onClick={handleToggle}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="fixed group"
         style={{
-          bottom: isMobile ? ARKNIGHTS_CONFIG.position.bottomMobile : ARKNIGHTS_CONFIG.position.bottom,
-          left: isMobile ? ARKNIGHTS_CONFIG.position.leftMobile : ARKNIGHTS_CONFIG.position.left,
+          position: 'relative',
+          display: 'block',
           width: ARKNIGHTS_CONFIG.button.width,
           height: ARKNIGHTS_CONFIG.button.height,
-          zIndex: 1000,
           background: enabled ? ARKNIGHTS_CONFIG.colors.accent : ARKNIGHTS_CONFIG.colors.dark,
           border: `2px solid ${isHovered ? ARKNIGHTS_CONFIG.colors.primary : (enabled ? ARKNIGHTS_CONFIG.colors.accent : ARKNIGHTS_CONFIG.colors.border)}`,
           clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)',
           transition: 'all 0.3s ease',
           boxShadow: isHovered ? `0 0 20px ${enabled ? ARKNIGHTS_CONFIG.colors.accent : ARKNIGHTS_CONFIG.colors.primary}80` : 'none',
+          cursor: 'pointer',
         }}
         aria-label={enabled ? 'Disable Cesium' : 'Enable Cesium'}
       >
