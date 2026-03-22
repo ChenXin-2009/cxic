@@ -1058,21 +1058,28 @@ export class SceneManager {
     if (enabled) {
       this.renderer.setClearColor(0x000000, 0); // 透明背景，让 Cesium 地球从下层透出来
       this.scene.background = null;
-      // Cesium 模式下隐藏天空盒背景图，让 Three.js canvas 透明
-      // 星星粒子（GaiaStars/NearbyStars）不受影响，仍然可见
+      // Cesium 模式：天空盒保持可见（银河系背景），但开启 depthTest + transparent
+      // 地球 depth-only mesh (renderOrder=-2000) 先写入深度缓冲
+      // 天空盒 (renderOrder=-1000) 渲染时：
+      //   - 地球区域：深度测试失败 → 像素丢弃（transparent=true 才会丢弃）→ Cesium 透出
+      //   - 其他区域：深度测试通过 → 正常渲染银河系背景
       if (this.skybox) {
-        this.skybox.visible = false;
+        this.skybox.visible = true;
         const mat = this.skybox.material as THREE.MeshBasicMaterial;
-        mat.depthTest = false; // 恢复默认，避免影响其他渲染
+        mat.depthTest = true;
+        mat.transparent = true;
+        mat.opacity = 1.0;
       }
     } else {
       this.renderer.setClearColor(0x000000, 1); // 不透明黑色
       this.scene.background = new THREE.Color(0x000000);
-      // 恢复天空盒（updateSkyboxOpacity 会根据距离自动管理可见性）
+      // 恢复天空盒默认状态（updateSkyboxOpacity 会根据距离自动管理）
       if (this.skybox) {
         this.skybox.visible = true;
         const mat = this.skybox.material as THREE.MeshBasicMaterial;
         mat.depthTest = false;
+        mat.transparent = false;
+        mat.opacity = 1.0;
       }
     }
   }
