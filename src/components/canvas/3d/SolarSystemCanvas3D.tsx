@@ -236,6 +236,8 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
   const mouseRef = useRef<THREE.Vector2>(new THREE.Vector2());
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const satelliteLayerRef = useRef<SatelliteLayer | null>(null);
+  // cesiumEnabled ref — 让动画循环（闭包）能读到最新值
+  const cesiumEnabledRef = useRef<boolean>(cesiumEnabled);
   
   // 卫星跟随状态跟踪
   const isTrackingSatelliteRef = useRef<boolean>(false);
@@ -260,6 +262,9 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
 
   // 监听 cesiumEnabled 变化,动态切换 Cesium 渲染
   React.useEffect(() => {
+    // 同步 ref，让动画循环闭包能读到最新值
+    cesiumEnabledRef.current = cesiumEnabled;
+
     const earthPlanet = planetsRef.current.get('earth');
     if (earthPlanet && 'setCesiumEnabled' in earthPlanet) {
       console.log(`[SolarSystemCanvas3D] Setting Cesium enabled: ${cesiumEnabled}`);
@@ -468,6 +473,9 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
               // Cesium 配置
               cesiumConfig: {
                 cesiumContainerId: 'cesium-earth-canvas',
+                // 挂载到 Three.js canvas 的父容器，确保在同一 stacking context 内
+                // 这样 z-index 才能正确工作，UI 元素不会被 Cesium canvas 遮挡
+                parentElement: containerRef.current ?? undefined,
                 canvasResolutionScale: 1.0,
                 maximumScreenSpaceError: 2,
                 maximumNumberOfLoadedTiles: 1000,
@@ -882,7 +890,7 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
             const planet = planetsRef.current.get(key);
             if (planet) {
               // 如果是 EarthPlanet 且 Cesium 已启用，跳过（由 EarthPlanet 自己管理可见性）
-              if (key === 'earth' && cesiumEnabled) return;
+              if (key === 'earth' && cesiumEnabledRef.current) return;
               const mesh = planet.getMesh();
               mesh.visible = true;
             }

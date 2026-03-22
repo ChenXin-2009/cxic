@@ -21,6 +21,7 @@ import { CameraSynchronizer } from './CameraSynchronizer';
 export interface CesiumAdapterConfig {
   // Cesium 配置
   cesiumContainerId: string;
+  parentElement?: HTMLElement; // 挂载容器（默认 document.body，建议传入 Three.js canvas 的父容器）
   imageryProvider?: Cesium.ImageryProvider;
   terrainProvider?: Cesium.TerrainProvider;
   
@@ -133,7 +134,11 @@ export class CesiumAdapter {
     this.container.style.width = `${width}px`;
     this.container.style.height = `${height}px`;
     
-    document.body.appendChild(this.container);
+    // 挂载到指定父容器（默认 document.body）
+    // 强烈建议传入 Three.js canvas 的父容器，确保在同一 stacking context 内
+    // 这样 z-index 才能正确工作，UI 元素不会被 Cesium canvas 遮挡
+    const parent = this.config.parentElement ?? document.body;
+    parent.appendChild(this.container);
     
     // 创建 Cesium Viewer
     this.viewer = new Cesium.Viewer(this.container, {
