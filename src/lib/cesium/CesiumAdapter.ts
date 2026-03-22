@@ -338,9 +338,28 @@ export class CesiumAdapter {
     if (this.container) {
       this.container.style.display = visible ? 'block' : 'none';
       console.log(`[CesiumAdapter] Container display set to: ${this.container.style.display}`);
+      
+      if (visible && this.isAvailable && this.viewer) {
+        // 重新显示时强制 Cesium 重新计算 canvas 尺寸并渲染一帧
+        // 避免 display:none 期间 WebGL context 状态不一致
+        try {
+          // 确保相机控制器已启用
+          this.viewer.scene.screenSpaceCameraController.enableInputs = true;
+          // 重新设置容器和 canvas 尺寸（display:none 期间可能丢失）
+          const parent = this.config.parentElement ?? document.body;
+          const w = parent.clientWidth || window.innerWidth;
+          const h = parent.clientHeight || window.innerHeight;
+          this.container.style.width = `${w}px`;
+          this.container.style.height = `${h}px`;
+          this.cesiumCanvas.width = w;
+          this.cesiumCanvas.height = h;
+          this.viewer.resize();
+          this.viewer.render();
+        } catch (e) {
+          console.warn('[CesiumAdapter] resize/render on show failed:', e);
+        }
+      }
     }
-    // 注意：不要设置 isAvailable = visible，因为 isAvailable 用于标记 Cesium 是否初始化成功
-    // 可见性控制应该只影响 display 属性，不影响渲染逻辑
   }
   
   /**

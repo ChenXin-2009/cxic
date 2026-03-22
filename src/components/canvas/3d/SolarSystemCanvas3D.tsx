@@ -269,21 +269,9 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
     if (earthPlanet && 'setCesiumEnabled' in earthPlanet) {
       console.log(`[SolarSystemCanvas3D] Setting Cesium enabled: ${cesiumEnabled}`);
       
-      if (cesiumEnabled) {
-        // 启用 Cesium 前，先将 Three.js 相机同步到 Cesium
-        // 这样 Cesium 会从当前视角开始，而不是默认位置
-        if ('syncCamera' in earthPlanet && cameraRef.current) {
-          const currentBodies = useSolarSystemStore.getState().celestialBodies;
-          const earthBody = currentBodies.find((b: any) => b.name.toLowerCase() === 'earth');
-          if (earthBody) {
-            const earthPos = new THREE.Vector3(earthBody.x, earthBody.y, earthBody.z);
-            (earthPlanet as any).syncCamera(cameraRef.current as THREE.PerspectiveCamera, earthPos);
-            console.log('[SolarSystemCanvas3D] Initial camera synced Three.js → Cesium');
-          }
-        }
-      }
-      
-      (earthPlanet as any).setCesiumEnabled(cesiumEnabled);
+      // 把当前 Three.js 相机传给 setCesiumEnabled，启用时会自动做初始同步
+      const camera = cesiumEnabled ? (cameraRef.current as THREE.PerspectiveCamera ?? undefined) : undefined;
+      (earthPlanet as any).setCesiumEnabled(cesiumEnabled, camera);
       
       // 当 Cesium 启用时，禁用 Three.js 相机控制器（避免冲突）
       // 当 Cesium 禁用时，重新启用 Three.js 相机控制器

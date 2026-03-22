@@ -170,8 +170,11 @@ export class EarthPlanet extends Planet {
    * 启用或禁用 Cesium 渲染
    * 当启用时，在任何距离都使用 Cesium 渲染
    * 当禁用时，使用 Planet 球体渲染
+   * 
+   * @param enabled - 是否启用 Cesium
+   * @param initialCamera - 启用时用于初始同步的 Three.js 相机（可选）
    */
-  setCesiumEnabled(enabled: boolean): void {
+  setCesiumEnabled(enabled: boolean, initialCamera?: THREE.PerspectiveCamera): void {
     console.log(`[EarthPlanet] setCesiumEnabled called with: ${enabled}`);
     
     if (!this.cesiumExtension) {
@@ -189,8 +192,15 @@ export class EarthPlanet extends Planet {
     this.cesiumEnabled = enabled;
     
     if (enabled) {
-      // 启用 Cesium: 显示 Cesium canvas，隐藏 Planet 球体
-      console.log('[EarthPlanet] Enabling Cesium canvas overlay');
+      // 启用 Cesium: 先同步相机（Three.js → Cesium），再显示 canvas
+      if (initialCamera) {
+        try {
+          this.cesiumExtension.syncCamera(initialCamera, mesh.position);
+          console.log('[EarthPlanet] Initial camera synced Three.js → Cesium');
+        } catch (e) {
+          console.warn('[EarthPlanet] Initial camera sync failed:', e);
+        }
+      }
       this.cesiumExtension.setVisible(true);
       mesh.visible = false;
       console.log('[EarthPlanet] Cesium enabled, planet mesh hidden');
