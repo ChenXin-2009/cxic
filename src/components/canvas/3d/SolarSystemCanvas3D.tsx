@@ -293,19 +293,8 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
   // 监听 earthLockEnabled 变化，切换地球锁定相机模式
   React.useEffect(() => {
     earthLockEnabledRef.current = earthLockEnabled;
-    if (!cameraControllerRef.current) return;
-
-    const earthPlanet = planetsRef.current.get('earth');
-    if (!earthPlanet) return;
-
-    if (earthLockEnabled) {
-      cameraControllerRef.current.setEarthLockMode(
-        true,
-        () => earthPlanet.getRotationQuaternion(),
-        () => earthPlanet.getMesh().position.clone()
-      );
-    } else {
-      cameraControllerRef.current.setEarthLockMode(false);
+    if (cameraControllerRef.current) {
+      cameraControllerRef.current.setEarthLockMode(earthLockEnabled);
     }
   }, [earthLockEnabled]);
 
@@ -677,7 +666,20 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
             
             // 更新星球自转 - 使用当前时间和时间速度
             const currentTimeInDays = dateToJulianDay(currentState.currentTime) - 2451545.0; // Days since J2000.0
-            planet.updateRotation(currentTimeInDays, currentState.timeSpeed);
+            
+            // 地球锁定模式：记录自转前的四元数，自转后计算 delta 并旋转相机
+            if (key === 'earth' && earthLockEnabledRef.current && cameraControllerRef.current) {
+              const quatBefore = planet.getRotationQuaternion();
+              planet.updateRotation(currentTimeInDays, currentState.timeSpeed);
+              const quatAfter = planet.getRotationQuaternion();
+              
+              // delta = quatAfter * inverse(quatBefore)
+              const deltaQ = quatAfter.clone().multiply(quatBefore.clone().invert());
+              const earthPos = planet.getMesh().position.clone();
+              cameraControllerRef.current.applyEarthLockDelta(deltaQ, earthPos);
+            } else {
+              planet.updateRotation(currentTimeInDays, currentState.timeSpeed);
+            }
             
             // 计算相机到星球的距离并更新 LOD
             const planetWorldPos = new THREE.Vector3(body.x, body.y, body.z);

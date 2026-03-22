@@ -118,9 +118,6 @@ export class CameraController {
 
   // 地球锁定相机模式
   private earthLockEnabled: boolean = false;
-  private earthLockGetQuaternion: (() => THREE.Quaternion) | null = null;
-  private earthLockGetPosition: (() => THREE.Vector3) | null = null;
-  private earthLockLastQuaternion: THREE.Quaternion | null = null;
 
   constructor(camera: THREE.PerspectiveCamera, domElement: HTMLElement) {
     this.camera = camera;
@@ -921,24 +918,11 @@ export class CameraController {
   }
 
   /**
-   * 设置地球锁定相机模式
-   * 启用后，每帧根据地球自转的增量四元数旋转相机，使相机相对地球表面固定
-   * @param enabled 是否启用
-   * @param getQuaternion 获取地球当前旋转四元数的函数
-   * @param getPosition 获取地球当前世界坐标的函数
+   * 设置地球锁定相机模式（启用/禁用标志）
    */
-  setEarthLockMode(
-    enabled: boolean,
-    getQuaternion?: () => THREE.Quaternion,
-    getPosition?: () => THREE.Vector3
-  ): void {
+  setEarthLockMode(enabled: boolean): void {
     this.earthLockEnabled = enabled;
-    if (enabled && getQuaternion && getPosition) {
-      this.earthLockGetQuaternion = getQuaternion;
-      this.earthLockGetPosition = getPosition;
-      // 记录当前四元数作为基准
-      this.earthLockLastQuaternion = getQuaternion().clone();
-    } else {
+    if (!enabled) {
       this.earthLockGetQuaternion = null;
       this.earthLockGetPosition = null;
       this.earthLockLastQuaternion = null;
@@ -950,6 +934,25 @@ export class CameraController {
    */
   getEarthLockEnabled(): boolean {
     return this.earthLockEnabled;
+  }
+
+  /**
+   * 应用地球自转增量到相机（由动画循环每帧调用）
+   * 将相机位置和 controls.target 绕地球中心旋转 deltaQ，
+   * 使相机相对于地球表面保持固定
+   * @param deltaQ 本帧地球自转的增量四元数（newQ * inverse(oldQ)）
+   * @param earthPos 地球世界坐标
+   */
+  applyEarthLockDelta(deltaQ: THREE.Quaternion, earthPos: THREE.Vector3): void {
+    // 相机位置相对于地球中心旋转 deltaQ
+    const camRelative = new THREE.Vector3().subVectors(this.camera.position, earthPos);
+    camRelative.applyQuaternion(deltaQ);
+    this.camera.position.copy(earthPos).add(camRelative);
+
+    // controls.target 同样旋转（保持相对关系）
+    const targetRelative = new THREE.Vector3().subVectors(this.controls.target, earthPos);
+    targetRelative.applyQuaternion(deltaQ);
+    this.controls.target.copy(earthPos).add(targetRelative);
   }
 
   // 手动缩放方法（带平滑效果和增强的防穿透）
@@ -1062,28 +1065,6 @@ export class CameraController {
     }
     
     
-    // 地球锁定相机模式：根据地球自转增量旋转相机
-    if (this.earthLockEnabled && this.earthLockGetQuaternion && this.earthLockGetPosition && this.earthLockLastQuaternion) {
-      const currentQ = this.earthLockGetQuaternion();
-      const earthPos = this.earthLockGetPosition();
-
-      // 计算增量四元数：deltaQ = currentQ * inverse(lastQ)
-      const lastQInv = this.earthLockLastQuaternion.clone().invert();
-      const deltaQ = currentQ.clone().multiply(lastQInv);
-
-      // 将相机位置相对于地球中心旋转
-      const camRelative = new THREE.Vector3().subVectors(this.camera.position, earthPos);
-      camRelative.applyQuaternion(deltaQ);
-      this.camera.position.copy(earthPos).add(camRelative);
-
-      // 同样旋转 controls.target（如果 target 不在地球中心，也跟着转）
-      const targetRelative = new THREE.Vector3().subVectors(this.controls.target, earthPos);
-      targetRelative.applyQuaternion(deltaQ);
-      this.controls.target.copy(earthPos).add(targetRelative);
-
-      this.earthLockLastQuaternion.copy(currentQ);
-    }
-
     // 每帧应用防穿透约束，确保相机不会进入行星内部
     this.applyPenetrationConstraint(deltaTime);    // 处理相机左右角度平滑过渡
     if (this.isAzimuthalAngleTransitioning) {
