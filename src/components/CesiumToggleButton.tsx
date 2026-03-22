@@ -123,7 +123,7 @@ export default function CesiumToggleButton({ onToggle, initialEnabled = false }:
                 color: enabled ? ARKNIGHTS_CONFIG.colors.dark : ARKNIGHTS_CONFIG.colors.primary,
               }}
             >
-              CESIUM
+              CESIUM 地球
             </span>
             <span 
               className="text-[10px] uppercase tracking-wide leading-tight"

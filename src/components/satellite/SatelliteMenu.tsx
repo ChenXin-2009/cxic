@@ -34,6 +34,7 @@ interface SatelliteMenuProps {
 
 export function SatelliteMenu({ lang = 'zh' }: SatelliteMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const [localSearchQuery, setLocalSearchQuery] = useState('');
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -153,30 +154,20 @@ export function SatelliteMenu({ lang = 'zh' }: SatelliteMenuProps) {
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = ARKNIGHTS_CONFIG.colors.primary;
-          e.currentTarget.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.5)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = ARKNIGHTS_CONFIG.colors.border;
-          e.currentTarget.style.boxShadow = 'none';
-        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         style={{
           position: 'relative',
           display: 'block',
           width: '11rem',
           height: '3rem',
           background: ARKNIGHTS_CONFIG.colors.dark,
-          border: `2px solid ${ARKNIGHTS_CONFIG.colors.border}`,
+          border: `2px solid ${isHovered ? ARKNIGHTS_CONFIG.colors.primary : ARKNIGHTS_CONFIG.colors.border}`,
           cursor: 'pointer',
           transition: 'all 0.3s ease',
           color: ARKNIGHTS_CONFIG.colors.text,
-          fontSize: '13px',
-          fontWeight: 700,
-          letterSpacing: '1.5px',
-          textTransform: 'uppercase',
-          fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
           clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)',
+          boxShadow: isHovered ? '0 0 20px rgba(255, 255, 255, 0.5)' : 'none',
         }}
         aria-label={lang === 'zh' ? '地球卫星' : 'Earth Satellites'}
       >
@@ -206,7 +197,44 @@ export function SatelliteMenu({ lang = 'zh' }: SatelliteMenuProps) {
           }}
         />
         
-        {lang === 'zh' ? '地球卫星' : 'EARTH SATELLITES'}
+        <div className="flex items-center justify-center gap-2 h-full px-3">
+          {/* 卫星图标 */}
+          <svg
+            fill="none"
+            stroke={ARKNIGHTS_CONFIG.colors.primary}
+            viewBox="0 0 24 24"
+            style={{ width: '1.25rem', height: '1.25rem', flexShrink: 0 }}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+
+          <div className="flex flex-col items-start">
+            <span
+              className="text-xs font-bold uppercase tracking-wider leading-tight"
+              style={{ color: ARKNIGHTS_CONFIG.colors.primary }}
+            >
+              {lang === 'zh' ? '地球卫星' : 'SATELLITES'}
+            </span>
+            <span
+              className="text-[10px] uppercase tracking-wide leading-tight"
+              style={{ color: ARKNIGHTS_CONFIG.colors.textDim }}
+            >
+              {isOpen ? 'OPEN' : 'CLOSED'}
+            </span>
+          </div>
+
+          <div
+            className="ml-auto"
+            style={{
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              background: isOpen ? ARKNIGHTS_CONFIG.colors.primary : '#00aaff',
+              boxShadow: `0 0 8px ${isOpen ? ARKNIGHTS_CONFIG.colors.primary : '#00aaff'}`,
+            }}
+          />
+        </div>
       </button>
 
       {/* 卫星菜单面板 — 向左展开，固定在视口右侧 */}
