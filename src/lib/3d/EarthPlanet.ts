@@ -75,10 +75,17 @@ export class EarthPlanet extends Planet {
   }
   
   /**
-   * 重写 updateRotation - Cesium 启用时跳过旋转（Cesium 直接渲染地球）
+   * 重写 updateRotation - Cesium 启用时同步仿真时间到 Cesium clock（驱动地球自转）
    */
   override updateRotation(currentTimeInDays: number, timeSpeed: number = 1, isPlaying: boolean = true): void {
     if (this.cesiumEnabled) {
+      // 把仿真时间同步给 Cesium clock，Cesium 用它驱动 ECEF 参考系（地球自转）
+      if (this.cesiumExtension) {
+        // currentTimeInDays 是 J2000.0 以来的天数，J2000.0 = 2000-01-01T12:00:00Z
+        const J2000_MS = 946728000000; // 2000-01-01T12:00:00Z in ms since epoch
+        const simDate = new Date(J2000_MS + currentTimeInDays * 86400000);
+        this.cesiumExtension.syncTime(simDate);
+      }
       return; // Cesium 启用时不旋转 Planet mesh
     }
     super.updateRotation(currentTimeInDays, timeSpeed, isPlaying);
