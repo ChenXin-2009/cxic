@@ -224,6 +224,10 @@ export class CesiumAdapter {
     // 确保 globe 显示
     this.viewer.scene.globe.show = true;
     this.viewer.scene.globe.depthTestAgainstTerrain = false;
+    
+    // 启用太阳光照：产生白天/黑夜分界线效果
+    this.viewer.scene.globe.enableLighting = true;
+    
     console.log('[CesiumAdapter] Transparent background configured');
     
     // 获取 Cesium 内部创建的 canvas
