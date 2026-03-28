@@ -8,10 +8,10 @@ import InfoModal from "@/components/InfoModal";
 import { SatelliteMenu } from "@/components/satellite";
 import { HEADER_CONFIG } from "@/lib/config/visualConfig";
 import EphemerisStatusPanel from "@/components/EphemerisStatusPanel";
-import CesiumDebugPanel from "@/components/debug/CesiumDebugPanel";
 import CesiumToggleButton from "@/components/CesiumToggleButton";
 import CesiumMapSourcePanel from "@/components/cesium/CesiumMapSourcePanel";
 import EarthLockButton from "@/components/EarthLockButton";
+import EarthLightButton from "@/components/EarthLightButton";
 
 /**
  * Info button component for top-right corner.
@@ -144,8 +144,9 @@ function EphemerisButton({ onClick }: { onClick: () => void }) {
 export default function SolarSystemPage() {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isEphemerisStatusOpen, setIsEphemerisStatusOpen] = useState(false);
-  const [cesiumEnabled, setCesiumEnabled] = useState(false); // 默认禁用 Cesium
-  const [earthLockEnabled, setEarthLockEnabled] = useState(false);
+  const [cesiumEnabled, setCesiumEnabled] = useState(true); // 默认启用 Cesium
+  const [earthLockEnabled, setEarthLockEnabled] = useState(true);
+  const [earthLightEnabled, setEarthLightEnabled] = useState(true);
   const [earthPlanet, setEarthPlanet] = useState<any>(null);
   const [camera, setCamera] = useState<any>(null);
   // 地球是否可见（相机足够近时显示按钮）
@@ -213,14 +214,19 @@ export default function SolarSystemPage() {
       >
         <CesiumToggleButton onToggle={setCesiumEnabled} initialEnabled={cesiumEnabled} />
         <EarthLockButton onToggle={setEarthLockEnabled} initialEnabled={earthLockEnabled} />
+        <EarthLightButton
+          initialEnabled={earthLightEnabled}
+          onToggle={(enabled) => {
+            setEarthLightEnabled(enabled);
+            const ext = earthPlanet?.getCesiumExtension?.();
+            ext?.setEnableLighting?.(enabled);
+          }}
+        />
         <SatelliteMenu lang="zh" />
       </div>
       
       {/* Cesium 地图源切换面板（仅 Cesium 模式下显示） */}
       <CesiumMapSourcePanel earthPlanet={earthPlanet} visible={cesiumEnabled} />
-      
-      {/* Cesium 调试面板（开发测试） */}
-      <CesiumDebugPanel earthPlanet={earthPlanet} camera={camera} />
       
       {/* 主容器，漂浮模式下不需要留出Header高度空间 */}
       <div 

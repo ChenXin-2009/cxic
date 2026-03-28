@@ -19,45 +19,7 @@ export interface ImagerySourceDef {
 }
 
 // NASA GIBS WMTS 基础配置
-// 端点：https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/wmts.cgi
-// TileMatrixSet：GoogleMapsCompatible_Level9（大多数图层）
 const GIBS_BASE = 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/wmts.cgi';
-
-function gibsWmts(layer: string, format: string, matrixSet = 'GoogleMapsCompatible_Level9', maxLevel = 9) {
-  return async (date?: string) => {
-    const Cesium = await import('cesium');
-    const params: Record<string, string> = {
-      SERVICE: 'WMTS',
-      REQUEST: 'GetTile',
-      VERSION: '1.0.0',
-      LAYER: layer,
-      STYLE: 'default',
-      TILEMATRIXSET: matrixSet,
-      FORMAT: format,
-    };
-    if (date) params.TIME = date;
-
-    return new Cesium.WebMapTileServiceImageryProvider({
-      url: GIBS_BASE,
-      layer,
-      style: 'default',
-      format,
-      tileMatrixSetID: matrixSet,
-      maximumLevel: maxLevel,
-      tilingScheme: new Cesium.WebMercatorTilingScheme(),
-      // 时间参数通过 customTags 注入
-      ...(date ? { times: Cesium.TimeIntervalCollection.fromIso8601({
-        iso8601: `${date}/${date}/P1D`,
-        dataCallback: () => ({ Time: date }),
-      }) } : {}),
-    });
-  };
-}
-
-/** 获取今天的 ISO 日期字符串 */
-function today(): string {
-  return new Date().toISOString().slice(0, 10);
-}
 
 /** 获取 N 天前的 ISO 日期字符串（GIBS 有 1-2 天延迟） */
 function daysAgo(n: number): string {
@@ -210,7 +172,6 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
     previewUrl: `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/wmts.cgi?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=MODIS_Terra_Thermal_Anomalies_Day&STYLE=default&TILEMATRIXSET=GoogleMapsCompatible_Level9&TILEMATRIX=2&TILEROW=1&TILECOL=2&FORMAT=image%2Fpng&TIME=${daysAgo(1)}`,
     create: async (date = daysAgo(1)) => {
       const Cesium = await import('cesium');
-      // 火点是叠加层，先加卫星底图再叠加火点
       return new Cesium.WebMapTileServiceImageryProvider({
         url: `${GIBS_BASE}?TIME=${date}`,
         layer: 'MODIS_Terra_Thermal_Anomalies_Day',

@@ -137,7 +137,6 @@ export default function CesiumMapSourcePanel({ earthPlanet, visible = true }: Ce
             const sources = IMAGERY_SOURCES.filter(s => s.category === cat);
             return (
               <div key={cat}>
-                {/* 分组标题 */}
                 <div style={{
                   padding: '8px 10px 4px',
                   color: '#888',
@@ -173,10 +172,7 @@ export default function CesiumMapSourcePanel({ earthPlanet, visible = true }: Ce
                         if (!isActive) (e.currentTarget as HTMLDivElement).style.backgroundColor = 'transparent';
                       }}
                     >
-                      {/* 预览图 */}
                       <PreviewImage src={source.previewUrl} alt={source.name} />
-
-                      {/* 文字信息 */}
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{
                           display: 'flex', justifyContent: 'space-between', alignItems: 'center',

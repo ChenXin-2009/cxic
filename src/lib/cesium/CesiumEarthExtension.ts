@@ -78,6 +78,13 @@ export class CesiumEarthExtension {
   }
 
   /**
+   * 控制地球光照（白天/黑夜分界线）
+   */
+  setEnableLighting(enabled: boolean): void {
+    this.adapter.setEnableLighting(enabled);
+  }
+
+  /**
    * 获取瓦片加载状态
    */
   getTileLoadingStats(): { loaded: number; loading: number } {

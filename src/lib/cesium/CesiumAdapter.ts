@@ -178,7 +178,7 @@ export class CesiumAdapter {
       maximumRenderTimeChange: Infinity
     });
     
-    console.log('[CesiumAdapter] Viewer created: scene=', !!this.viewer.scene, 'globe=', !!this.viewer.scene.globe);
+
     
     // 确保 Globe 显示
     this.viewer.scene.globe.show = true;
@@ -187,15 +187,12 @@ export class CesiumAdapter {
     this.viewer.scene.globe.maximumScreenSpaceError = this.config.maximumScreenSpaceError ?? 2;
     this.viewer.scene.globe.tileCacheSize = this.config.maximumNumberOfLoadedTiles ?? 1000;
     
-    console.log('[CesiumAdapter] Globe configured: show=', this.viewer.scene.globe.show, 'SSE=', this.viewer.scene.globe.maximumScreenSpaceError, 'cache=', this.viewer.scene.globe.tileCacheSize);
+
     
     // 配置 ImageryProvider（如果提供）
     if (this.config.imageryProvider) {
       this.viewer.imageryLayers.removeAll();
       this.viewer.imageryLayers.addImageryProvider(this.config.imageryProvider);
-      console.log('[CesiumAdapter] Custom imagery provider added');
-    } else {
-      console.log('[CesiumAdapter] Using default imagery provider, layers count:', this.viewer.imageryLayers.length);
     }
     
     // 配置 TerrainProvider（如果提供）
@@ -228,8 +225,6 @@ export class CesiumAdapter {
     // 启用太阳光照：产生白天/黑夜分界线效果
     this.viewer.scene.globe.enableLighting = true;
     
-    console.log('[CesiumAdapter] Transparent background configured');
-    
     // 获取 Cesium 内部创建的 canvas
     this.cesiumCanvas = this.viewer.scene.canvas;
     
@@ -251,8 +246,6 @@ export class CesiumAdapter {
     
     // 通知 Cesium 场景尺寸已更改
     this.viewer.resize();
-    
-    console.log('CesiumAdapter initialized successfully');
   }
 
   
@@ -342,10 +335,8 @@ export class CesiumAdapter {
    * 设置 Cesium canvas 可见性
    */
   setCanvasVisible(visible: boolean): void {
-    console.log(`[CesiumAdapter] setCanvasVisible called with: ${visible}`);
     if (this.container) {
       this.container.style.display = visible ? 'block' : 'none';
-      console.log(`[CesiumAdapter] Container display set to: ${this.container.style.display}`);
       
       if (visible && this.isAvailable && this.viewer) {
         // 重新显示时强制 Cesium 重新计算 canvas 尺寸
@@ -514,6 +505,16 @@ export class CesiumAdapter {
     } catch (e) {
       console.warn('[CesiumAdapter] setImageryProvider failed:', e);
     }
+  }
+
+  /**
+   * 控制地球光照（白天/黑夜分界线）
+   * enabled=true：显示昼夜阴影
+   * enabled=false：全部白天，无阴影
+   */
+  setEnableLighting(enabled: boolean): void {
+    if (!this.isAvailable || !this.viewer) return;
+    this.viewer.scene.globe.enableLighting = enabled;
   }
 
   /**
