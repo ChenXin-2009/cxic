@@ -6,7 +6,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSatelliteStore } from '@/lib/store/useSatelliteStore';
 import { SatelliteCategory } from '@/lib/types/satellite';
 

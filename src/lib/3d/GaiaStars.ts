@@ -12,7 +12,7 @@
  */
 
 import * as THREE from 'three';
-import { SCALE_VIEW_CONFIG, PARSEC_TO_AU } from '../config/galaxyConfig';
+import { PARSEC_TO_AU, SCALE_VIEW_CONFIG } from '../config/galaxyConfig';
 
 // Gaia 恒星配置
 export const GAIA_STARS_CONFIG = {

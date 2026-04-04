@@ -7,14 +7,14 @@
  */
 
 import type {
-  ResourceMonitor,
+  EphemerisLoadEventDetail,
+  ExtendedResourceLoaderResult,
   LoadingProgress,
   MonitorState,
-  ExtendedResourceLoaderResult,
   ResourceLoaderResult,
+  ResourceMonitor,
   SceneInitEventDetail,
   TextureLoadEventDetail,
-  EphemerisLoadEventDetail,
   UniverseLoadEventDetail,
 } from '../types';
 

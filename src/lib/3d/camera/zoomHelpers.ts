@@ -7,7 +7,7 @@
  * - Penetration prevention
  */
 
-import { CAMERA_PENETRATION_CONFIG } from '@/lib/config/cameraConfig';
+import { PENETRATION_PREVENTION } from '@/lib/config/cameraConfig';
 
 /**
  * Validates distance value
@@ -80,7 +80,7 @@ export function applySafePenetrationDistance(
 ): number {
   if (!targetRadius) return targetDistance;
   
-  const minSafeDistance = targetRadius * CAMERA_PENETRATION_CONFIG.safetyDistanceMultiplier;
+  const minSafeDistance = targetRadius * PENETRATION_PREVENTION.safetyDistanceMultiplier;
   
   // Ensure distance doesn't go below minimum safe distance
   let safeDistance = Math.max(targetDistance, minSafeDistance);

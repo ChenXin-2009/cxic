@@ -11,7 +11,7 @@ import * as THREE from 'three';
 import { SatelliteRenderer } from '../src/lib/3d/SatelliteRenderer';
 import { SceneManager } from '../src/lib/3d/SceneManager';
 import { SGP4Calculator } from '../src/lib/satellite/sgp4Calculator';
-import { SatelliteState, OrbitType, SatelliteCategory } from '../src/lib/types/satellite';
+import { OrbitType, SatelliteCategory, SatelliteState } from '../src/lib/types/satellite';
 
 describe('SatelliteRenderer - 资源管理和优化', () => {
   let sceneManager: SceneManager;

@@ -15,7 +15,7 @@
 
 'use client';
 
-import { useEffect, useRef, memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import type { CelestialType } from '@/lib/search/SearchIndex';
 import type { UniverseScale } from '@/lib/types/universeTypes';
 import * as THREE from 'three';

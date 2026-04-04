@@ -1,12 +1,12 @@
 import * as THREE from 'three';
-import type { Supercluster, SimpleGalaxy } from '../types/universeTypes';
-import { LANIAKEA_SUPERCLUSTER_CONFIG, UNIVERSE_SCALE_CONFIG, MEGAPARSEC_TO_AU } from '../config/universeConfig';
+import type { SimpleGalaxy, Supercluster } from '../types/universeTypes';
+import { LANIAKEA_SUPERCLUSTER_CONFIG, MEGAPARSEC_TO_AU, UNIVERSE_SCALE_CONFIG } from '../config/universeConfig';
 import { OptimizedParticleSystem } from './OptimizedParticleSystem';
 import { LODManager } from './LODManager';
 import { BaseUniverseRenderer } from './BaseUniverseRenderer';
-import { createParticleSystemFromGalaxies, createAdvancedConnectionLines, updateConnectionLinesOpacity } from './utils/universeRendererUtils';
-import { UniverseLabelManager, type LabelData } from './UniverseLabelManager';
-import { LANIAKEA_SUPERCLUSTER_LABEL_CONFIG, getNamePriorityBonus } from '../config/universeLabelConfig';
+import { createAdvancedConnectionLines, createParticleSystemFromGalaxies, updateConnectionLinesOpacity } from './utils/universeRendererUtils';
+import { type LabelData, UniverseLabelManager } from './UniverseLabelManager';
+import { getNamePriorityBonus, LANIAKEA_SUPERCLUSTER_LABEL_CONFIG } from '../config/universeLabelConfig';
 import { getChineseName } from '../astronomy/universeNames';
 
 export class LaniakeaSuperclusterRenderer extends BaseUniverseRenderer {

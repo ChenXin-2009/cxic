@@ -66,15 +66,6 @@ export function isDevelopment(): boolean {
 }
 
 /**
- * 判断是否为生产环境
- * 
- * @returns 是否为生产环境
- */
-export function isProduction(): boolean {
-  return process.env.NODE_ENV === 'production';
-}
-
-/**
  * 输出调试日志（仅在开发环境）
  * 
  * @param message - 日志消息
@@ -87,16 +78,6 @@ export function isProduction(): boolean {
  */
 export function logDebug(message: string, ...args: any[]): void {
   // 性能日志已禁用
-}
-
-/**
- * 输出警告日志（所有环境）
- * 
- * @param message - 警告消息
- * @param args - 额外参数
- */
-export function logWarn(message: string, ...args: any[]): void {
-  console.warn(message, ...args);
 }
 
 /**
@@ -136,86 +117,3 @@ export const PERFORMANCE_CONFIG: PerformanceConfig = {
   ENABLE_PERFORMANCE_LOGGING: isDevelopment(),
   LOG_INTERVAL: 1000,                    // 每秒输出一次
 };
-
-/**
- * 性能日志工具类
- * 
- * 提供带时间戳和环境控制的日志输出。
- */
-export class PerformanceLogger {
-  private lastLogTime: number = 0;
-  private logInterval: number;
-  
-  /**
-   * 创建性能日志工具实例
-   * 
-   * @param logInterval - 日志输出间隔（毫秒），默认 1000
-   */
-  constructor(logInterval: number = PERFORMANCE_CONFIG.LOG_INTERVAL) {
-    this.logInterval = logInterval;
-  }
-  
-  /**
-   * 输出调试日志（带节流）
-   * 
-   * 只在开发环境且距离上次输出超过间隔时输出。
-   * 
-   * @param message - 日志消息
-   * @param args - 额外参数
-   * 
-   * @example
-   * ```typescript
-   * const logger = new PerformanceLogger();
-   * logger.debug('[Performance]', 'FPS:', fps);
-   * ```
-   */
-  debug(message: string, ...args: any[]): void {
-    if (!PERFORMANCE_CONFIG.ENABLE_PERFORMANCE_LOGGING) {
-      return;
-    }
-    
-    const now = Date.now();
-    if (now - this.lastLogTime >= this.logInterval) {
-      console.log(message, ...args);
-      this.lastLogTime = now;
-    }
-  }
-  
-  /**
-   * 输出警告日志（不节流）
-   * 
-   * @param message - 警告消息
-   * @param args - 额外参数
-   */
-  warn(message: string, ...args: any[]): void {
-    console.warn(message, ...args);
-  }
-  
-  /**
-   * 输出错误日志（不节流）
-   * 
-   * @param message - 错误消息
-   * @param args - 额外参数
-   */
-  error(message: string, ...args: any[]): void {
-    console.error(message, ...args);
-  }
-  
-  /**
-   * 设置日志输出间隔
-   * 
-   * @param interval - 新的间隔（毫秒）
-   */
-  setLogInterval(interval: number): void {
-    this.logInterval = interval;
-  }
-  
-  /**
-   * 获取日志输出间隔
-   * 
-   * @returns 间隔（毫秒）
-   */
-  getLogInterval(): number {
-    return this.logInterval;
-  }
-}

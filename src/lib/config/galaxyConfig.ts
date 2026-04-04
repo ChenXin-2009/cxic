@@ -3,7 +3,7 @@
  */
 
 // 导入统一的单位转换常量
-import { LIGHT_YEAR_TO_AU, PARSEC_TO_LIGHT_YEAR, PARSEC_TO_AU } from '../constants/units';
+import { LIGHT_YEAR_TO_AU, PARSEC_TO_AU, PARSEC_TO_LIGHT_YEAR } from '../constants/units';
 
 // 重新导出以保持向后兼容
 export { LIGHT_YEAR_TO_AU, PARSEC_TO_LIGHT_YEAR, PARSEC_TO_AU };

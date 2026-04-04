@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSatelliteStore } from '@/lib/store/useSatelliteStore';
-import { TLEData, SatelliteDetailData, SatelliteCategory } from '@/lib/types/satellite';
+import { SatelliteCategory, SatelliteDetailData, TLEData } from '@/lib/types/satellite';
 
 /**
  * 从TLE数据生成详情

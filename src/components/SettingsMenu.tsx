@@ -6,8 +6,9 @@
 
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSolarSystemStore } from '@/lib/state';
+import { useTranslation } from '@/hooks/useTranslation';
 
 // ==================== 明日方舟风格配置 ====================
 // 🎨 真实明日方舟 UI：黑色背景 + 黄橙色高光 + 简洁线条
@@ -56,7 +57,7 @@ export default function SettingsMenu({ cameraController }: SettingsMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const lang = useSolarSystemStore((state) => state.lang);
+  const { t, lang } = useTranslation();
   const setLang = useSolarSystemStore((state) => state.setLang);
 
   // 检测是否为移动端
@@ -122,7 +123,7 @@ export default function SettingsMenu({ cameraController }: SettingsMenuProps) {
           clipPath: 'polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%)',
           transition: 'all 0.3s ease',
         }}
-        aria-label={lang === 'zh' ? '设置' : 'Settings'}
+        aria-label={t('settings.title')}
         onMouseEnter={(e) => {
           e.currentTarget.style.borderColor = ARKNIGHTS_CONFIG.colors.primary;
           e.currentTarget.style.boxShadow = `0 0 20px ${ARKNIGHTS_CONFIG.colors.primary}80`;
@@ -254,7 +255,7 @@ export default function SettingsMenu({ cameraController }: SettingsMenuProps) {
                   className="text-sm font-bold uppercase tracking-wider"
                   style={{ color: ARKNIGHTS_CONFIG.colors.text }}
                 >
-                  {lang === 'zh' ? '设置' : 'SETTINGS'}
+                  {t('settings.title')}
                 </span>
               </div>
 
@@ -264,7 +265,7 @@ export default function SettingsMenu({ cameraController }: SettingsMenuProps) {
                   className="text-xs uppercase tracking-wide"
                   style={{ color: ARKNIGHTS_CONFIG.colors.textDim }}
                 >
-                  {lang === 'zh' ? '语言' : 'LANGUAGE'}
+                  {t('settings.language')}
                 </span>
                 <div className="flex gap-2">
                   <button
@@ -300,7 +301,7 @@ export default function SettingsMenu({ cameraController }: SettingsMenuProps) {
                   className="text-xs uppercase tracking-wide"
                   style={{ color: ARKNIGHTS_CONFIG.colors.textDim }}
                 >
-                  {lang === 'zh' ? '相机视野' : 'CAMERA FOV'}
+                  {t('settings.cameraFov')}
                 </span>
                 <div className="flex gap-2">
                   <button
@@ -313,7 +314,7 @@ export default function SettingsMenu({ cameraController }: SettingsMenuProps) {
                       clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
                     }}
                   >
-                    {lang === 'zh' ? '正常' : 'NORMAL'}
+                    {t('settings.normal')}
                   </button>
                   <button
                     onClick={() => handleWideAngleToggle(true)}
@@ -325,7 +326,7 @@ export default function SettingsMenu({ cameraController }: SettingsMenuProps) {
                       clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
                     }}
                   >
-                    {lang === 'zh' ? '广角' : 'WIDE'}
+                    {t('settings.wide')}
                   </button>
                 </div>
               </div>
@@ -354,7 +355,7 @@ export default function SettingsMenu({ cameraController }: SettingsMenuProps) {
                     e.currentTarget.style.color = ARKNIGHTS_CONFIG.colors.text;
                   }}
                 >
-                  {lang === 'zh' ? '星历状态' : 'EPHEMERIS STATUS'}
+                  {t('settings.ephemerisStatus')}
                 </button>
               </div>
 
@@ -373,7 +374,7 @@ export default function SettingsMenu({ cameraController }: SettingsMenuProps) {
                     className="text-xs uppercase"
                     style={{ color: ARKNIGHTS_CONFIG.colors.textDim }}
                   >
-                    {lang === 'zh' ? '版本' : 'VERSION'}
+                    {t('common.version')}
                   </span>
                   <span 
                     className="text-xs font-mono font-bold"
@@ -387,7 +388,7 @@ export default function SettingsMenu({ cameraController }: SettingsMenuProps) {
                     className="text-xs uppercase"
                     style={{ color: ARKNIGHTS_CONFIG.colors.textDim }}
                   >
-                    {lang === 'zh' ? '作者' : 'AUTHOR'}
+                    {t('common.author')}
                   </span>
                   <span 
                     className="text-xs font-mono font-bold"

@@ -12,15 +12,15 @@
 
 import { Vector3 } from 'three';
 import {
-  TLEData,
-  SatelliteState,
-  PropagationResult,
-  WorkerMessage,
-  WorkerResponse,
   OrbitalElements,
-  OrbitType
+  OrbitType,
+  PropagationResult,
+  SatelliteState,
+  TLEData,
+  WorkerMessage,
+  WorkerResponse
 } from '../types/satellite';
-import { satelliteConfig, getOrbitType, EARTH_RADIUS } from '../config/satelliteConfig';
+import { EARTH_RADIUS, getOrbitType, satelliteConfig } from '../config/satelliteConfig';
 
 /**
  * 卫星记录缓存项

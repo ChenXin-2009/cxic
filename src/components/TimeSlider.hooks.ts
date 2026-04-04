@@ -2,7 +2,7 @@
  * Custom hooks for TimeSlider component
  */
 
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useSolarSystemStore } from '@/lib/state';
 import { calculateSpeed } from './TimeSlider.helpers';
 

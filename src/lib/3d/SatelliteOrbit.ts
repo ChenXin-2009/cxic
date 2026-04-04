@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ORBIT_RENDER_CONFIG, SATELLITE_ORBIT_STYLE_CONFIG, SATELLITE_ORBIT_FADE_CONFIG } from '@/lib/config/visualConfig';
+import { ORBIT_RENDER_CONFIG, SATELLITE_ORBIT_FADE_CONFIG, SATELLITE_ORBIT_STYLE_CONFIG } from '@/lib/config/visualConfig';
 import { calculateRotationAxis, CELESTIAL_BODIES } from '@/lib/types/celestialTypes';
 
 /**

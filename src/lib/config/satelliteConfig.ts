@@ -4,7 +4,7 @@
  * 包含API、渲染、计算和UI的所有配置参数
  */
 
-import { SatelliteConfig, OrbitType } from '../types/satellite';
+import { OrbitType, SatelliteConfig } from '../types/satellite';
 
 /**
  * 卫星系统默认配置

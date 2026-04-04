@@ -9,15 +9,15 @@ import React, { useRef } from 'react';
 import { useSolarSystemStore } from '@/lib/state';
 import TimeSlider from './TimeSlider';
 import { TIME_CONTROL_CONFIG, TIME_SLIDER_CONFIG } from '@/lib/config/visualConfig';
-import { useThrottledTime, useRealTime } from './TimeControl.hooks';
+import { useRealTime, useThrottledTime } from './TimeControl.hooks';
+import { formatTimeDiff, useTranslation } from '@/hooks/useTranslation';
 import {
   calculateTimeControlOpacity,
-  formatTime,
-  formatDate,
-  formatTimeDiff,
   calculateTimeDiff,
-  shouldShowPrecisionWarning,
   createDateWithPreservedTime,
+  formatDate,
+  formatTime,
+  shouldShowPrecisionWarning,
 } from './TimeControl.helpers';
 
 /**
@@ -28,7 +28,7 @@ const TimeControl = React.memo(() => {
   // State subscriptions
   const currentTime = useSolarSystemStore((state) => state.currentTime);
   const setCurrentTime = useSolarSystemStore((state) => state.setCurrentTime);
-  const lang = useSolarSystemStore((state) => state.lang);
+  const { t, lang } = useTranslation();
   const cameraDistance = useSolarSystemStore((state) => state.cameraDistance);
   
   // Refs
@@ -148,14 +148,14 @@ const TimeControl = React.memo(() => {
                   }}
                 >
                   {timeDiff > 0 
-                    ? (lang === 'zh' ? `未来 ${formatTimeDiff(timeDiff, lang)}` : `+${formatTimeDiff(timeDiff, lang)}`)
-                    : (lang === 'zh' ? `过去 ${formatTimeDiff(absTimeDiff, lang)}` : `-${formatTimeDiff(absTimeDiff, lang)}`)
+                    ? (lang === 'zh' ? `${t('timeControl.future')} ${formatTimeDiff(timeDiff, lang)}` : `+${formatTimeDiff(timeDiff, lang)}`)
+                    : (lang === 'zh' ? `${t('timeControl.past')} ${formatTimeDiff(absTimeDiff, lang)}` : `-${formatTimeDiff(absTimeDiff, lang)}`)
                   }
                 </div>
                 <button
                   onClick={handleNowClick}
                   className="transition-colors font-medium"
-                  title={lang === 'zh' ? '跳转到现在' : 'Jump to now'}
+                  title={t('timeControl.jumpToNow')}
                   style={{ 
                     pointerEvents: 'auto',
                     backgroundColor: cfg.nowButtonBg,
@@ -167,7 +167,7 @@ const TimeControl = React.memo(() => {
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = cfg.nowButtonHoverBg}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = cfg.nowButtonBg}
                 >
-                  {lang === 'zh' ? '现在' : 'Now'}
+                  {t('common.now')}
                 </button>
               </>
             ) : (
@@ -179,7 +179,7 @@ const TimeControl = React.memo(() => {
                   fontSize: `${cfg.timeDiffSizeMobile}px`,
                 }}
               >
-                {lang === 'zh' ? '现在' : 'Now'}
+                {t('common.now')}
               </div>
             )}
             
@@ -188,7 +188,7 @@ const TimeControl = React.memo(() => {
               ref={calendarButtonRef}
               onClick={handleCalendarClick}
               className="transition-colors cursor-pointer p-0.5"
-              title={lang === 'zh' ? '选择日期' : 'Select date'}
+              title={t('timeControl.selectDate')}
               style={{ pointerEvents: 'auto', color: cfg.calendarButtonColor }}
               onMouseEnter={(e) => e.currentTarget.style.color = cfg.calendarButtonHoverColor}
               onMouseLeave={(e) => e.currentTarget.style.color = cfg.calendarButtonColor}
@@ -239,7 +239,7 @@ const TimeControl = React.memo(() => {
             }}
           >
             <span>⚠️</span>
-            <span>{lang === 'zh' ? '精度可能降低' : 'Accuracy may be reduced'}</span>
+            <span>{t('timeControl.accuracyWarning')}</span>
           </div>
         )}
 

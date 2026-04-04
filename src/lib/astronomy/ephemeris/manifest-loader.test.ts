@@ -5,7 +5,7 @@
  * Requirements: 3.12
  */
 
-import { ManifestLoader, Manifest, ChunkMetadata } from './manifest-loader';
+import { ChunkMetadata, Manifest, ManifestLoader } from './manifest-loader';
 
 // Mock fetch globally
 global.fetch = jest.fn();

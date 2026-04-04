@@ -4,7 +4,7 @@
  */
 
 import { create } from 'zustand';
-import { CelestialBody, getCelestialBodies, initializeSatelliteCalculator, initializeAllBodiesCalculator } from './astronomy/orbit';
+import { CelestialBody, getCelestialBodies, initializeAllBodiesCalculator } from './astronomy/orbit';
 import { dateToJulianDay } from './astronomy/time';
 
 // NOTE: Ephemeris calculator initialization is now on-demand

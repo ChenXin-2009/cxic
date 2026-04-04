@@ -14,11 +14,11 @@
 import * as THREE from 'three';
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import {
+  equatorialToCartesian,
+  LIGHT_YEAR_TO_AU,
   NEARBY_STARS_CONFIG,
   NEARBY_STARS_DATA,
   SCALE_VIEW_CONFIG,
-  LIGHT_YEAR_TO_AU,
-  equatorialToCartesian,
   StarData,
 } from '../config/galaxyConfig';
 

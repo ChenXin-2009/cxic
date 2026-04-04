@@ -12,7 +12,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { celestrakClient } from '@/lib/server/celestrakClient';
-import { SatelliteCategory, SatelliteAPIResponse, TLEData } from '@/lib/types/satellite';
+import { SatelliteAPIResponse, SatelliteCategory, TLEData } from '@/lib/types/satellite';
 
 // ============ 缓存配置 ============
 

@@ -8,7 +8,7 @@
  * Requirements: 3.1, 3.2, 3.3
  */
 
-import type { ResourceMonitor, EphemerisLoadEvent } from '../types';
+import type { EphemerisLoadEvent, ResourceMonitor } from '../types';
 
 /**
  * Ephemeris Monitor

@@ -6,14 +6,14 @@
  */
 
 import { EphemerisManager } from './manager';
-import { LightTimeCorrector, AberrationCorrector } from './corrections';
+import { AberrationCorrector, LightTimeCorrector } from './corrections';
 import { CoordinateTransformer } from './coordinates';
 import { 
-  Vector3, 
-  PositionResult,
+  AberrationMode, 
+  BodyType,
   ObserverMode,
-  AberrationMode,
-  BodyType
+  PositionResult,
+  Vector3
 } from './types';
 
 /**

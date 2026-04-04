@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback, memo, useRef } from 'react';
+import { memo, useCallback, useEffect, useRef } from 'react';
 import { useSatelliteStore } from '@/lib/store/useSatelliteStore';
 import { useSatelliteDetail } from './hooks/useSatelliteDetail';
 import SatelliteDetailSkeleton from './SatelliteDetailSkeleton';
@@ -139,8 +139,6 @@ function SatelliteDetailModal({ lang = 'zh' }: SatelliteDetailModalProps) {
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   // 关闭模态框 - 使用useCallback缓存
   const handleClose = useCallback(() => {
     selectSatellite(null);
@@ -155,6 +153,8 @@ function SatelliteDetailModal({ lang = 'zh' }: SatelliteDetailModalProps) {
   const handleModalClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
   }, []);
+
+  if (!isOpen) return null;
 
   return (
     <div

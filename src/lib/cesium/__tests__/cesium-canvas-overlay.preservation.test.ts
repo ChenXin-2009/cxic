@@ -10,7 +10,7 @@
  * This establishes the baseline behavior that must be preserved.
  */
 
-import { describe, it, expect } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 
 describe('Property 2: Preservation - Non-Buggy Input Behavior', () => {
   
@@ -166,7 +166,7 @@ describe('Property 2: Preservation - Non-Buggy Input Behavior', () => {
         up: { x: 0, y: 1, z: 0 },
       };
       
-      let cesiumCamera = {
+      const cesiumCamera = {
         position: { x: 0, y: 0, z: 0 },
         direction: { x: 0, y: 0, z: 0 },
         up: { x: 0, y: 0, z: 0 },
@@ -290,7 +290,7 @@ describe('Property 2: Preservation - Non-Buggy Input Behavior', () => {
     
     it('should preserve toggle button functionality', () => {
       // Mock toggle button state
-      let buttonState = {
+      const buttonState = {
         cesiumEnabled: true,
         label: 'Switch to Planet',
       };

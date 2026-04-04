@@ -5,6 +5,31 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.1.1] - 2025-04
+
+### Changed
+
+- **代码库重构**：
+  - 删除未使用的导出和无效代码
+  - 迁移 @deprecated 配置到新命名：
+    - `CAMERA_PENETRATION_CONFIG` → `PENETRATION_PREVENTION`
+    - `CAMERA_VIEW_CONFIG` → `VIEW_SETTINGS`
+    - `CAMERA_OPERATION_CONFIG` → `INPUT_SETTINGS`
+    - `CAMERA_ZOOM_CONFIG` → `ZOOM_LIMITS` + `QUICK_CAMERA_SETTINGS`
+    - `CAMERA_FOCUS_CONFIG` → `FOCUS_SETTINGS`
+    - `CAMERA_TRACKING_CONFIG` → `QUICK_CAMERA_SETTINGS.trackingLerpSpeed`
+    - `initializeSatelliteCalculator` → `initializeAllBodiesCalculator`
+  - 删除已迁移的 @deprecated 导出
+  - 为调试面板添加开发环境条件检查
+  - 清理冗余的 .gitkeep 文件
+  - 统一代码风格，修复 ESLint 问题
+
+### Fixed
+
+- 修复 React hooks 条件调用问题
+- 修复 TypeScript 类型错误
+- 修复 i18n 类型推断问题
+
 ## [1.1.0] - 2025-01
 
 ### Added

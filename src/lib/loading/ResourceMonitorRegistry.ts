@@ -8,11 +8,11 @@
  */
 
 import type {
-  ResourceMonitor,
   MonitorCallback,
-  ProgressCallback,
-  UnsubscribeFunction,
   MonitorState,
+  ProgressCallback,
+  ResourceMonitor,
+  UnsubscribeFunction,
 } from './types';
 
 /**

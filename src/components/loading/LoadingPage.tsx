@@ -13,7 +13,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ArknightsVisuals from './ArknightsVisuals';
 import LoadingLogs from './LoadingLogs';
 import DataStreamPanel from './DataStreamPanel';
@@ -72,6 +72,7 @@ export default function LoadingPage({
 
   // Handle client-side mounting
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initialize client-side mount state
     setIsMounted(true);
   }, []);
 
@@ -84,6 +85,7 @@ export default function LoadingPage({
 
     if (isLoadingComplete && !isFadingOut) {
       // Start element exit animations (Requirement 5.1)
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Trigger fade-out animation
       setIsFadingOut(true);
       
       // Delay page fade-out until element animations complete (1500ms + 200ms buffer)

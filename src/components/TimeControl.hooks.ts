@@ -2,7 +2,7 @@
  * Custom hooks for TimeControl component
  */
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * Custom hook to throttle time updates
@@ -19,6 +19,7 @@ export function useThrottledTime(currentTime: Date, interval: number = 100): Dat
   useEffect(() => {
     const now = Date.now();
     if (now - lastUpdateRef.current >= interval) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Throttling pattern requires immediate setState
       setThrottledTime(currentTime);
       lastUpdateRef.current = now;
       return undefined;
@@ -44,6 +45,7 @@ export function useRealTime(): Date | null {
   const [realTime, setRealTime] = useState<Date | null>(null);
   
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initialize client-side date to avoid hydration mismatch
     setRealTime(new Date());
   }, []);
   

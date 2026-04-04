@@ -7,7 +7,7 @@
  * Requirements: 3.1, 3.5, 5.1, 7.5, 9.1, 9.2, 9.3
  */
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ResourceMonitorRegistry } from '../../lib/loading/ResourceMonitorRegistry';
 import { BrowserResourceMonitor } from '../../lib/loading/monitors/BrowserResourceMonitor';
 import { EphemerisMonitor } from '../../lib/loading/monitors/EphemerisMonitor';
@@ -44,6 +44,7 @@ export function useResourceLoader(): ExtendedResourceLoaderResult {
     
     // Check if resources were cached
     if (browserMonitor.wasCached()) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Initialize cached state from browser monitor
       setWasCached(true);
     }
     

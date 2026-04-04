@@ -7,7 +7,7 @@
 
 import { 
   getCelestialBodies, 
-  initializeSatelliteCalculator,
+  initializeAllBodiesCalculator,
   SATELLITE_DEFINITIONS 
 } from './orbit';
 import { SatelliteId } from './ephemeris';
@@ -66,16 +66,15 @@ describe('Orbit System Integration', () => {
     });
   });
 
-  describe('initializeSatelliteCalculator', () => {
+  describe('initializeAllBodiesCalculator', () => {
     it('should initialize without throwing errors', async () => {
       // This may fail to load data (network error), but should not throw
-      await expect(initializeSatelliteCalculator()).resolves.not.toThrow();
+      await expect(initializeAllBodiesCalculator()).resolves.not.toThrow();
     });
 
-    it('should handle missing ephemeris data URL gracefully', async () => {
-      await expect(
-        initializeSatelliteCalculator('/nonexistent/path.bin.gz')
-      ).resolves.not.toThrow();
+    it('should handle missing ephemeris data gracefully', async () => {
+      // The function doesn't take a URL parameter anymore, but should still not throw
+      await expect(initializeAllBodiesCalculator()).resolves.not.toThrow();
     });
   });
 

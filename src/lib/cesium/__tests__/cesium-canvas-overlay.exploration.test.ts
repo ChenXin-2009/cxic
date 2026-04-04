@@ -13,7 +13,7 @@
  * - No nested earth, perspective distortion, or sky mapping issues
  */
 
-import { describe, it, expect } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import { CesiumAdapter } from '../CesiumAdapter';
 
 describe('Property 1: Cesium Canvas Overlay Architecture - Post-Fix Validation', () => {

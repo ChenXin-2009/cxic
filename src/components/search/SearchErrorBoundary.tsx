@@ -13,7 +13,7 @@
 
 'use client';
 
-import { Component, ReactNode, ErrorInfo } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 import { logError } from '@/lib/utils/errors';
 
 // ==================== 接口定义 ====================

@@ -8,16 +8,16 @@
 
 import pako from 'pako';
 import { 
-  EphemerisData, 
-  EphemerisHeader, 
-  SatelliteId, 
-  Vector3,
-  EphemerisChunk,
-  PolynomialSegment,
-  ChebyshevSegment,
+  ChebyshevSegment, 
+  ChunkMetadata, 
+  EphemerisChunk, 
+  EphemerisData,
+  EphemerisHeader,
   HermiteSegment,
+  PolynomialSegment,
   PolynomialType,
-  ChunkMetadata
+  SatelliteId,
+  Vector3
 } from './types';
 
 /**

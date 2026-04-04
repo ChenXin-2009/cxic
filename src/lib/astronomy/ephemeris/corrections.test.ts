@@ -2,8 +2,8 @@
  * Unit tests for light-time and aberration corrections
  */
 
-import { LightTimeCorrector, AberrationCorrector } from './corrections';
-import { Vector3, SatelliteId, AberrationMode, EphemerisData } from './types';
+import { AberrationCorrector, LightTimeCorrector } from './corrections';
+import { AberrationMode, EphemerisData, SatelliteId, Vector3 } from './types';
 import { PositionInterpolator } from './interpolator';
 
 describe('LightTimeCorrector', () => {

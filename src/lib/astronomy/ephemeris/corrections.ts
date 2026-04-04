@@ -7,7 +7,7 @@
  * Requirements: 1.1, 1.2, 1.3, 1.5, 7.1, 7.2, 7.3, 7.4
  */
 
-import { SatelliteId, Vector3, AberrationMode } from './types';
+import { AberrationMode, SatelliteId, Vector3 } from './types';
 import { PositionInterpolator } from './interpolator';
 
 /**

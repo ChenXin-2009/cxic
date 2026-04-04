@@ -85,10 +85,10 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import {
-  TLEData,
-  SatelliteState,
-  SatelliteCategory,
   SatelliteAPIResponse,
+  SatelliteCategory,
+  SatelliteState,
+  TLEData,
 } from '../types/satellite';
 import { satelliteConfig } from '../config/satelliteConfig';
 

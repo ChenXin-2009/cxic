@@ -11,6 +11,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useSolarSystemStore } from '@/lib/state';
 
 /**
  * 地球锁定按钮的样式配置对象
@@ -46,6 +47,8 @@ export default function EarthLockButton({ onToggle, initialEnabled = false }: Ea
   const [enabled, setEnabled] = useState(initialEnabled);
   /** 鼠标悬停状态，用于触发悬停样式（边框高亮、发光阴影） */
   const [isHovered, setIsHovered] = useState(false);
+  /** 当前语言 */
+  const lang = useSolarSystemStore((state) => state.lang);
 
   /**
    * 处理按钮点击：翻转当前锁定状态并通知父组件
@@ -74,7 +77,7 @@ export default function EarthLockButton({ onToggle, initialEnabled = false }: Ea
         boxShadow: isHovered ? `0 0 20px ${enabled ? CONFIG.colors.accent : CONFIG.colors.primary}80` : 'none',
         cursor: 'pointer',
       }}
-      aria-label={enabled ? '解除地球锁定' : '锁定相机到地球'}
+      aria-label={lang === 'zh' ? (enabled ? '解除地球锁定' : '锁定相机到地球') : (enabled ? 'Unlock Earth' : 'Lock to Earth')}
     >
       {/* 左上角菱形装饰：填充切角留下的空白，强化明日方舟 UI 风格 */}
       <div
@@ -121,7 +124,7 @@ export default function EarthLockButton({ onToggle, initialEnabled = false }: Ea
             className="text-xs font-bold uppercase tracking-wider leading-tight"
             style={{ color: enabled ? CONFIG.colors.dark : CONFIG.colors.primary }}
           >
-            地球锁定
+            {lang === 'zh' ? '地球锁定' : 'EARTH LOCK'}
           </span>
           {/* 副标题：LOCKED 表示已锁定地球，FREE 表示自由相机模式 */}
           <span

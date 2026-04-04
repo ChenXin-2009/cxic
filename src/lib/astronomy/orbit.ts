@@ -56,8 +56,8 @@ import {
   orbitalToEcliptic,
   solveKeplerEquation
 } from './utils';
-import { CELESTIAL_BODIES, calculateRotationAxis } from '@/lib/types/celestialTypes';
-import { useEphemerisStore, LoadingStatus } from '@/lib/store/useEphemerisStore';
+import { calculateRotationAxis, CELESTIAL_BODIES } from '@/lib/types/celestialTypes';
+import { LoadingStatus, useEphemerisStore } from '@/lib/store/useEphemerisStore';
 
 // 精度信息常量
 const ACCURACY_INFO = {
@@ -65,11 +65,11 @@ const ACCURACY_INFO = {
   analytical: '±1000km',  // 解析模型精度
 };
 import { 
-  SatellitePositionCalculator,
+  Vector3 as EphemerisVector3,
+  ObserverMode,
   type PlanetaryPositionProvider,
   SatelliteId,
-  Vector3 as EphemerisVector3,
-  ObserverMode
+  SatellitePositionCalculator
 } from './ephemeris';
 import { AllBodiesCalculator } from './ephemeris/all-bodies-calculator';
 import { EphemerisManager } from './ephemeris/manager';
@@ -623,8 +623,8 @@ class OrbitSystemPositionProvider implements PlanetaryPositionProvider {
  * This is no longer used - all satellites are handled by AllBodiesCalculator
  * Kept for backward compatibility but not initialized
  */
-let satelliteCalculator: SatellitePositionCalculator | null = null;
-let calculatorInitPromise: Promise<void> | null = null;
+const satelliteCalculator: SatellitePositionCalculator | null = null;
+const calculatorInitPromise: Promise<void> | null = null;
 
 /**
  * Global all-bodies ephemeris calculator instance
@@ -745,22 +745,6 @@ export async function initializeAllBodiesCalculator(): Promise<void> {
   })();
 
   return allBodiesInitPromise;
-}
-
-/**
- * Initialize the satellite position calculator (DEPRECATED)
- * This function is deprecated and does nothing.
- * All satellites are now handled by the AllBodiesCalculator.
- * 
- * @deprecated Use initializeAllBodiesCalculator() instead
- */
-export async function initializeSatelliteCalculator(
-  ephemerisDataUrl?: string
-): Promise<void> {
-  // No-op: This function is deprecated
-  // All satellites are handled by AllBodiesCalculator now
-  console.log('initializeSatelliteCalculator is deprecated, using AllBodiesCalculator instead');
-  return Promise.resolve();
 }
 
 /**

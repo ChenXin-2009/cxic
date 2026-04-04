@@ -6,7 +6,7 @@
  */
 
 import Fuse, { IFuseOptions } from 'fuse.js';
-import type { SearchIndex, IndexedCelestial, CelestialType } from './SearchIndex';
+import type { CelestialType, IndexedCelestial, SearchIndex } from './SearchIndex';
 import { UniverseScale } from '../types/universeTypes';
 import * as THREE from 'three';
 

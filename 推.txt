@@ -8,9 +8,9 @@
 ==================
 git status
 git add .
-git commit -m "Release 7.4.0: 更新社区文件"
+git commit -m "Release 7.5.0: 优化相机控制"
 git checkout main
 git pull origin main
-git tag v7.4.0
+git tag v7.5.0
 git push origin main
-git push origin v7.4.0
+git push origin v7.5.0

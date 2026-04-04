@@ -8,7 +8,7 @@
  */
 
 import * as THREE from 'three';
-import { CAMERA_PENETRATION_CONFIG } from '@/lib/config/cameraConfig';
+import { PENETRATION_PREVENTION } from '@/lib/config/cameraConfig';
 
 /**
  * Calculates penetration depth
@@ -121,7 +121,7 @@ export function calculateAdaptiveSmoothness(
   penetrationRatio: number,
   deltaTime: number
 ): number {
-  const baseSmoothness = CAMERA_PENETRATION_CONFIG.constraintSmoothness;
+  const baseSmoothness = PENETRATION_PREVENTION.constraintSmoothness;
   const adaptiveSmoothness = baseSmoothness * (1 + penetrationRatio);
   return Math.min(1, adaptiveSmoothness * Math.max(0.0001, deltaTime * 60));
 }
@@ -157,5 +157,5 @@ export function easeOutQuart(t: number): number {
  * ```
  */
 export function calculateMinSafeDistance(targetRadius: number): number {
-  return targetRadius * CAMERA_PENETRATION_CONFIG.safetyDistanceMultiplier;
+  return targetRadius * PENETRATION_PREVENTION.safetyDistanceMultiplier;
 }

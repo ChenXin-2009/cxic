@@ -25,9 +25,9 @@ export interface ImagerySourceDef {
   /** 图源唯一标识符，用于程序内部区分不同图源（如 'bing-default'、'osm'） */
   id: string;
   /** 图源显示名称，用于 UI 列表展示 */
-  name: string;
+  name: { zh: string; en: string };
   /** 图源简短描述，说明数据来源和内容特点 */
-  description: string;
+  description: { zh: string; en: string };
   /** 图源分类：'general' 为通用地图，'nasa' 为 NASA 实时卫星图层 */
   category: ImageryCategory;
   /** 缩略图 URL（静态预览图），用于 UI 中展示图源外观 */
@@ -84,8 +84,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   // ── 通用地图源 ──────────────────────────────────────────────
   {
     id: 'bing-default',
-    name: 'Bing Maps',
-    description: 'Cesium 内置卫星影像',
+    name: { zh: 'Bing Maps', en: 'Bing Maps' },
+    description: { zh: 'Cesium 内置卫星影像', en: 'Cesium built-in satellite imagery' },
     category: 'general',
     previewUrl: 'https://ecn.t3.tiles.virtualearth.net/tiles/a120.jpeg?g=1',
     create: async () => {
@@ -96,8 +96,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   },
   {
     id: 'esri-world-imagery',
-    name: 'ESRI 卫星影像',
-    description: '高分辨率卫星图像',
+    name: { zh: 'ESRI 卫星影像', en: 'ESRI World Imagery' },
+    description: { zh: '高分辨率卫星图像', en: 'High-resolution satellite imagery' },
     category: 'general',
     previewUrl: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/2/1/2',
     create: async () => {
@@ -111,8 +111,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   },
   {
     id: 'osm',
-    name: 'OpenStreetMap',
-    description: '开源街道地图',
+    name: { zh: 'OpenStreetMap', en: 'OpenStreetMap' },
+    description: { zh: '开源街道地图', en: 'Open-source street map' },
     category: 'general',
     previewUrl: 'https://tile.openstreetmap.org/2/2/1.png',
     create: async () => {
@@ -125,8 +125,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   },
   {
     id: 'esri-world-street',
-    name: 'ESRI 街道地图',
-    description: '详细街道和地名',
+    name: { zh: 'ESRI 街道地图', en: 'ESRI World Street' },
+    description: { zh: '详细街道和地名', en: 'Detailed streets and place names' },
     category: 'general',
     previewUrl: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/2/1/2',
     create: async () => {
@@ -140,8 +140,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   },
   {
     id: 'carto-dark',
-    name: 'CartoDB 暗色',
-    description: '深色背景地图',
+    name: { zh: 'CartoDB 暗色', en: 'CartoDB Dark' },
+    description: { zh: '深色背景地图', en: 'Dark background map' },
     category: 'general',
     previewUrl: 'https://a.basemaps.cartocdn.com/dark_all/2/2/1.png',
     create: async () => {
@@ -157,8 +157,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   },
   {
     id: 'esri-natgeo',
-    name: 'ESRI 国家地理',
-    description: '国家地理风格地图',
+    name: { zh: 'ESRI 国家地理', en: 'ESRI National Geographic' },
+    description: { zh: '国家地理风格地图', en: 'National Geographic style map' },
     category: 'general',
     previewUrl: 'https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/2/1/2',
     create: async () => {
@@ -174,8 +174,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   // ── NASA GIBS 实时卫星图层 ──────────────────────────────────
   {
     id: 'nasa-modis-terra',
-    name: 'MODIS Terra 真彩色',
-    description: `NASA 每日卫星真彩色图像（${daysAgo(2)}）`,
+    name: { zh: 'MODIS Terra 真彩色', en: 'MODIS Terra True Color' },
+    description: { zh: `NASA 每日卫星真彩色图像（${daysAgo(2)}）`, en: `NASA daily satellite true color image (${daysAgo(2)})` },
     category: 'nasa',
     temporal: true,
     previewUrl: `${GIBS_BASE}?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=MODIS_Terra_CorrectedReflectance_TrueColor&STYLE=default&TILEMATRIXSET=GoogleMapsCompatible_Level9&TILEMATRIX=2&TILEROW=1&TILECOL=2&FORMAT=image%2Fjpeg&TIME=${daysAgo(2)}`,
@@ -193,8 +193,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   },
   {
     id: 'nasa-modis-aqua',
-    name: 'MODIS Aqua 真彩色',
-    description: `NASA Aqua 卫星每日图像（${daysAgo(2)}）`,
+    name: { zh: 'MODIS Aqua 真彩色', en: 'MODIS Aqua True Color' },
+    description: { zh: `NASA Aqua 卫星每日图像（${daysAgo(2)}）`, en: `NASA Aqua satellite daily image (${daysAgo(2)})` },
     category: 'nasa',
     temporal: true,
     previewUrl: `${GIBS_BASE}?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=MODIS_Aqua_CorrectedReflectance_TrueColor&STYLE=default&TILEMATRIXSET=GoogleMapsCompatible_Level9&TILEMATRIX=2&TILEROW=1&TILECOL=2&FORMAT=image%2Fjpeg&TIME=${daysAgo(2)}`,
@@ -211,8 +211,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   },
   {
     id: 'nasa-viirs-nighttime',
-    name: 'VIIRS 夜间灯光',
-    description: 'NASA 夜间城市灯光图像（2016年）',
+    name: { zh: 'VIIRS 夜间灯光', en: 'VIIRS Nighttime Lights' },
+    description: { zh: 'NASA 夜间城市灯光图像（2016年）', en: 'NASA nighttime city lights image (2016)' },
     category: 'nasa',
     temporal: false,
     previewUrl: `${GIBS_BASE}?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=VIIRS_Black_Marble&STYLE=default&TILEMATRIXSET=GoogleMapsCompatible_Level8&TILEMATRIX=2&TILEROW=1&TILECOL=2&FORMAT=image%2Fpng&TIME=2016-01-01`,
@@ -229,8 +229,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   },
   {
     id: 'nasa-modis-fires',
-    name: 'MODIS 火点检测',
-    description: `NASA 每日火灾热点（${daysAgo(1)}）`,
+    name: { zh: 'MODIS 火点检测', en: 'MODIS Fire Detection' },
+    description: { zh: `NASA 每日火灾热点（${daysAgo(1)}）`, en: `NASA daily fire hotspots (${daysAgo(1)})` },
     category: 'nasa',
     temporal: true,
     previewUrl: `${GIBS_BASE}?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=MODIS_Terra_Thermal_Anomalies_Day&STYLE=default&TILEMATRIXSET=GoogleMapsCompatible_Level9&TILEMATRIX=2&TILEROW=1&TILECOL=2&FORMAT=image%2Fpng&TIME=${daysAgo(1)}`,
@@ -247,8 +247,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   },
   {
     id: 'nasa-viirs-dnb',
-    name: 'VIIRS 昼夜波段',
-    description: `VIIRS 昼夜波段每日图像（${daysAgo(2)}）`,
+    name: { zh: 'VIIRS 昼夜波段', en: 'VIIRS Day/Night Band' },
+    description: { zh: `VIIRS 昼夜波段每日图像（${daysAgo(2)}）`, en: `VIIRS day/night band daily image (${daysAgo(2)})` },
     category: 'nasa',
     temporal: true,
     previewUrl: `${GIBS_BASE}?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=VIIRS_SNPP_DayNightBand_ENCC&STYLE=default&TILEMATRIXSET=GoogleMapsCompatible_Level8&TILEMATRIX=2&TILEROW=1&TILECOL=2&FORMAT=image%2Fpng&TIME=${daysAgo(2)}`,
@@ -265,8 +265,8 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
   },
   {
     id: 'nasa-modis-snow',
-    name: 'MODIS 积雪覆盖',
-    description: `每日积雪范围（${daysAgo(2)}）`,
+    name: { zh: 'MODIS 积雪覆盖', en: 'MODIS Snow Cover' },
+    description: { zh: `每日积雪范围（${daysAgo(2)}）`, en: `Daily snow cover extent (${daysAgo(2)})` },
     category: 'nasa',
     temporal: true,
     previewUrl: `${GIBS_BASE}?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=MODIS_Terra_Snow_Cover&STYLE=default&TILEMATRIXSET=GoogleMapsCompatible_Level8&TILEMATRIX=2&TILEROW=1&TILECOL=2&FORMAT=image%2Fpng&TIME=${daysAgo(2)}`,
@@ -286,9 +286,16 @@ export const IMAGERY_SOURCES: ImagerySourceDef[] = [
 /**
  * 影像图源分类名称映射
  *
- * 将 ImageryCategory 枚举值映射为用户可读的中文分类名称，供 UI 分组展示使用。
+ * 将 ImageryCategory 枚举值映射为用户可读的分类名称，供 UI 分组展示使用。
  */
-export const IMAGERY_CATEGORIES: Record<ImageryCategory, string> = {
-  general: '通用地图',
-  nasa: 'NASA 实时卫星',
+export const IMAGERY_CATEGORIES: Record<ImageryCategory, { zh: string; en: string }> = {
+  general: { zh: '通用地图', en: 'General Maps' },
+  nasa: { zh: 'NASA 实时卫星', en: 'NASA Live Satellite' },
 };
+
+/**
+ * 获取分类名称
+ */
+export function getCategoryName(category: ImageryCategory, lang: 'zh' | 'en'): string {
+  return IMAGERY_CATEGORIES[category][lang];
+}

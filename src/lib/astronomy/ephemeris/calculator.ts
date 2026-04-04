@@ -14,15 +14,15 @@
 
 import { EphemerisDataLoader } from './loader';
 import { PositionInterpolator } from './interpolator';
-import { LightTimeCorrector, AberrationCorrector } from './corrections';
+import { AberrationCorrector, LightTimeCorrector } from './corrections';
 import { CoordinateTransformer } from './coordinates';
 import { ObserverModeController, PlanetaryPositionProvider } from './observer';
 import { 
+  AberrationMode, 
   EphemerisData, 
-  SatelliteId, 
-  Vector3, 
-  ObserverMode,
-  AberrationMode 
+  ObserverMode, 
+  SatelliteId,
+  Vector3 
 } from './types';
 
 /**

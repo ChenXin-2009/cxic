@@ -4,10 +4,10 @@
 
 'use client';
 
-import React, { useRef, useState, useCallback } from 'react';
-import { useSolarSystemStore } from '@/lib/state';
+import React, { useCallback, useRef, useState } from 'react';
 import { TIME_SLIDER_CONFIG } from '@/lib/config/visualConfig';
-import { usePlaybackControl, useDragListeners } from './TimeSlider.hooks';
+import { useDragListeners, usePlaybackControl } from './TimeSlider.hooks';
+import { useTranslation } from '@/hooks/useTranslation';
 import {
   calculateSpeed,
   formatSpeedLabel,
@@ -29,7 +29,7 @@ export default function TimeSlider({
   const [isAnimating, setIsAnimating] = useState(false);
   const [mouseDownPos, setMouseDownPos] = useState<{ x: number; y: number } | null>(null);
   
-  const lang = useSolarSystemStore((state) => state.lang);
+  const { t, lang } = useTranslation();
 
   const cfg = TIME_SLIDER_CONFIG;
   const sliderRadius = cfg.sliderRadius;
@@ -326,7 +326,7 @@ export default function TimeSlider({
           opacity: speed > 0 ? 1 : 0.5,
         }}
       >
-        {speed > 0 ? speedLabel : (lang === 'zh' ? '暂停' : 'Paused')}
+        {speed > 0 ? speedLabel : t('timeControl.paused')}
       </div>
     </div>
   );

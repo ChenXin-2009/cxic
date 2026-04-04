@@ -11,10 +11,10 @@
 
 import * as THREE from 'three';
 import { 
-  TLEData, 
+  OrbitType, 
   SatelliteCategory, 
-  OrbitType,
-  SatelliteState 
+  SatelliteState,
+  TLEData 
 } from '../src/lib/types/satellite';
 import { satelliteConfig } from '../src/lib/config/satelliteConfig';
 import { CelestrakClient } from '../src/lib/server/celestrakClient';

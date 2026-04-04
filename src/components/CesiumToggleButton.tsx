@@ -10,6 +10,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useSolarSystemStore } from '@/lib/state';
 
 /**
  * 明日方舟风格 UI 配置对象
@@ -71,6 +72,8 @@ export default function CesiumToggleButton({ onToggle, initialEnabled = false }:
   const [enabled, setEnabled] = useState(initialEnabled);
   /** 鼠标悬停状态，用于触发悬停样式（边框高亮、发光阴影） */
   const [isHovered, setIsHovered] = useState(false);
+  /** 当前语言 */
+  const lang = useSolarSystemStore((state) => state.lang);
 
   /**
    * 处理按钮点击：翻转当前状态并通知父组件
@@ -157,7 +160,7 @@ export default function CesiumToggleButton({ onToggle, initialEnabled = false }:
                 color: enabled ? ARKNIGHTS_CONFIG.colors.dark : ARKNIGHTS_CONFIG.colors.primary,
               }}
             >
-              CESIUM 地球
+              {lang === 'zh' ? 'CESIUM 地球' : 'CESIUM EARTH'}
             </span>
             <span
               className="text-[10px] uppercase tracking-wide leading-tight"

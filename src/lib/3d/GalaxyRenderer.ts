@@ -4,7 +4,7 @@
  */
 
 import * as THREE from 'three';
-import { GALAXY_CONFIG, SCALE_VIEW_CONFIG, LIGHT_YEAR_TO_AU } from '../config/galaxyConfig';
+import { GALAXY_CONFIG, LIGHT_YEAR_TO_AU, SCALE_VIEW_CONFIG } from '../config/galaxyConfig';
 
 export class GalaxyRenderer {
   private group: THREE.Group;

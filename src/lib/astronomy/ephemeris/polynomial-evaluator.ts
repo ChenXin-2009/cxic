@@ -5,7 +5,7 @@
  * used in the all-bodies ephemeris system.
  */
 
-import { Vector3, ChebyshevSegment, HermiteSegment, PolynomialSegment } from './types';
+import { ChebyshevSegment, HermiteSegment, PolynomialSegment, Vector3 } from './types';
 
 /**
  * Polynomial evaluator for ephemeris segments

@@ -5,7 +5,7 @@
  * 支持多种卫星类别,并实现错误重试机制
  */
 
-import { TLEData, SatelliteCategory } from '../types/satellite';
+import { SatelliteCategory, TLEData } from '../types/satellite';
 
 /**
  * Celestrak API基础URL

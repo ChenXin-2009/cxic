@@ -7,7 +7,7 @@
  * 3. 数据格式正确
  */
 
-import { describe, it, expect, beforeAll } from '@jest/globals';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 
 describe('后端服务验证', () => {
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';

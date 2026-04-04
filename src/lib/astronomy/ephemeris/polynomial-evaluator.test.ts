@@ -2,9 +2,9 @@
  * Tests for polynomial evaluator
  */
 
-import { describe, it, expect } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import { PolynomialEvaluator } from './polynomial-evaluator';
-import { Vector3, ChebyshevSegment, HermiteSegment, PolynomialType } from './types';
+import { ChebyshevSegment, HermiteSegment, PolynomialType, Vector3 } from './types';
 
 describe('PolynomialEvaluator', () => {
   const evaluator = new PolynomialEvaluator();

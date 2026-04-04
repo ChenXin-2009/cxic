@@ -1,7 +1,7 @@
 // src/app/page.tsx 或 src/app/solar-system/page.tsx
 'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import SolarSystemCanvas3D from "@/components/canvas/3d/SolarSystemCanvas3D";
 import TimeControl from "@/components/TimeControl";
 import InfoModal from "@/components/InfoModal";
@@ -12,12 +12,13 @@ import CesiumToggleButton from "@/components/CesiumToggleButton";
 import CesiumMapSourcePanel from "@/components/cesium/CesiumMapSourcePanel";
 import EarthLockButton from "@/components/EarthLockButton";
 import EarthLightButton from "@/components/EarthLightButton";
+import { useSolarSystemStore } from "@/lib/state";
 
 /**
  * Info button component for top-right corner.
  * Arknights-style design matching the settings button.
  */
-function InfoButton({ onClick }: { onClick: () => void }) {
+function InfoButton({ onClick, lang }: { onClick: () => void; lang: 'zh' | 'en' }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -44,7 +45,7 @@ function InfoButton({ onClick }: { onClick: () => void }) {
         clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)',
         boxShadow: isHovered ? '0 0 20px rgba(255, 255, 255, 0.5)' : 'none',
       }}
-      aria-label="关于"
+      aria-label={lang === 'zh' ? '关于' : 'About'}
     >
       {/* 左上角菱形装饰 */}
       <div 
@@ -72,7 +73,7 @@ function InfoButton({ onClick }: { onClick: () => void }) {
         }}
       />
       
-      关于
+      {lang === 'zh' ? '关于' : 'ABOUT'}
     </button>
   );
 }
@@ -81,7 +82,7 @@ function InfoButton({ onClick }: { onClick: () => void }) {
  * Ephemeris Status button component for top-right corner.
  * Arknights-style design matching other buttons.
  */
-function EphemerisButton({ onClick }: { onClick: () => void }) {
+function EphemerisButton({ onClick, lang }: { onClick: () => void; lang: 'zh' | 'en' }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -108,7 +109,7 @@ function EphemerisButton({ onClick }: { onClick: () => void }) {
         clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)',
         boxShadow: isHovered ? '0 0 20px rgba(255, 255, 255, 0.5)' : 'none',
       }}
-      aria-label="星历状态"
+      aria-label={lang === 'zh' ? '星历状态' : 'Ephemeris Status'}
     >
       {/* 左上角菱形装饰 */}
       <div 
@@ -136,7 +137,7 @@ function EphemerisButton({ onClick }: { onClick: () => void }) {
         }}
       />
       
-      星历状态
+      {lang === 'zh' ? '星历状态' : 'EPHEMERIS'}
     </button>
   );
 }
@@ -151,6 +152,9 @@ export default function SolarSystemPage() {
   const [camera, setCamera] = useState<any>(null);
   // 地球是否可见（相机足够近时显示按钮）
   const [earthVisible, setEarthVisible] = useState(false);
+  
+  // 获取当前语言
+  const lang = useSolarSystemStore((state) => state.lang);
 
   // 每帧检测相机到地球的距离，控制按钮显隐
   // 距离阈值：10 AU 以内认为"可以看见地球"
@@ -191,8 +195,8 @@ export default function SolarSystemPage() {
         height: '100dvh',
       }}
     >
-      <InfoButton onClick={() => setIsInfoModalOpen(true)} />
-      <EphemerisButton onClick={() => setIsEphemerisStatusOpen(true)} />
+      <InfoButton onClick={() => setIsInfoModalOpen(true)} lang={lang} />
+      <EphemerisButton onClick={() => setIsEphemerisStatusOpen(true)} lang={lang} />
       <InfoModal isOpen={isInfoModalOpen} onClose={() => setIsInfoModalOpen(false)} />
       <EphemerisStatusPanel isOpen={isEphemerisStatusOpen} onClose={() => setIsEphemerisStatusOpen(false)} />
       
@@ -222,7 +226,7 @@ export default function SolarSystemPage() {
             ext?.setEnableLighting?.(enabled);
           }}
         />
-        <SatelliteMenu lang="zh" />
+        <SatelliteMenu lang={lang} />
       </div>
       
       {/* Cesium 地图源切换面板（仅 Cesium 模式下显示） */}

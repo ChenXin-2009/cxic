@@ -60,10 +60,10 @@ import { VIEW_SETTINGS } from '../config/cameraConfig';
 import { NearbyStars } from './NearbyStars';
 import { GalaxyRenderer } from './GalaxyRenderer';
 import { GaiaStars } from './GaiaStars';
-import { SCALE_VIEW_CONFIG, NEARBY_STARS_CONFIG, GALAXY_CONFIG } from '../config/galaxyConfig';
-import { TextureLoadError, RenderError } from '../errors/base';
+import { GALAXY_CONFIG, NEARBY_STARS_CONFIG, SCALE_VIEW_CONFIG } from '../config/galaxyConfig';
+import { RenderError, TextureLoadError } from '../errors/base';
 import { logError, tryCatch } from '../utils/errors';
-import { SolarSystemGrid, type GridInfo } from './SolarSystemGrid';
+import { type GridInfo, SolarSystemGrid } from './SolarSystemGrid';
 
 // 银河系背景图片路径（圆柱投影/equirectangular）
 const MILKY_WAY_TEXTURE_PATH = '/textures/planets/8k_stars_milky_way.webp';

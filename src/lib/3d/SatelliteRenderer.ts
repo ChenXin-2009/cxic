@@ -30,7 +30,7 @@
 import * as THREE from 'three';
 import { OrbitCurve } from './OrbitCurve';
 import { satelliteConfig } from '../config/satelliteConfig';
-import type { SatelliteState, OrbitType } from '../types/satellite';
+import type { OrbitType, SatelliteState } from '../types/satellite';
 import type { SceneManager } from './SceneManager';
 import type { SGP4Calculator } from '../satellite/sgp4Calculator';
 

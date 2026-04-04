@@ -5,9 +5,9 @@
 
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSolarSystemStore } from '@/lib/state';
-import { useEphemerisStore, LoadingStatus, type BodyKey } from '@/lib/store/useEphemerisStore';
+import { type BodyKey, LoadingStatus, useEphemerisStore } from '@/lib/store/useEphemerisStore';
 import { dateToJulianDay } from '@/lib/astronomy/time';
 
 // 明日方舟风格配置

@@ -13,8 +13,9 @@
 
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
-import { IMAGERY_SOURCES, IMAGERY_CATEGORIES, ImageryCategory, ImagerySourceDef } from '@/lib/cesium/imageryProviders';
+import { useCallback, useRef, useState } from 'react';
+import { IMAGERY_CATEGORIES, IMAGERY_SOURCES, ImageryCategory, ImagerySourceDef, getCategoryName } from '@/lib/cesium/imageryProviders';
+import { useSolarSystemStore } from '@/lib/state';
 
 /**
  * CesiumMapSourcePanel 组件的 Props 接口
@@ -97,6 +98,7 @@ export default function CesiumMapSourcePanel({ earthPlanet, visible = true }: Ce
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const lang = useSolarSystemStore((state) => state.lang);
 
   /**
    * 错误提示定时器引用
@@ -158,16 +160,18 @@ export default function CesiumMapSourcePanel({ earthPlanet, visible = true }: Ce
   return (
     <div style={{
       position: 'fixed',
-      right: 220,  /* 右侧按钮组宽约 200px，留 20px 间距 */
-      bottom: 80,
+      right: 16,
+      bottom: 100,
       width: isCollapsed ? 140 : 300,
       background: COLORS.dark,
       border: `2px solid ${COLORS.border}`,
       clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)',
       color: COLORS.primary,
       fontFamily: 'system-ui, sans-serif',
-      zIndex: 1000,
+      zIndex: 999,
       transition: 'width 0.2s ease',
+      maxHeight: isCollapsed ? 'auto' : 'calc(50vh - 116px)',
+      overflow: 'hidden',
     }}>
       {/* 左上角切角装饰 */}
       <div style={{
@@ -197,7 +201,7 @@ export default function CesiumMapSourcePanel({ earthPlanet, visible = true }: Ce
         {/* 左侧色条 */}
         <div style={{ width: 3, height: 16, background: COLORS.accent, flexShrink: 0 }} />
         <span style={{ color: COLORS.primary, fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', flex: 1 }}>
-          地图源
+          {lang === 'zh' ? '地图源' : 'MAP SOURCE'}
         </span>
         <span style={{ color: COLORS.textDim, fontSize: 11 }}>{isCollapsed ? '▲' : '▼'}</span>
       </div>
@@ -220,7 +224,7 @@ export default function CesiumMapSourcePanel({ earthPlanet, visible = true }: Ce
             </div>
           )}
 
-          <div style={{ overflowY: 'auto', maxHeight: 440, paddingBottom: 8 }}
+          <div style={{ overflowY: 'auto', maxHeight: isCollapsed ? 0 : 'calc(50vh - 200px)' }}
             className="satellite-menu-scrollbar"
           >
             {categories.map((cat, catIdx) => {
@@ -239,7 +243,7 @@ export default function CesiumMapSourcePanel({ earthPlanet, visible = true }: Ce
                       color: COLORS.textDim, fontSize: 11,
                       textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600,
                     }}>
-                      {IMAGERY_CATEGORIES[cat]}
+                      {getCategoryName(cat, lang)}
                     </span>
                   </div>
 
@@ -266,7 +270,7 @@ export default function CesiumMapSourcePanel({ earthPlanet, visible = true }: Ce
                           if (!isActive) (e.currentTarget as HTMLDivElement).style.background = 'transparent';
                         }}
                       >
-                        <PreviewImage src={source.previewUrl} alt={source.name} />
+                        <PreviewImage src={source.previewUrl} alt={source.name[lang as 'zh' | 'en']} />
 
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
@@ -276,19 +280,19 @@ export default function CesiumMapSourcePanel({ earthPlanet, visible = true }: Ce
                               fontSize: 13,
                               overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                             }}>
-                              {source.name}
+                              {source.name[lang as 'zh' | 'en']}
                             </span>
                             {isLoading && (
-                              <span style={{ color: COLORS.warning, fontSize: 11, flexShrink: 0 }}>加载中</span>
+                              <span style={{ color: COLORS.warning, fontSize: 11, flexShrink: 0 }}>{lang === 'zh' ? '加载中' : 'Loading'}</span>
                             )}
                             {isActive && !isLoading && (
                               <span style={{ color: COLORS.success, fontSize: 12, flexShrink: 0 }}>✓</span>
                             )}
                           </div>
                           <div style={{ color: COLORS.textDim, fontSize: 11, lineHeight: 1.4 }}>
-                            {source.description}
+                            {source.description[lang as 'zh' | 'en']}
                             {source.temporal && (
-                              <span style={{ color: COLORS.warning, marginLeft: 5 }}>● 实时</span>
+                              <span style={{ color: COLORS.warning, marginLeft: 5 }}>● {lang === 'zh' ? '实时' : 'Live'}</span>
                             )}
                           </div>
                         </div>

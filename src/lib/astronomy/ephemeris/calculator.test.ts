@@ -4,10 +4,10 @@
 
 import { SatellitePositionCalculator } from './calculator';
 import { 
-  SatelliteId, 
-  Vector3, 
-  ObserverMode,
-  EphemerisData 
+  EphemerisData, 
+  ObserverMode, 
+  SatelliteId,
+  Vector3 
 } from './types';
 import { PlanetaryPositionProvider } from './observer';
 

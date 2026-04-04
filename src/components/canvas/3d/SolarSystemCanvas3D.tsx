@@ -18,7 +18,7 @@
 
 'use client';
 
-import React, { useRef, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { useSolarSystemStore } from '@/lib/state';
 import { useSatelliteStore } from '@/lib/store/useSatelliteStore';
 import { SceneManager } from '@/lib/3d/SceneManager';
@@ -39,10 +39,11 @@ import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import ScaleRuler from './ScaleRuler';
 import GridScaleRuler from './GridScaleRuler';
 import DistanceDisplay from './DistanceDisplay';
+import ZoomSlider from './ZoomSlider';
 import SettingsMenu from '@/components/SettingsMenu';
 import CelestialSearch from '@/components/search/CelestialSearch';
 import SearchErrorBoundary from '@/components/search/SearchErrorBoundary';
-import { ORBIT_COLORS, SUN_LIGHT_CONFIG, ORBIT_CURVE_POINTS, SATELLITE_CONFIG, ORBIT_FADE_CONFIG, FAR_VIEW_CONFIG } from '@/lib/config/visualConfig';
+import { FAR_VIEW_CONFIG, ORBIT_COLORS, ORBIT_CURVE_POINTS, ORBIT_FADE_CONFIG, SATELLITE_CONFIG, SUN_LIGHT_CONFIG } from '@/lib/config/visualConfig';
 import { CAMERA_CONFIG } from '@/lib/config/cameraConfig';
 import { TextureManager } from '@/lib/3d/TextureManager';
 import { LocalGroupRenderer } from '@/lib/3d/LocalGroupRenderer';
@@ -51,7 +52,7 @@ import { VirgoSuperclusterRenderer } from '@/lib/3d/VirgoSuperclusterRenderer';
 import { LaniakeaSuperclusterRenderer } from '@/lib/3d/LaniakeaSuperclusterRenderer';
 import { SatelliteLayer } from '@/lib/3d/SatelliteLayer';
 import { UniverseScale } from '@/lib/types/universeTypes';
-import type { LocalGroupGalaxy, GalaxyGroup, SimpleGalaxy, GalaxyCluster, Supercluster } from '@/lib/types/universeTypes';
+import type { GalaxyCluster, GalaxyGroup, LocalGroupGalaxy, SimpleGalaxy, Supercluster } from '@/lib/types/universeTypes';
 import SatelliteDetailModal from '@/components/satellite/SatelliteDetailModal';
 
 
@@ -993,7 +994,26 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
         const maxDistance = Math.max(cameraDistance * 3, 50);
         // 动态调整 near/far，保持 near:far 比值合理（深度缓冲精度）
         // 关键原则：near/far 比值不能太小，否则深度缓冲精度不足导致 z-fighting
-        if (earthBody) {
+        
+        // 优先检查是否正在跟踪某个天体（聚焦到火星、木星等）
+        const trackingInfo = cameraControllerRef.current?.getTrackingInfo();
+        if (trackingInfo) {
+          const { position: targetPos, radius: targetRadius } = trackingInfo;
+          const distToCenter = camera.position.distanceTo(targetPos);
+
+          // near 平面始终基于到中心距离动态计算
+          // 关键：near 必须小于 distToCenter - targetRadius（到表面的距离）
+          // 否则目标天体会被 near 平面裁切
+          // 使用 distToCenter * 0.0001 确保 near 远小于到表面的距离
+          const near = Math.max(distToCenter * 0.0001, 1e-9);
+          // far 必须足够大以覆盖整个天体及周围空间
+          const far = Math.max(maxDistance, targetRadius * 100, 1e6);
+
+          camera.near = near;
+          camera.far = far;
+          camera.updateProjectionMatrix();
+        } else if (earthBody) {
+          // 没有跟踪目标时，检查是否靠近地球（默认行为）
           const earthPos = new THREE.Vector3(earthBody.x, earthBody.y, earthBody.z);
           const EARTH_RADIUS_AU = 0.0000426;
           const distToCenter = camera.position.distanceTo(earthPos);
@@ -1322,7 +1342,7 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
       
       // 拖动检测变量
       let isDragging = false;
-      let mouseDownPosition = { x: 0, y: 0 };
+      const mouseDownPosition = { x: 0, y: 0 };
       let mouseDownTime = 0;
       const dragThreshold = 5; // 像素阈值，超过此距离认为是拖动
       const clickTimeThreshold = 300; // 毫秒阈值，超过此时间认为是长按
@@ -1814,8 +1834,28 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
         // 让相机控制器完全处理所有触摸事件
       }}
     >
-      {/* 距离地球显示 */}
-      <DistanceDisplay distanceAU={distanceToEarth} />
+      {/* 左侧面板：尺度信息 + 缩放滑块 */}
+      <div
+        style={{
+          position: 'absolute',
+          left: '5px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          gap: '20px',
+          pointerEvents: 'none',
+          zIndex: 10,
+        }}
+      >
+        <DistanceDisplay distanceAU={distanceToEarth} static />
+        {isCameraControllerReady && cameraControllerRef.current && (
+          <ZoomSlider cameraController={cameraControllerRef.current} />
+        )}
+      </div>
+
+      {/* 灵敏度曲线调试面板已移除，配置已固化到 CameraController */}
       <ScaleRuler 
         camera={cameraRef.current} 
         container={containerRef.current}

@@ -1050,6 +1050,20 @@ export class CameraController {
   }
 
   /**
+   * 获取当前跟踪目标的位置和半径（供外部调整 near/far 平面使用）
+   * @returns 跟踪目标的位置和半径，未跟踪时返回 null
+   */
+  getTrackingInfo(): { position: THREE.Vector3; radius: number } | null {
+    if (!this.isTracking || !this.trackingTargetGetter || !this.currentTargetRadius) {
+      return null;
+    }
+    return {
+      position: this.trackingTargetGetter(),
+      radius: this.currentTargetRadius,
+    };
+  }
+
+  /**
    * 设置地球锁定相机模式（启用/禁用标志）
    *
    * 地球锁定模式下，相机会随地球自转同步旋转，使地球在视觉上保持静止。
@@ -1156,14 +1170,22 @@ export class CameraController {
     if (!isFinite(currentDistance) || currentDistance <= 0) return;
     
     const baseFactor = this.currentConfig.zoomBaseFactor;
-    const scrollSpeed = Math.min(Math.abs(delta), 2); // 限制最大滚动速度影响
+    const scrollSpeed = Math.min(Math.abs(delta), 2);
 
-    // 距离自适应缩放灵敏度：近距离时适当降低灵敏度，但保持足够的响应性
-    const REF_DISTANCE_AU = 1.0;
-    const LOG_RANGE = 5;
-    const MIN_SCALE = 0.15;
-    const logRatio = Math.log10(Math.max(currentDistance, 1e-12) / REF_DISTANCE_AU);
-    const distanceScale = Math.max(MIN_SCALE, Math.min(1.0, logRatio / LOG_RANGE + 1.0));
+    // 缩放灵敏度：优先使用外部曲线，否则用对数距离曲线
+    type CurveT = { anchors: {nx:number;ny:number}[]; yMin:number; yMax:number };
+    const zoomCurve = this._zoomSensitivityCurve as CurveT | undefined;
+    let distanceScale: number;
+    if (zoomCurve && zoomCurve.anchors.length >= 2 && !this.fovZoomActive) {
+      // 曲线只在距离模式下生效，FOV 模式走原有 effectiveFactor 逻辑
+      distanceScale = CameraController.evalSensitivityCurve(zoomCurve, currentDistance);
+    } else {
+      const REF_DISTANCE_AU = 1.0;
+      const LOG_RANGE = 5;
+      const MIN_SCALE = 0.15;
+      const logRatio = Math.log10(Math.max(currentDistance, 1e-12) / REF_DISTANCE_AU);
+      distanceScale = Math.max(MIN_SCALE, Math.min(1.0, logRatio / LOG_RANGE + 1.0));
+    }
     const effectiveFactor = baseFactor * distanceScale;
 
     const currentFov = this.camera.fov;
@@ -1189,7 +1211,7 @@ export class CameraController {
 
       // 检测距离是否被卡住（变化量小于 0.1%）：切换到 FOV 缩放
       const distanceStuck = newTargetDistance >= currentDistance * 0.999;
-      if (distanceStuck || this.fovZoomActive) {
+      if (distanceStuck) {
         this.fovZoomActive = true;
         // FOV 缩放灵敏度：FOV 越小时每步缩小比例越小，保持对数感知均匀
         // 使用固定比例缩放：每步缩小 FOV 的固定百分比（类似距离缩放的乘法模型）
@@ -1644,25 +1666,28 @@ export class CameraController {
     
     // 更新 OrbitControls（这会应用旋转和平移的阻尼效果）
     // 动态调整 panSpeed + rotateSpeed：
+    // - 优先使用外部注入的移动灵敏度曲线（_dragSensitivityCurve）
     // - 正常模式：基于距离的对数曲线，近距离时降低灵敏度
     // - FOV 缩放模式：基于 FOV 比例，FOV 越小灵敏度越低
-    // 两者取较大值（不叠乘），避免 FOV 模式下灵敏度过低
     {
-      const REF_DISTANCE_AU = 1.0;
-      const LOG_RANGE = 5;
-      const MIN_SCALE = 0.04;
       const currentDist = this.camera.position.distanceTo(this.controls.target);
-      const logRatio = Math.log10(Math.max(currentDist, 1e-12) / REF_DISTANCE_AU);
-      const distScale = Math.max(MIN_SCALE, Math.min(1.0, logRatio / LOG_RANGE + 1.0));
-      // FOV 缩放灵敏度：FOV 越小灵敏度越低，与视角放大倍数成反比
-      // 使用 fov/defaultFov 线性比例，但设置合理下限
-      const fovScale = Math.max(0.005, this.camera.fov / CameraController.FOV_DEFAULT);
-      // FOV 模式下：用 fovScale * fovDragSensitivity（距离不变，只有 FOV 在变）
-      // 正常模式下：用 distScale
-      // 两者取较大值，避免叠乘导致过低
-      const scale = this.fovZoomActive
-        ? fovScale * (this.currentConfig.fovDragSensitivity ?? 3.0)
-        : Math.max(distScale, fovScale);
+      type CurveT = { anchors: {nx:number;ny:number}[]; yMin:number; yMax:number };
+      const dragCurve = this._dragSensitivityCurve as CurveT | undefined;
+      let scale: number;
+      if (dragCurve && dragCurve.anchors.length >= 2 && !this.fovZoomActive) {
+        // 曲线只在距离模式下生效，FOV 模式走原有逻辑
+        scale = CameraController.evalSensitivityCurve(dragCurve, currentDist);
+      } else {
+        const REF_DISTANCE_AU = 1.0;
+        const LOG_RANGE = 5;
+        const MIN_SCALE = 0.04;
+        const logRatio = Math.log10(Math.max(currentDist, 1e-12) / REF_DISTANCE_AU);
+        const distScale = Math.max(MIN_SCALE, Math.min(1.0, logRatio / LOG_RANGE + 1.0));
+        const fovScale = Math.max(0.005, this.camera.fov / CameraController.FOV_DEFAULT);
+        scale = this.fovZoomActive
+          ? fovScale * (this.currentConfig.fovDragSensitivity ?? 3.0)
+          : Math.max(distScale, fovScale);
+      }
       this.controls.panSpeed = CAMERA_CONFIG.panSpeed * scale;
       this.controls.rotateSpeed = CAMERA_CONFIG.rotateSpeed * scale;
     }
@@ -1765,6 +1790,41 @@ export class CameraController {
   }
 
   /**
+   * 根据灵敏度曲线配置和当前距离计算灵敏度倍率（Catmull-Rom 插值）
+   * 与 SensitivityCurvePanel 的 querySensitivity 逻辑保持一致
+   */
+  static evalSensitivityCurve(
+    curve: { anchors: { nx: number; ny: number }[]; yMin: number; yMax: number },
+    distanceAU: number
+  ): number {
+    const LOG_MIN = -10, LOG_MAX = 0;
+    const nx = Math.max(0, Math.min(1, (Math.log10(Math.max(distanceAU, 1e-12)) - LOG_MIN) / (LOG_MAX - LOG_MIN)));
+    const sorted = [...curve.anchors].sort((a, b) => a.nx - b.nx);
+    // 对数 Y 映射：ny(0~1) → 10^(logMin + ny*(logMax-logMin))
+    const logMin = Math.log10(Math.max(curve.yMin, 1e-9));
+    const logMax = Math.log10(Math.max(curve.yMax, 1e-9));
+    const nyToVal = (ny: number) => Math.pow(10, logMin + Math.max(0, Math.min(1, ny)) * (logMax - logMin));
+    if (sorted.length === 0) return 1;
+    if (sorted.length === 1) return nyToVal(sorted[0].ny);
+    if (nx <= sorted[0].nx) return nyToVal(sorted[0].ny);
+    if (nx >= sorted[sorted.length - 1].nx) return nyToVal(sorted[sorted.length - 1].ny);
+
+    let i = 1;
+    while (i < sorted.length - 1 && sorted[i].nx < nx) i++;
+    const p1 = sorted[i - 1], p2 = sorted[i];
+    const p0 = sorted[i - 2] ?? { nx: p1.nx - (p2.nx - p1.nx), ny: p1.ny };
+    const p3 = sorted[i + 1] ?? { nx: p2.nx + (p2.nx - p1.nx), ny: p2.ny };
+    const t = (nx - p1.nx) / (p2.nx - p1.nx), t2 = t * t, t3 = t2 * t;
+    const ny = Math.max(0, Math.min(1, 0.5 * (
+      2 * p1.ny +
+      (-p0.ny + p2.ny) * t +
+      (2 * p0.ny - 5 * p1.ny + 4 * p2.ny - p3.ny) * t2 +
+      (-p0.ny + 3 * p1.ny - 3 * p2.ny + p3.ny) * t3
+    )));
+    return nyToVal(ny);
+  }
+
+  /**
    * 获取底层 OrbitControls 实例（供外部直接访问控制器属性）
    *
    * @returns Three.js OrbitControls 实例
@@ -1778,6 +1838,32 @@ export class CameraController {
   private currentFov: number = CAMERA_CONFIG.fov;
   private isFovTransitioning: boolean = false;
   private fovTransitionSpeed: number = 0.15; // FOV 过渡速度（0-1，越大越快）
+
+  // 灵敏度曲线配置（由用户调试后固化的参数）
+  // X 轴：归一化对数距离（0 = 1e-10 AU，1 = 1 AU）
+  // Y 轴：归一化对数灵敏度（0~1，映射到 yMin~yMax 的对数空间）
+  private _zoomSensitivityCurve = {
+    yMin: 0.001, yMax: 2,
+    anchors: [
+      { nx: 0.0024, ny: 0 },
+      { nx: 0.5607, ny: 0.0102 },
+      { nx: 0.5704, ny: 0.5765 },
+      { nx: 0.6165, ny: 0.7449 },
+      { nx: 0.7888, ny: 0.898 },
+      { nx: 1,      ny: 1 },
+    ],
+  };
+  private _dragSensitivityCurve = {
+    yMin: 0.001, yMax: 2,
+    anchors: [
+      { nx: 0,      ny: 0.08 },
+      { nx: 0.5583, ny: 0.2041 },
+      { nx: 0.5728, ny: 0.5408 },
+      { nx: 0.5922, ny: 0.7194 },
+      { nx: 0.7816, ny: 0.9082 },
+      { nx: 1,      ny: 1 },
+    ],
+  };
 
   // FOV 缩放（光学变焦）相关
   // 当距离无法继续缩小时（被防穿透或 minDistance 限制），改用 FOV 缩放实现超级放大

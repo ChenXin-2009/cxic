@@ -25,25 +25,8 @@ const defaultLogger: ErrorLogger = (error: Error, context?: Record<string, unkno
 
 /**
  * Current error logger instance.
- * Can be replaced using setErrorLogger().
  */
-let currentLogger: ErrorLogger = defaultLogger;
-
-/**
- * Sets a custom error logger.
- * 
- * @param logger - Custom logger function
- * 
- * @example
- * ```typescript
- * setErrorLogger((error, context) => {
- *   myLoggingService.error(error, context);
- * });
- * ```
- */
-export function setErrorLogger(logger: ErrorLogger): void {
-  currentLogger = logger;
-}
+const currentLogger: ErrorLogger = defaultLogger;
 
 /**
  * Logs an error with optional context information.

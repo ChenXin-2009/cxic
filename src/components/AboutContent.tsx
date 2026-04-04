@@ -8,28 +8,32 @@
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function AboutContent() {
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
+  const { t, lang } = useTranslation();
 
   useEffect(() => {
-    fetch('/ABOUT.md')
+    // 根据语言加载不同的 ABOUT 文件
+    const aboutFile = lang === 'zh' ? '/ABOUT.md' : '/ABOUT_EN.md';
+    fetch(aboutFile)
       .then(res => res.text())
       .then(text => {
         setContent(text);
         setLoading(false);
       })
       .catch(err => {
-        console.error('Failed to load ABOUT.md:', err);
+        console.error('Failed to load ABOUT file:', err);
         setLoading(false);
       });
-  }, []);
+  }, [lang]);
 
   if (loading) {
     return (
       <div className="text-center text-gray-400 py-8">
-        加载中...
+        {t('common.loading')}
       </div>
     );
   }

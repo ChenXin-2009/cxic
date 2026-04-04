@@ -13,6 +13,10 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "node_modules/**",
+    // Third-party libraries (minified)
+    "public/cesium/ThirdParty/**",
+    "public/cesium/Workers/**",
+    "public/workers/**",
   ]),
   {
     rules: {

@@ -7,13 +7,13 @@
 
 import { 
   BodyConfig, 
+  BodyType, 
   EphemerisChunk, 
-  EphemerisStatus, 
-  PolynomialType,
-  BodyType,
+  EphemerisStatus,
   PlanetId,
-  Vector3,
-  PositionResult
+  PolynomialType,
+  PositionResult,
+  Vector3
 } from './types';
 import { ChunkLoader } from './chunk-loader';
 import { PolynomialEvaluator } from './polynomial-evaluator';

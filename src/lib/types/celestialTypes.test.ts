@@ -2,7 +2,7 @@
  * Tests for celestial body axial tilt calculations
  */
 
-import { calculateRotationAxis, equatorialToEcliptic, CELESTIAL_BODIES } from './celestialTypes';
+import { calculateRotationAxis, CELESTIAL_BODIES, equatorialToEcliptic } from './celestialTypes';
 
 describe('Axial Tilt Calculations', () => {
   describe('equatorialToEcliptic', () => {

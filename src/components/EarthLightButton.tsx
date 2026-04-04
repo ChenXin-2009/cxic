@@ -11,6 +11,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useSolarSystemStore } from '@/lib/state';
 
 /**
  * 地球光照按钮的样式配置对象
@@ -56,6 +57,8 @@ export default function EarthLightButton({ onToggle, initialEnabled = true }: Ea
   const [enabled, setEnabled] = useState(initialEnabled);
   /** 鼠标悬停状态，用于触发悬停样式（边框高亮、发光阴影） */
   const [isHovered, setIsHovered] = useState(false);
+  /** 当前语言 */
+  const lang = useSolarSystemStore((state) => state.lang);
 
   /**
    * 处理按钮点击：翻转当前光照状态并通知父组件
@@ -84,7 +87,7 @@ export default function EarthLightButton({ onToggle, initialEnabled = true }: Ea
         boxShadow: isHovered ? `0 0 20px ${enabled ? CONFIG.colors.accent : CONFIG.colors.primary}80` : 'none',
         cursor: 'pointer',
       }}
-      aria-label={enabled ? '关闭地球光照' : '开启地球光照'}
+      aria-label={lang === 'zh' ? (enabled ? '关闭地球光照' : '开启地球光照') : (enabled ? 'Disable lighting' : 'Enable lighting')}
     >
       {/* 左上角菱形装饰：填充切角留下的空白，强化明日方舟 UI 风格 */}
       <div className="absolute" style={{ top: '-1px', left: '-1px', width: '12px', height: '12px', background: CONFIG.colors.primary, clipPath: 'polygon(0 0, 100% 0, 0 100%)' }} />
@@ -109,7 +112,7 @@ export default function EarthLightButton({ onToggle, initialEnabled = true }: Ea
         <div className="flex flex-col items-start">
           <span className="text-xs font-bold uppercase tracking-wider leading-tight"
             style={{ color: enabled ? CONFIG.colors.dark : CONFIG.colors.primary }}>
-            地球光照
+            {lang === 'zh' ? '地球光照' : 'EARTH LIGHT'}
           </span>
           {/* 副标题：DAY/NIGHT 表示昼夜模式，ALL DAY 表示全天均匀照亮 */}
           <span className="text-[10px] uppercase tracking-wide leading-tight"

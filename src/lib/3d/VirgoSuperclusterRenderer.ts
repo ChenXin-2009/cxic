@@ -1,11 +1,11 @@
 import * as THREE from 'three';
 import type { GalaxyCluster, SimpleGalaxy } from '../types/universeTypes';
-import { VIRGO_SUPERCLUSTER_CONFIG, UNIVERSE_SCALE_CONFIG, MEGAPARSEC_TO_AU } from '../config/universeConfig';
+import { MEGAPARSEC_TO_AU, UNIVERSE_SCALE_CONFIG, VIRGO_SUPERCLUSTER_CONFIG } from '../config/universeConfig';
 import { OptimizedParticleSystem } from './OptimizedParticleSystem';
 import { BaseUniverseRenderer } from './BaseUniverseRenderer';
-import { createParticleSystemFromGalaxies, createConnectionLinesForGroup, updateConnectionLinesOpacity } from './utils/universeRendererUtils';
-import { UniverseLabelManager, type LabelData } from './UniverseLabelManager';
-import { VIRGO_SUPERCLUSTER_LABEL_CONFIG, getNamePriorityBonus } from '../config/universeLabelConfig';
+import { createConnectionLinesForGroup, createParticleSystemFromGalaxies, updateConnectionLinesOpacity } from './utils/universeRendererUtils';
+import { type LabelData, UniverseLabelManager } from './UniverseLabelManager';
+import { getNamePriorityBonus, VIRGO_SUPERCLUSTER_LABEL_CONFIG } from '../config/universeLabelConfig';
 import { getChineseName } from '../astronomy/universeNames';
 
 export class VirgoSuperclusterRenderer extends BaseUniverseRenderer {

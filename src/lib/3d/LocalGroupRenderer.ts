@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import type { UniverseScaleRenderer, LocalGroupGalaxy, GalaxyType } from '../types/universeTypes';
-import { LOCAL_GROUP_CONFIG, UNIVERSE_SCALE_CONFIG, MEGAPARSEC_TO_AU } from '../config/universeConfig';
-import { UniverseLabelManager, type LabelData } from './UniverseLabelManager';
-import { LOCAL_GROUP_LABEL_CONFIG, getNamePriorityBonus } from '../config/universeLabelConfig';
+import type { GalaxyType, LocalGroupGalaxy, UniverseScaleRenderer } from '../types/universeTypes';
+import { LOCAL_GROUP_CONFIG, MEGAPARSEC_TO_AU, UNIVERSE_SCALE_CONFIG } from '../config/universeConfig';
+import { type LabelData, UniverseLabelManager } from './UniverseLabelManager';
+import { getNamePriorityBonus, LOCAL_GROUP_LABEL_CONFIG } from '../config/universeLabelConfig';
 import { getChineseName } from '../astronomy/universeNames';
 
 export class LocalGroupRenderer implements UniverseScaleRenderer {

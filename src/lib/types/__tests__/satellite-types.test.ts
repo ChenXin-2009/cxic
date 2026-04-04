@@ -4,22 +4,22 @@
  */
 
 import {
-  OrbitType,
-  SatelliteCategory,
-  TLEData,
-  SatelliteState,
-  OrbitalElements,
-  SatelliteAPIResponse,
   ECIPosition,
+  OrbitalElements,
+  OrbitType,
   PropagationResult,
-  SatelliteConfig
+  SatelliteAPIResponse,
+  SatelliteCategory,
+  SatelliteConfig,
+  SatelliteState,
+  TLEData
 } from '../index';
 
 import {
-  satelliteConfig,
   EARTH_RADIUS,
+  getOrbitType,
   ORBIT_ALTITUDE_THRESHOLDS,
-  getOrbitType
+  satelliteConfig
 } from '../../config/satelliteConfig';
 
 describe('卫星类型系统验证', () => {

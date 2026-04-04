@@ -6,7 +6,7 @@
  */
 
 import * as THREE from 'three';
-import { CAMERA_PENETRATION_CONFIG, FOCUS_SETTINGS } from '@/lib/config/cameraConfig';
+import { FOCUS_SETTINGS, PENETRATION_PREVENTION } from '@/lib/config/cameraConfig';
 
 export interface CelestialObject {
   name: string;
@@ -74,7 +74,7 @@ export class FocusManager {
     }
     
     // Ensure minimum safe distance
-    const minSafeDistance = object.radius * CAMERA_PENETRATION_CONFIG.safetyDistanceMultiplier;
+    const minSafeDistance = object.radius * PENETRATION_PREVENTION.safetyDistanceMultiplier;
     focusDistance = Math.max(focusDistance, minSafeDistance);
     
     return focusDistance;
@@ -89,7 +89,7 @@ export class FocusManager {
    */
   checkPenetration(cameraPosition: THREE.Vector3, objectCenter: THREE.Vector3, objectRadius: number): boolean {
     const distance = cameraPosition.distanceTo(objectCenter);
-    const minSafeDistance = objectRadius * CAMERA_PENETRATION_CONFIG.safetyDistanceMultiplier;
+    const minSafeDistance = objectRadius * PENETRATION_PREVENTION.safetyDistanceMultiplier;
     return distance < minSafeDistance;
   }
   
@@ -106,7 +106,7 @@ export class FocusManager {
     objectRadius: number
   ): THREE.Vector3 {
     const distance = cameraPosition.distanceTo(objectCenter);
-    const minSafeDistance = objectRadius * CAMERA_PENETRATION_CONFIG.safetyDistanceMultiplier;
+    const minSafeDistance = objectRadius * PENETRATION_PREVENTION.safetyDistanceMultiplier;
     
     if (distance < minSafeDistance) {
       // Calculate direction from object center to camera

@@ -12,7 +12,7 @@
 
 'use client';
 
-import { useRef, useEffect, memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 
 // ==================== 明日方舟风格配置 ====================
 const ARKNIGHTS_COLORS = {

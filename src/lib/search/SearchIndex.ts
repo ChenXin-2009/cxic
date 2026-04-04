@@ -6,21 +6,21 @@
  */
 
 import * as THREE from 'three';
-import type { SolarSystemState, CelestialBody } from '../state';
+import type { CelestialBody, SolarSystemState } from '../state';
 import type { 
-  LocalGroupGalaxy, 
-  GalaxyGroup, 
   GalaxyCluster, 
+  GalaxyGroup, 
+  LocalGroupGalaxy, 
   Supercluster
 } from '../types/universeTypes';
 import { UniverseScale } from '../types/universeTypes';
 import { planetNames } from '../astronomy/names';
 import { 
+  getChineseName, 
+  LANIAKEA_SUPERCLUSTER_NAMES, 
   LOCAL_GROUP_NAMES, 
-  NEARBY_GROUPS_NAMES, 
-  VIRGO_SUPERCLUSTER_NAMES, 
-  LANIAKEA_SUPERCLUSTER_NAMES,
-  getChineseName 
+  NEARBY_GROUPS_NAMES,
+  VIRGO_SUPERCLUSTER_NAMES 
 } from '../astronomy/universeNames';
 import { MEGAPARSEC_TO_AU } from '../config/universeConfig';
 

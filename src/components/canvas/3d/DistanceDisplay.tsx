@@ -135,7 +135,7 @@ function formatDistance(distanceAU: number): { value: string; unit: string; labe
   return { value: (distanceLY / 1000000).toFixed(2), unit: '百万光年', label };
 }
 
-export default function DistanceDisplay({ distanceAU }: DistanceDisplayProps) {
+export default function DistanceDisplay({ distanceAU, static: isStatic = false }: DistanceDisplayProps & { static?: boolean }) {
   const { value, unit, label } = formatDistance(distanceAU);
   const cfg = DISTANCE_DISPLAY_CONFIG;
   const scale = getUniverseScale(distanceAU);
@@ -147,10 +147,10 @@ export default function DistanceDisplay({ distanceAU }: DistanceDisplayProps) {
   return (
     <div
       style={{
-        position: 'absolute',
-        left: `${cfg.left}px`,
-        top: '50%',
-        transform: 'translateY(-50%)',
+        position: isStatic ? 'static' : 'absolute',
+        left: isStatic ? undefined : `${cfg.left}px`,
+        top: isStatic ? undefined : '50%',
+        transform: isStatic ? undefined : 'translateY(-50%)',
         color: cfg.textColor,
         fontSize: `${cfg.titleFontSize}px`,
         fontFamily: cfg.fontFamily,

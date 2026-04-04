@@ -71,8 +71,8 @@
 import * as THREE from 'three';
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import type { CelestialBody } from '@/lib/astronomy/orbit';
-import { CelestialBodyConfig, rotationPeriodToSpeed, calculateRotationAxis, CELESTIAL_BODIES } from '@/lib/types/celestialTypes';
-import { MARKER_CONFIG, SUN_GLOW_CONFIG, SUN_RAINBOW_LAYERS, SUN_STAR_SPIKES_CONFIG, PLANET_LOD_CONFIG, PLANET_GRID_CONFIG, PLANET_LIGHTING_CONFIG, getCelestialMaterialParams, SATURN_RING_CONFIG, SUN_SHADER_CONFIG } from '@/lib/config/visualConfig';
+import { calculateRotationAxis, CELESTIAL_BODIES, CelestialBodyConfig, rotationPeriodToSpeed } from '@/lib/types/celestialTypes';
+import { getCelestialMaterialParams, MARKER_CONFIG, PLANET_GRID_CONFIG, PLANET_LIGHTING_CONFIG, PLANET_LOD_CONFIG, SATURN_RING_CONFIG, SUN_GLOW_CONFIG, SUN_RAINBOW_LAYERS, SUN_SHADER_CONFIG, SUN_STAR_SPIKES_CONFIG } from '@/lib/config/visualConfig';
 
 // 真实行星半径（AU单位）
 // 1 AU = 149,597,870 km

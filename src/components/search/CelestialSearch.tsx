@@ -14,7 +14,7 @@
 
 'use client';
 
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import SearchBox from './SearchBox';
 import SuggestionList, { type SearchResult } from './SuggestionList';
 import { SearchEngine } from '@/lib/search/SearchEngine';
@@ -22,6 +22,7 @@ import { SearchIndex } from '@/lib/search/SearchIndex';
 import { NavigationHandler } from '@/lib/search/NavigationHandler';
 import { SearchHistory } from '@/lib/search/SearchHistory';
 import { useSolarSystemStore } from '@/lib/state';
+import { useTranslation } from '@/hooks/useTranslation';
 import type { SceneManager } from '@/lib/3d/SceneManager';
 import type { CameraController } from '@/lib/3d/CameraController';
 
@@ -120,7 +121,7 @@ export default function CelestialSearch({
   // ==================== Store ====================
   
   const store = useSolarSystemStore();
-  const lang = useSolarSystemStore((state) => state.lang);
+  const { t } = useTranslation();
 
   // ==================== 初始化搜索引擎和索引 ====================
   
@@ -557,7 +558,7 @@ export default function CelestialSearch({
               clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)',
               position: 'relative',
             }}
-            aria-label={lang === 'zh' ? '搜索天体' : 'Search celestial objects'}
+            aria-label={t('search.title')}
           >
             {/* 左上角菱形装饰 */}
             <div 
@@ -585,7 +586,7 @@ export default function CelestialSearch({
               }}
             />
             
-            {lang === 'zh' ? '搜索天体' : 'SEARCH'}
+            {t('search.title')}
           </button>
         </div>
       )}
@@ -608,7 +609,7 @@ export default function CelestialSearch({
             onFocus={handleFocus}
             onBlur={handleBlur}
             onClear={handleClear}
-            placeholder={lang === 'zh' ? '搜索天体（Ctrl+K 或 /）' : 'Search celestial objects (Ctrl+K or /)'}
+            placeholder={t('search.placeholder')}
             isFocused={state.isOpen}
           />
         </div>
@@ -631,7 +632,7 @@ export default function CelestialSearch({
             selectedIndex={state.selectedIndex}
             onSelect={navigateToResult}
             onHover={handleHover}
-            lang={lang}
+            lang={store.lang}
           />
         </div>
       )}
@@ -654,7 +655,7 @@ export default function CelestialSearch({
             pointerEvents: 'none',
           }}
         >
-          {lang === 'zh' ? '搜索中...' : 'Searching...'}
+          {t('common.searching')}
         </div>
       )}
     </div>

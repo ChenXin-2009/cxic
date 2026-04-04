@@ -10,7 +10,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { SatelliteDetailData, SatelliteCategory } from '@/lib/types/satellite';
+import { SatelliteCategory, SatelliteDetailData } from '@/lib/types/satellite';
 
 // ============ 辅助函数 ============
 

@@ -4,7 +4,7 @@
  * 显示卫星的完整详细信息，支持实时数据更新
  */
 
-import { useEffect, useState, useMemo, memo } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { useSatelliteStore } from '@/lib/store/useSatelliteStore';
 import { SatelliteDetailData } from '@/lib/types/satellite';
 

@@ -8,7 +8,7 @@
  */
 
 import { ObserverModeController, PlanetaryPositionProvider } from './observer';
-import { Vector3, ObserverMode, AberrationMode } from './types';
+import { AberrationMode, ObserverMode, Vector3 } from './types';
 
 /**
  * Mock planetary position provider for testing

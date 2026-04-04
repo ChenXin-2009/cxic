@@ -37,7 +37,6 @@ export {
   SATELLITE_DEFINITIONS,
   calculatePosition,
   getCelestialBodies,
-  initializeSatelliteCalculator,
   initializeAllBodiesCalculator
 } from './orbit';
 

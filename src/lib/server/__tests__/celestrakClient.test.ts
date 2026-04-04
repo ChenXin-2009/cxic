@@ -2,7 +2,7 @@
  * Celestrak客户端单元测试
  */
 
-import { describe, it, expect } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import { CelestrakClient } from '@/lib/server/celestrakClient';
 import { SatelliteCategory } from '@/lib/types/satellite';
 

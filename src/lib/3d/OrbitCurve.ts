@@ -13,7 +13,7 @@
 
 import * as THREE from 'three';
 import type { OrbitalElements } from '@/lib/astronomy/orbit';
-import { ORBIT_GRADIENT_CONFIG, ORBIT_RENDER_CONFIG, ORBIT_STYLE_CONFIG, ORBIT_FADE_CONFIG } from '@/lib/config/visualConfig';
+import { ORBIT_FADE_CONFIG, ORBIT_GRADIENT_CONFIG, ORBIT_RENDER_CONFIG, ORBIT_STYLE_CONFIG } from '@/lib/config/visualConfig';
 
 export class OrbitCurve {
   private root: THREE.Group;
