@@ -72,11 +72,6 @@ export class FlightController {
     try {
       const client = getOpenSkyClient();
 
-      // 设置凭证
-      if (config.openSkyUsername && config.openSkyPassword) {
-        client.setCredentials(config.openSkyUsername, config.openSkyPassword);
-      }
-
       const bbox = config.boundingBox ?? this.getCameraViewBbox();
       const states = bbox
         ? await client.getStatesByBoundingBox(bbox)

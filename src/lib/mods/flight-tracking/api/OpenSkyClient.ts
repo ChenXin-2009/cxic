@@ -11,16 +11,6 @@ import { OpenSkyError } from './errors';
 const PROXY_BASE = '/api/flights';
 
 export class OpenSkyClient {
-  private credentials: { username: string; password: string } | null = null;
-
-  setCredentials(username: string, password: string): void {
-    this.credentials = { username, password };
-  }
-
-  clearCredentials(): void {
-    this.credentials = null;
-  }
-
   /**
    * 获取全球航班状态
    */
@@ -62,16 +52,10 @@ export class OpenSkyClient {
     if (bbox.lamax !== undefined) params.set('lamax', String(bbox.lamax));
     if (bbox.lomax !== undefined) params.set('lomax', String(bbox.lomax));
 
-    // 凭证通过 query 传给代理（代理在服务端处理，不暴露给第三方）
-    if (this.credentials) {
-      params.set('username', this.credentials.username);
-      params.set('password', this.credentials.password);
-    }
-
     const url = `${PROXY_BASE}${params.size ? `?${params}` : ''}`;
 
     const response = await fetch(url, {
-      signal: AbortSignal.timeout(10000),
+      signal: AbortSignal.timeout(20000),
     });
 
     if (!response.ok) {

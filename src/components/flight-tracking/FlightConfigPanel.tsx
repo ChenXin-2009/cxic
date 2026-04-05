@@ -18,15 +18,11 @@ export function FlightConfigPanel({ lang = 'zh', onClose }: FlightConfigPanelPro
   const { config, setConfig } = useFlightStore();
 
   const [interval, setInterval] = useState(String(config.updateInterval / 1000));
-  const [username, setUsername] = useState(config.openSkyUsername ?? '');
-  const [password, setPassword] = useState(config.openSkyPassword ?? '');
 
   const handleSave = useCallback(() => {
     const secs = parseInt(interval);
     setConfig({
       updateInterval: isNaN(secs) || secs < 5 ? 10000 : secs * 1000,
-      openSkyUsername: username || undefined,
-      openSkyPassword: password || undefined,
     });
 
     // 持久化到 localStorage
@@ -40,7 +36,7 @@ export function FlightConfigPanel({ lang = 'zh', onClose }: FlightConfigPanelPro
     }
 
     onClose?.();
-  }, [interval, username, password, config, setConfig, onClose]);
+  }, [interval, config, setConfig, onClose]);
 
   return (
     <div className="w-72 bg-gray-900/95 backdrop-blur-sm border border-white/10 rounded-xl shadow-2xl text-white">
@@ -87,27 +83,12 @@ export function FlightConfigPanel({ lang = 'zh', onClose }: FlightConfigPanelPro
           />
         </div>
 
-        {/* OpenSky 凭证 */}
-        <div>
-          <label className="text-xs text-white/50 block mb-1">{t(lang, 'apiCredentials')}</label>
-          <input
-            type="text"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-            placeholder={t(lang, 'username')}
-            className="w-full bg-white/10 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30 mb-2"
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            placeholder={t(lang, 'password')}
-            className="w-full bg-white/10 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30"
-          />
-          <p className="text-xs text-white/30 mt-1">
+        {/* OpenSky 认证状态提示 */}
+        <div className="rounded-lg bg-white/5 border border-white/10 px-3 py-2">
+          <p className="text-xs text-white/40">
             {lang === 'zh'
-              ? '认证用户可获得更高频率的数据更新'
-              : 'Authenticated users get higher rate limits'}
+              ? 'OpenSky 认证凭证由服务端环境变量配置，可提升数据更新频率'
+              : 'OpenSky credentials are configured via server env vars for higher rate limits'}
           </p>
         </div>
 

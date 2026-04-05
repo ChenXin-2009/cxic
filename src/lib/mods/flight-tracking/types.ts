@@ -112,12 +112,11 @@ export interface BoundingBox {
 
 /**
  * MOD 配置
+ * 注意：OpenSky 凭证不在此存储，应通过服务端环境变量 OPENSKY_USERNAME / OPENSKY_PASSWORD 配置
  */
 export interface FlightTrackingConfig {
   updateInterval: number;          // 更新间隔 ms，默认 10000
   boundingBox: BoundingBox | null; // null 表示全球
-  openSkyUsername?: string;
-  openSkyPassword?: string;
   aircraftStyle: 'icon' | 'model' | 'auto';
   showFlightPath: boolean;
   showLabels: boolean;
