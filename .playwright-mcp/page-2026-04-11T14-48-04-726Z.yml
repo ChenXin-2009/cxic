@@ -1,0 +1,129 @@
+- generic [active] [ref=e1]:
+  - status "页面加载中" [ref=e2]:
+    - generic [ref=e3]: 正在加载页面资源，请稍候...
+    - generic [ref=e4]:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - img
+            - generic:
+              - img
+          - generic: LOADING
+    - img "CXIC Logo" [ref=e6]
+    - generic [ref=e7]:
+      - generic:
+        - generic:
+          - generic:
+            - generic: "[22:48:04.658]"
+            - generic: "[INFO]"
+            - generic: ========================================
+          - generic:
+            - generic: "[22:48:04.659]"
+            - generic: "[INFO]"
+            - generic: COSMIC EXPLORER v3.0.0 - SYSTEM BOOT
+          - generic:
+            - generic: "[22:48:04.685]"
+            - generic: "[INFO]"
+            - generic: ========================================
+          - generic:
+            - generic: "[22:48:04.685]"
+            - generic: "[INFO]"
+            - generic: Initializing core systems...
+          - generic:
+            - generic: "[22:48:04.685]"
+            - generic: "[INFO]"
+            - generic: Checking browser compatibility...
+          - generic:
+            - generic: "[22:48:04.685]"
+            - generic: "[INFO]"
+            - generic: "User Agent: Chrome/131.0.0.0"
+          - generic:
+            - generic: "[22:48:04.685]"
+            - generic: "[INFO]"
+            - generic: "Platform: Windows NT 10.0"
+          - generic:
+            - generic: "[22:48:04.685]"
+            - generic: "[INFO]"
+            - generic: "Screen resolution: 1920x1080"
+          - generic:
+            - generic: "[22:48:04.685]"
+            - generic: "[INFO]"
+            - generic: "Device pixel ratio: 1.0"
+          - generic:
+            - generic: "[22:48:04.685]"
+            - generic: "[INFO]"
+            - generic: "Available memory: 8192 MB"
+          - generic:
+            - generic: "[22:48:04.685]"
+            - generic: "[OK]"
+            - generic: Browser compatibility check passed
+          - generic:
+            - generic: "[22:48:04.687]"
+            - generic: "[INFO]"
+            - generic: Checking WebGL 2.0 support...
+          - generic:
+            - generic: "[22:48:04.694]"
+            - generic: "[OK]"
+            - generic: WebGL 2.0 context available
+          - generic:
+            - generic: "[22:48:04.695]"
+            - generic: "[INFO]"
+            - generic: "GPU Vendor: NVIDIA Corporation"
+    - generic [ref=e8]:
+      - generic:
+        - generic:
+          - generic:
+            - generic: "00000000"
+            - generic: 55 9F 31 E7 F7 2E 0E 25 C2 36 E8 ED E7 F1 10 59
+            - generic: "|..im.Va.+.....xH|"
+  - generic [ref=e9]:
+    - img "CXIC Logo" [ref=e11] [cursor=pointer]
+    - button "切换语言" [ref=e13]:
+      - img [ref=e14]
+      - generic [ref=e17]: 中
+      - img [ref=e18]
+    - generic [ref=e20]:
+      - button "关于" [ref=e21] [cursor=pointer]: 关于
+      - button "星历状态" [ref=e24] [cursor=pointer]: 星历状态
+      - button "MOD Manager" [ref=e27] [cursor=pointer]: MOD
+      - generic:
+        - button "解除地球锁定":
+          - generic:
+            - img
+            - generic:
+              - generic: 地球锁定
+              - generic: LOCKED
+        - button "关闭地球光照":
+          - generic:
+            - img
+            - generic:
+              - generic: 地球光照
+              - generic: DAY/NIGHT
+      - generic [ref=e30]:
+        - generic [ref=e32]:
+          - generic:
+            - generic:
+              - generic: 当前尺度
+              - generic: 太阳系
+              - generic: 距地球
+              - generic: "30.02"
+              - generic: AU
+            - generic:
+              - generic: ＋
+              - generic: －
+          - button "搜索天体" [ref=e46] [cursor=pointer]: 搜索天体
+          - button "设置" [ref=e49]:
+            - img [ref=e52]
+        - generic:
+          - generic:
+            - generic: 2026-04-11
+            - generic:
+              - generic: 现在
+              - button "选择日期" [ref=e55] [cursor=pointer]:
+                - img [ref=e56]
+            - generic: 14:45:16
+          - generic [ref=e59]:
+            - img
+            - generic: 暂停
+  - alert [ref=e60]

@@ -478,8 +478,12 @@ export class CesiumAdapter {
         // 导致 Cesium 内部的 WebGL viewport 与实际 canvas 尺寸不一致，
         // 重新显示后会出现渲染错位或黑屏。此处手动同步尺寸并调用 viewer.resize() 修复。
         try {
-          // 保持 Cesium 相机控制器禁用（由 Three.js OrbitControls 驱动）
-          this.viewer.scene.screenSpaceCameraController.enableInputs = false;
+          // ⚠️ 修复：不要在这里修改相机控制器状态
+          // 相机控制器的启用/禁用应该由 setNativeCameraEnabled() 统一管理
+          // 这里强制禁用会导致在 Vercel 部署环境中,即使调用了 setNativeCameraEnabled(true)
+          // 相机控制器仍然被禁用,导致无法交互
+          // this.viewer.scene.screenSpaceCameraController.enableInputs = false;
+          
           // 重新设置容器和 canvas 尺寸（display:none 期间可能丢失）
           const parent = this.config.parentElement ?? document.body;
           const w = parent.clientWidth || window.innerWidth;

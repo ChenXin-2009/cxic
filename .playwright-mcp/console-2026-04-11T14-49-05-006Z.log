@@ -1,0 +1,183 @@
+[    3269ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3323ms] [WARNING] %c%s%c  [33m[1m⚠[22m[39m Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3478ms] [LOG] Initializing celestial bodies... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3480ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.117459294 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3481ms] [LOG] Loaded 21 celestial bodies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3537ms] [LOG] [SatelliteStore] 从本地存储恢复状态 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3537ms] [LOG] [SatelliteStore] 筛选后可见卫星: 0 / 0 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3589ms] [LOG] Initializing scene with 21 celestial bodies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3614ms] [LOG] [GaiaStars] 开始加载数据... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3630ms] [LOG] SatelliteLayer initialized @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3633ms] [LOG] [SolarSystemCanvas3D] OrbitControls initialized and enabled: true @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3693ms] [LOG] [EarthPlanet] setCesiumEnabled called with: false @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3694ms] [LOG] [EarthPlanet] Disabling Cesium canvas overlay @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3694ms] [LOG] [EarthPlanet] Cesium disabled, planet mesh restored @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3721ms] [LOG] [SolarSystemCanvas3D] Setting Cesium enabled: false @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3721ms] [LOG] [EarthPlanet] setCesiumEnabled called with: false @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3722ms] [LOG] [EarthPlanet] Disabling Cesium canvas overlay @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3722ms] [LOG] [EarthPlanet] Cesium disabled, planet mesh restored @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3722ms] [LOG] [SolarSystemCanvas3D] OrbitControls always enabled @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3724ms] [LOG] [MOD Manager] 已注册MOD: satellite-tracking @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3724ms] [LOG] [MOD Manager] 已注册MOD: cesium-integration @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3724ms] [LOG] [MOD Manager] 已注册MOD: weather-disaster @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3725ms] [LOG] [MOD Manager] 已注册MOD: global-traffic @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3725ms] [LOG] [MOD Manager] 已注册MOD: space-launches @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3725ms] [LOG] [MODs] 核心MOD注册完成 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3726ms] [INFO] [satellite-tracking] [Satellite Tracking] MOD加载中... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3771ms] [WARNING] Image with src "http://localhost:3000/LOGO/logolw.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3874ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/data/satellites.json:0
+[    3874ms] [WARNING] [SatelliteAPI] 卫星数据文件不存在，跳过加载 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3875ms] [INFO] [satellite-tracking] [Satellite Tracking] 卫星数据加载完成 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3875ms] [INFO] [satellite-tracking] [Satellite Tracking] MOD启用 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3878ms] [LOG] [MOD Manager] 已自动启用MOD: satellite-tracking @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3878ms] [INFO] [cesium-integration] [Cesium Integration] MOD加载中... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3882ms] [LOG] [SatelliteStore] 获取卫星数据: active @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3883ms] [INFO] [cesium-integration] [Cesium Integration] MOD启用 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3884ms] [LOG] [MOD Manager] 已自动启用MOD: cesium-integration @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3891ms] [LOG] [SolarSystemCanvas3D] Setting Cesium enabled: true @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3891ms] [LOG] [EarthPlanet] setCesiumEnabled called with: true @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3894ms] [LOG] [CesiumAdapter] camera altitude (m): 4490429846995 near: 1000.0 far: 449042984699494 cesiumPos(m): 1537013510546 -817062020982 4139325615381 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3895ms] [LOG] [EarthPlanet] Initial camera synced Three.js → Cesium @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3915ms] [LOG] [EarthPlanet] Cesium enabled, mesh switched to depth-only @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3916ms] [LOG] [SolarSystemCanvas3D] OrbitControls always enabled @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3990ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    3995ms] [LOG] SGP4 Worker已就绪 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    4542ms] [LOG] [SatelliteStore] 设置搜索查询: "" @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    4543ms] [LOG] [SatelliteStore] 筛选后可见卫星: 0 / 0 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    4552ms] [LOG] Auto-focused on Earth @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    4629ms] [LOG] LocalGroupRenderer initialized with 101 galaxies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    4725ms] [LOG] [GaiaStars] 加载了 477076 颗恒星 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    4727ms] [LOG] [GaiaStars] 亮星数量: 548 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    4788ms] [LOG] [GaiaStars] 星等范围: 1.94 到 10.00 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    4788ms] [LOG] [GaiaStars] 数据加载完成 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    4834ms] [LOG] NearbyGroupsRenderer initialized with 52 groups and 695 galaxies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    4913ms] [LOG] VirgoSuperclusterRenderer initialized with 113 clusters and 2321 galaxies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    4927ms] [LOG] [CameraSynchronizer] Three.js → Cesium sync: {threePos: Object, threeDir: Object, threeUp: Object, cesiumPos: Object, cesiumDir: Object} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5045ms] [LOG] [UniverseDataLoader] Supercluster count: 13 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5048ms] [LOG] [UniverseDataLoader] Supercluster 0: Virgo Supercluster Core, center=(-24.7, 19.3, 36.8), members=5365 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5048ms] [LOG] [UniverseDataLoader] Supercluster 1: Centaurus Supercluster, center=(-82.0, 18.1, 115.9), members=2320 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5048ms] [LOG] [UniverseDataLoader] Supercluster 2: Southern Supercluster, center=(-78.4, 87.3, 115.6), members=1607 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5049ms] [LOG] [UniverseDataLoader] Parsed 13 superclusters, 13800 total galaxies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5727ms] [LOG] LaniakeaSuperclusterRenderer initialized with 13 superclusters and 13800 galaxies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5727ms] [LOG] Universe renderers initialization complete @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5752ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1174703124 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5838ms] [LOG] %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5838ms] [LOG] %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {route: /, path: /} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5839ms] [LOG] %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {o: http://localhost:3000/, sv: 0.1.3, sdkn: @vercel/analytics/next, sdkv: 1.5.0, ts: 1775918950844} /_vercel/insights/view @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5842ms] [LOG] %c[Vercel Speed Insights]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    5904ms] [LOG] [CesiumAdapter] camera altitude (m): 279028848038 near: 1000.0 far: 27902884803768 cesiumPos(m): -8792111586 -110095325275 256246700642 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    6307ms] [LOG] [RenderingMode] Switching to cesium_primary mode @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    6307ms] [LOG] [RenderingMode] Final camera sync: Three.js → Cesium before mode switch @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    6308ms] [LOG] [CesiumAdapter] Native camera enabled with full controls, z-index: 2 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    6308ms] [LOG] [CesiumAdapter] Camera position: Cartesian3 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    6308ms] [LOG] [CesiumAdapter] Camera height: 1456647216.6138496 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    6308ms] [LOG] [CesiumAdapter] Frustum reset to Cesium defaults (near: 0.1, far: 5e8) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    6308ms] [LOG] [CameraController] Switching to Cesium primary mode @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    6308ms] [LOG] [CameraController] Earth Lock paused for Cesium mode @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    6308ms] [LOG] [RenderingMode] Successfully switched to cesium_primary mode @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    7763ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.117493796 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[    9526ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0f0ba101._.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/:0
+[    9769ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.117517014 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   11775ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.11754022 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   13782ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.117563449 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   13895ms] [ERROR] [SatelliteStore] 获取卫星数据失败: signal timed out @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:3117
+[   15789ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1175866667 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   17261ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0f0ba101._.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/:0
+[   17801ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1176099535 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   19810ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1176331947 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   21821ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1176565047 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   23832ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1176797687 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   25837ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.117702986 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   27843ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1177261807 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   29853ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1177494675 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   31862ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.11777272 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   33872ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.117795984 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   35877ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.11781919 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   37883ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1178424074 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   39890ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1178656365 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   41894ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1178888427 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   43901ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.11791206 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   45909ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.117935301 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   47921ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.117958565 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   49929ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1179818055 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   51939ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118005046 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   53947ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118028322 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   55957ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1180515974 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   57961ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1180747915 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   59968ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118098021 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   61975ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118121227 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62149ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62487ms] [LOG] Initializing scene with 21 celestial bodies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62507ms] [LOG] [GaiaStars] 开始加载数据... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62525ms] [LOG] SatelliteLayer initialized @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62527ms] [LOG] [SolarSystemCanvas3D] OrbitControls initialized and enabled: true @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62558ms] [LOG] [EarthPlanet] setCesiumEnabled called with: true @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62559ms] [LOG] [EarthPlanet] Cesium enabled, mesh switched to depth-only @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62576ms] [LOG] [SolarSystemCanvas3D] Setting Cesium enabled: true @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62577ms] [LOG] [EarthPlanet] setCesiumEnabled called with: true @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62577ms] [LOG] [CesiumAdapter] camera altitude (m): 4490429847840 near: 1000.0 far: 449042984783957 cesiumPos(m): -1472031809678 -927776748648 4139609896044 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62578ms] [LOG] [EarthPlanet] Initial camera synced Three.js → Cesium @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62578ms] [LOG] [EarthPlanet] Cesium enabled, mesh switched to depth-only @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62578ms] [LOG] [SolarSystemCanvas3D] OrbitControls always enabled @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62602ms] [LOG] [RenderingMode] Switching to three_primary mode @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62602ms] [LOG] [RenderingMode] Final camera sync: Cesium → Three.js before mode switch @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62602ms] [LOG] [RenderingMode] OrbitControls state reset, inertia cleared @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62602ms] [LOG] [CesiumAdapter] Native camera disabled, z-index: 0 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62602ms] [LOG] [CameraController] Switching to Three.js primary mode @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62602ms] [LOG] [RenderingMode] Successfully switched to three_primary mode @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   62823ms] [LOG] [Fast Refresh] done in 436ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63208ms] [LOG] SGP4 Worker已就绪 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63209ms] [LOG] Auto-focused on Earth @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63253ms] [LOG] LocalGroupRenderer initialized with 101 galaxies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63298ms] [LOG] [GaiaStars] 加载了 477076 颗恒星 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63302ms] [LOG] [GaiaStars] 亮星数量: 548 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63374ms] [LOG] [GaiaStars] 星等范围: 1.94 到 10.00 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63374ms] [LOG] [GaiaStars] 数据加载完成 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63417ms] [LOG] NearbyGroupsRenderer initialized with 52 groups and 695 galaxies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63484ms] [LOG] VirgoSuperclusterRenderer initialized with 113 clusters and 2321 galaxies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63586ms] [LOG] [UniverseDataLoader] Supercluster count: 13 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63587ms] [LOG] [UniverseDataLoader] Supercluster 0: Virgo Supercluster Core, center=(-24.7, 19.3, 36.8), members=5365 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63588ms] [LOG] [UniverseDataLoader] Supercluster 1: Centaurus Supercluster, center=(-82.0, 18.1, 115.9), members=2320 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63589ms] [LOG] [UniverseDataLoader] Supercluster 2: Southern Supercluster, center=(-78.4, 87.3, 115.6), members=1607 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   63590ms] [LOG] [UniverseDataLoader] Parsed 13 superclusters, 13800 total galaxies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64326ms] [LOG] LaniakeaSuperclusterRenderer initialized with 13 superclusters and 13800 galaxies @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64327ms] [LOG] Universe renderers initialization complete @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64343ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1181362267 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64587ms] [LOG] [CesiumAdapter] camera altitude (m): 21290193399 near: 1000.0 far: 2129019339928 cesiumPos(m): -6980919792 -4400757960 19632721244 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64882ms] [LOG] [RenderingMode] Switching to cesium_primary mode @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64882ms] [LOG] [RenderingMode] Final camera sync: Three.js → Cesium before mode switch @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64882ms] [LOG] [CesiumAdapter] Native camera enabled with full controls, z-index: 2 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64882ms] [LOG] [CesiumAdapter] Camera position: Cartesian3 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64882ms] [LOG] [CesiumAdapter] Camera height: 1220833637.5012693 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64882ms] [LOG] [CesiumAdapter] Frustum reset to Cesium defaults (near: 0.1, far: 5e8) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64882ms] [LOG] [CameraController] Switching to Cesium primary mode @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64882ms] [LOG] [CameraController] Earth Lock paused for Cesium mode @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   64883ms] [LOG] [RenderingMode] Successfully switched to cesium_primary mode @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   66354ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1181596066 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   66555ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0f0ba101._.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/:0
+[   68366ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1181828934 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   70371ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1182061112 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   72383ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1182293864 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   74396ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118252697 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   74970ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   76408ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1182759604 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   76526ms] [LOG] [Fast Refresh] done in 1684ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   78344ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0f0ba101._.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/:0
+[   78419ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1182992477 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   80429ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1183225117 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   82439ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118345787 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   84459ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118369155 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   86469ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118392419 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   88478ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1184156714 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   90487ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1184389237 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   92494ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118462153 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   94500ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118485382 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   96509ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118508634 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[   98522ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.11853191 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[  100535ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.11855522 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[  102541ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118578449 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[  104553ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.1186017245 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[  106560ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118624965 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[  108570ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.118648229 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287
+[  110579ms] [LOG] getCelestialBodies: Loaded 21 bodies for JD 2461142.11867147 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_7a8122d0._.js:2287

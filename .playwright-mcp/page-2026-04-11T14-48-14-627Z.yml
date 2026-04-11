@@ -1,0 +1,63 @@
+- generic [ref=e1]:
+  - generic [ref=e9]:
+    - img "CXIC Logo" [ref=e11] [cursor=pointer]
+    - button "切换语言" [ref=e13]:
+      - img [ref=e14]
+      - generic [ref=e17]: 中
+      - img [ref=e18]
+    - generic [ref=e20]:
+      - button "关于" [ref=e21] [cursor=pointer]: 关于
+      - button "星历状态" [ref=e24] [cursor=pointer]: 星历状态
+      - button "MOD Manager" [ref=e27] [cursor=pointer]: MOD
+      - generic [ref=e61]:
+        - button "Enable Cesium" [active] [ref=e221] [cursor=pointer]:
+          - generic [ref=e65]:
+            - img [ref=e66]
+            - generic [ref=e68]:
+              - generic [ref=e69]: CESIUM 地球
+              - generic [ref=e70]: DISABLED
+        - button "解除地球锁定" [ref=e72] [cursor=pointer]:
+          - generic [ref=e75]:
+            - img [ref=e76]
+            - generic [ref=e78]:
+              - generic [ref=e79]: 地球锁定
+              - generic [ref=e80]: LOCKED
+        - button "关闭地球光照" [ref=e82] [cursor=pointer]:
+          - generic [ref=e85]:
+            - img [ref=e86]
+            - generic [ref=e88]:
+              - generic [ref=e89]: 地球光照
+              - generic [ref=e90]: DAY/NIGHT
+        - button "地球卫星" [ref=e93] [cursor=pointer]:
+          - generic [ref=e96]:
+            - img [ref=e97]
+            - generic [ref=e99]:
+              - generic [ref=e100]: 地球卫星
+              - generic [ref=e101]: 15001 颗
+      - generic [ref=e30]:
+        - generic [ref=e32]:
+          - generic:
+            - generic:
+              - generic: 当前尺度
+              - generic: 太阳系
+              - generic: 距地表
+              - generic: "1.4566"
+              - generic: 百万km
+            - generic:
+              - generic: ＋
+              - generic: －
+          - button "搜索天体" [ref=e46] [cursor=pointer]: 搜索天体
+          - button "设置" [ref=e49]:
+            - img [ref=e52]
+        - generic:
+          - generic:
+            - generic: 2026-04-11
+            - generic:
+              - generic: 现在
+              - button "选择日期" [ref=e55] [cursor=pointer]:
+                - img [ref=e56]
+            - generic: 22:48:13
+          - generic [ref=e59]:
+            - img
+            - generic: 暂停
+  - alert [ref=e60]

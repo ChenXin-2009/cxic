@@ -1,0 +1,161 @@
+- generic [ref=e1]:
+  - generic [ref=e9]:
+    - img "CXIC Logo" [ref=e11] [cursor=pointer]
+    - button "切换语言" [ref=e13]:
+      - img [ref=e14]
+      - generic [ref=e17]: 中
+      - img [ref=e18]
+    - generic [ref=e20]:
+      - button "关于" [ref=e21] [cursor=pointer]: 关于
+      - button "星历状态" [ref=e24] [cursor=pointer]: 星历状态
+      - button "MOD Manager" [ref=e27] [cursor=pointer]: MOD
+      - generic [ref=e61]:
+        - button "Disable Cesium" [active] [ref=e222] [cursor=pointer]:
+          - generic [ref=e65]:
+            - img [ref=e66]
+            - generic [ref=e68]:
+              - generic [ref=e69]: CESIUM 地球
+              - generic [ref=e70]: ENABLED
+        - button "解除地球锁定" [ref=e72] [cursor=pointer]:
+          - generic [ref=e75]:
+            - img [ref=e76]
+            - generic [ref=e78]:
+              - generic [ref=e79]: 地球锁定
+              - generic [ref=e80]: LOCKED
+        - button "关闭地球光照" [ref=e82] [cursor=pointer]:
+          - generic [ref=e85]:
+            - img [ref=e86]
+            - generic [ref=e88]:
+              - generic [ref=e89]: 地球光照
+              - generic [ref=e90]: DAY/NIGHT
+        - button "地球卫星" [ref=e93] [cursor=pointer]:
+          - generic [ref=e96]:
+            - img [ref=e97]
+            - generic [ref=e99]:
+              - generic [ref=e100]: 地球卫星
+              - generic [ref=e101]: 15001 颗
+      - generic [ref=e223]:
+        - generic [ref=e226] [cursor=pointer]:
+          - generic [ref=e228]: 地图源
+          - generic [ref=e229]: ▼
+        - generic [ref=e230]:
+          - generic [ref=e231]:
+            - generic [ref=e234]: 通用地图
+            - generic [ref=e235] [cursor=pointer]:
+              - img "Bing Maps" [ref=e237]
+              - generic [ref=e238]:
+                - generic [ref=e239]:
+                  - generic [ref=e240]: Bing Maps
+                  - generic [ref=e241]: ✓
+                - generic [ref=e242]: Cesium 内置卫星影像
+            - generic [ref=e243] [cursor=pointer]:
+              - img "ESRI 卫星影像" [ref=e245]
+              - generic [ref=e246]:
+                - generic [ref=e248]: ESRI 卫星影像
+                - generic [ref=e249]: 高分辨率卫星图像
+            - generic [ref=e250] [cursor=pointer]:
+              - img "OpenStreetMap" [ref=e252]
+              - generic [ref=e253]:
+                - generic [ref=e255]: OpenStreetMap
+                - generic [ref=e256]: 开源街道地图
+            - generic [ref=e257] [cursor=pointer]:
+              - img "ESRI 街道地图" [ref=e259]
+              - generic [ref=e260]:
+                - generic [ref=e262]: ESRI 街道地图
+                - generic [ref=e263]: 详细街道和地名
+            - generic [ref=e264] [cursor=pointer]:
+              - img "CartoDB 暗色" [ref=e266]
+              - generic [ref=e267]:
+                - generic [ref=e269]: CartoDB 暗色
+                - generic [ref=e270]: 深色背景地图
+            - generic [ref=e271] [cursor=pointer]:
+              - img "ESRI 国家地理" [ref=e273]
+              - generic [ref=e274]:
+                - generic [ref=e276]: ESRI 国家地理
+                - generic [ref=e277]: 国家地理风格地图
+          - generic [ref=e278]:
+            - generic [ref=e281]: NASA 实时卫星
+            - generic [ref=e282] [cursor=pointer]:
+              - img "MODIS Terra 真彩色" [ref=e284]
+              - generic [ref=e285]:
+                - generic [ref=e287]: MODIS Terra 真彩色
+                - generic [ref=e288]:
+                  - text: NASA 每日卫星真彩色图像（2026-04-09）
+                  - generic [ref=e289]: ● 实时
+            - generic [ref=e290] [cursor=pointer]:
+              - img "MODIS Aqua 真彩色" [ref=e292]
+              - generic [ref=e293]:
+                - generic [ref=e295]: MODIS Aqua 真彩色
+                - generic [ref=e296]:
+                  - text: NASA Aqua 卫星每日图像（2026-04-09）
+                  - generic [ref=e297]: ● 实时
+            - generic [ref=e298] [cursor=pointer]:
+              - img "VIIRS 夜间灯光" [ref=e300]
+              - generic [ref=e301]:
+                - generic [ref=e303]: VIIRS 夜间灯光
+                - generic [ref=e304]: NASA 夜间城市灯光图像（2016年）
+            - generic [ref=e305] [cursor=pointer]:
+              - generic [ref=e307]: ✕
+              - generic [ref=e308]:
+                - generic [ref=e310]: MODIS 火点检测
+                - generic [ref=e311]:
+                  - text: NASA 每日火灾热点（2026-04-10）
+                  - generic [ref=e312]: ● 实时
+            - generic [ref=e313] [cursor=pointer]:
+              - generic [ref=e315]: ✕
+              - generic [ref=e316]:
+                - generic [ref=e318]: VIIRS 昼夜波段
+                - generic [ref=e319]:
+                  - text: VIIRS 昼夜波段每日图像（2026-04-09）
+                  - generic [ref=e320]: ● 实时
+            - generic [ref=e321] [cursor=pointer]:
+              - generic [ref=e323]: ✕
+              - generic [ref=e324]:
+                - generic [ref=e326]: MODIS 积雪覆盖
+                - generic [ref=e327]:
+                  - text: 每日积雪范围（2026-04-09）
+                  - generic [ref=e328]: ● 实时
+      - generic [ref=e30]:
+        - generic [ref=e32]:
+          - generic:
+            - generic:
+              - generic: 当前尺度
+              - generic: 太阳系
+              - generic: 距地表
+              - generic: "1.4566"
+              - generic: 百万km
+            - generic:
+              - generic: ＋
+              - generic: －
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - link "Cesium ion":
+                        - /url: https://cesium.com/
+                        - img "Cesium ion"
+                  - generic:
+                    - generic:
+                      - generic:
+                        - text: This application is using Cesium's default ion access token. Please assign Cesium.Ion.defaultAccessToken with an access token from your ion account before making any Cesium API calls. You can sign up for a free ion account at
+                        - link "https://cesium.com":
+                          - /url: https://cesium.com
+                        - text: .
+                  - text: Data attribution
+          - button "搜索天体" [ref=e46] [cursor=pointer]: 搜索天体
+          - button "设置" [ref=e49]:
+            - img [ref=e52]
+        - generic:
+          - generic:
+            - generic: 2026-04-11
+            - generic:
+              - generic: 现在
+              - button "选择日期" [ref=e55] [cursor=pointer]:
+                - img [ref=e56]
+            - generic: 22:48:31
+          - generic [ref=e59]:
+            - img
+            - generic: 暂停
+  - alert [ref=e60]
