@@ -76,72 +76,72 @@ export default function InitializationOverlay({ progress, lang }: Initialization
 
   const stageText = STAGE_NAMES[lang][progress.stage as keyof typeof STAGE_NAMES['zh']] || progress.stage;
 
+  // 计算遮罩透明度: 50%之前为0.85, 50%-100%线性降低到0
+  const calculateOverlayOpacity = () => {
+    if (progress.progress <= 50) {
+      return 0.85;
+    }
+    // 从50%到100%线性降低: 0.85 -> 0
+    const fadeProgress = (progress.progress - 50) / 50; // 0 到 1
+    return 0.85 * (1 - fadeProgress);
+  };
+
+  const overlayOpacity = calculateOverlayOpacity();
+
   return (
     <div
       className={`fixed inset-0 z-[9999] flex items-center justify-center transition-opacity duration-500 ${
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
       style={{
-        backgroundColor: 'rgba(0, 0, 0, 0.85)',
+        backgroundColor: `rgba(0, 0, 0, ${overlayOpacity})`,
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
+        transition: 'background-color 300ms ease-out',
       }}
     >
-      <div className="flex flex-col items-center gap-8">
-        {/* Logo */}
-        <div className="relative w-32 h-32 animate-pulse">
-          <Image
-            src="/LOGO/logolw.svg"
-            alt="CXIC Logo"
-            fill
-            priority
-            style={{ objectFit: 'contain' }}
-          />
+      {/* Logo - 居中 */}
+      <div className="relative w-96 h-96 animate-pulse">
+        <Image
+          src="/LOGO/logolw.svg"
+          alt="CXIC Logo"
+          fill
+          priority
+          style={{ objectFit: 'contain' }}
+        />
+      </div>
+
+      {/* 进度条 - 固定在底部 */}
+      <div className="fixed bottom-0 left-0 right-0 flex flex-col items-center pb-8 px-4">
+        {/* 进度百分比 - 在进度条上方 */}
+        <div
+          className="text-white font-numeric mb-4"
+          style={{
+            fontSize: '14px',
+            fontWeight: 400,
+            opacity: 0.7,
+          }}
+        >
+          {Math.round(progress.progress)}%
         </div>
 
-        {/* 进度信息 */}
-        <div className="flex flex-col items-center gap-4 min-w-[300px]">
-          {/* 阶段文本 */}
+        {/* 进度条容器 - 全屏宽度 */}
+        <div
+          className="w-full h-2 relative overflow-hidden"
+          style={{
+            backgroundColor: '#1f1f1f',
+            borderRadius: '2px',
+          }}
+        >
+          {/* 进度条填充 */}
           <div
-            className="text-white text-center font-numeric"
+            className="absolute top-0 left-0 h-full transition-all duration-300 ease-out"
             style={{
-              fontSize: '16px',
-              fontWeight: 500,
-              letterSpacing: '1px',
-              textTransform: 'uppercase',
+              width: `${progress.progress}%`,
+              backgroundColor: '#ffffff',
+              boxShadow: '0 0 10px rgba(255, 255, 255, 0.5)',
             }}
-          >
-            {stageText}
-          </div>
-
-          {/* 进度条容器 */}
-          <div
-            className="w-full h-1 bg-gray-800 relative overflow-hidden"
-            style={{
-              borderRadius: '2px',
-            }}
-          >
-            {/* 进度条填充 */}
-            <div
-              className="absolute top-0 left-0 h-full bg-white transition-all duration-300 ease-out"
-              style={{
-                width: `${progress.progress}%`,
-                boxShadow: '0 0 10px rgba(255, 255, 255, 0.5)',
-              }}
-            />
-          </div>
-
-          {/* 进度百分比 */}
-          <div
-            className="text-white font-numeric"
-            style={{
-              fontSize: '14px',
-              fontWeight: 400,
-              opacity: 0.7,
-            }}
-          >
-            {Math.round(progress.progress)}%
-          </div>
+          />
         </div>
       </div>
     </div>
