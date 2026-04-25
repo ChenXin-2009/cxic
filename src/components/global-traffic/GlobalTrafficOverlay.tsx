@@ -17,6 +17,7 @@ import { TrafficRenderer } from '@/lib/mods/global-traffic/TrafficRenderer';
 import { GlobalTrafficPanel } from './GlobalTrafficPanel';
 import { useSolarSystemStore } from '@/lib/state';
 import type { GlobalTrafficConfig } from '@/lib/mods/global-traffic/types';
+import { rendererStore } from '@/lib/mods/rendererStore';
 
 interface Props {
   lang?: 'zh' | 'en';
@@ -44,6 +45,7 @@ export const GlobalTrafficOverlay: React.FC<Props> = ({ lang = 'zh' }) => {
         } catch { /* ignore */ }
         renderer.dispose();
         setRenderer(null);
+        rendererStore.setGlobalTrafficRenderer(null);
       }
       return;
     }
@@ -65,6 +67,7 @@ export const GlobalTrafficOverlay: React.FC<Props> = ({ lang = 'zh' }) => {
 
     setRenderer(r);
     setShowPanel(true);
+    rendererStore.setGlobalTrafficRenderer(r); // 存储到全局store
 
     let earthMeshCache: THREE.Object3D | null = null;
 
@@ -107,17 +110,11 @@ export const GlobalTrafficOverlay: React.FC<Props> = ({ lang = 'zh' }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modState]);
 
-  if (modState !== 'enabled' || !showPanel) return null;
+  if (modState !== 'enabled') return null;
 
-  return (
-    <GlobalTrafficPanel
-      renderer={renderer}
-      lang={lang}
-      onClose={() => setShowPanel(false)}
-      initialConfig={modConfig as Partial<GlobalTrafficConfig>}
-      onConfigChange={cfg => setModConfig('global-traffic', cfg as unknown as Record<string, unknown>)}
-    />
-  );
+  // Overlay只负责管理3D渲染器,不显示UI
+  // UI通过窗口系统显示
+  return null;
 };
 
 export default GlobalTrafficOverlay;

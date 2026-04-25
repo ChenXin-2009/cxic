@@ -15,6 +15,7 @@ export const spaceLaunchesManifest: ModManifest = {
   entryPoint: 'onLoad',
   hasConfig: true,
   defaultEnabled: false,
+  icon: '🚀',
   apiVersion: '1.0.0',
   capabilities: [
     { name: 'render:3d', required: true },

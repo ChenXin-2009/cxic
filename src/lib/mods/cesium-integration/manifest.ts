@@ -15,6 +15,7 @@ export const cesiumIntegrationManifest: ModManifest = {
   entryPoint: 'onLoad',
   hasConfig: true,
   defaultEnabled: true,
+  icon: '🌍',
   apiVersion: '1.0.0',
   capabilities: [
     { name: 'render:cesium', required: true },

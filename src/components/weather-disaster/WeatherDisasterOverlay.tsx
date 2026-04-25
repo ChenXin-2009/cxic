@@ -18,6 +18,7 @@ import { DisasterRenderer } from '@/lib/mods/weather-disaster/DisasterRenderer';
 import { WeatherDisasterPanel } from './WeatherDisasterPanel';
 import type { DataSourceId } from '@/lib/mods/weather-disaster/useDisasterData';
 import { useSolarSystemStore } from '@/lib/state';
+import { rendererStore } from '@/lib/mods/rendererStore';
 
 interface Props {
   lang?: 'zh' | 'en';
@@ -45,6 +46,7 @@ export const WeatherDisasterOverlay: React.FC<Props> = ({ lang = 'zh' }) => {
         } catch { /* ignore */ }
         renderer.dispose();
         setRenderer(null);
+        rendererStore.setWeatherDisasterRenderer(null);
       }
       return;
     }
@@ -65,6 +67,7 @@ export const WeatherDisasterOverlay: React.FC<Props> = ({ lang = 'zh' }) => {
     }
     setRenderer(r);
     setShowPanel(true);
+    rendererStore.setWeatherDisasterRenderer(r); // 存储到全局store
 
     let lastTime = Date.now();
     let earthMeshCache: THREE.Object3D | null = null;
@@ -112,16 +115,11 @@ export const WeatherDisasterOverlay: React.FC<Props> = ({ lang = 'zh' }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modState]);
 
-  if (modState !== 'enabled' || !showPanel) return null;
+  if (modState !== 'enabled') return null;
 
-  return (
-    <WeatherDisasterPanel
-      renderer={renderer}
-      onClose={() => setShowPanel(false)}
-      initialConfig={modConfig as { enabledSources?: DataSourceId[]; opacity?: number; hiddenCategories?: string[] }}
-      onConfigChange={cfg => setModConfig('weather-disaster', cfg as Record<string, unknown>)}
-    />
-  );
+  // Overlay只负责管理3D渲染器,不显示UI
+  // UI通过窗口系统显示
+  return null;
 };
 
 export default WeatherDisasterOverlay;

@@ -19,6 +19,7 @@ interface Props {
   lang?: 'zh' | 'en';
   initialConfig?: { enabledSources?: DataSourceId[]; opacity?: number; useAllSources?: boolean } | null;
   onConfigChange?: (cfg: Record<string, unknown>) => void;
+  asWindowContent?: boolean; // 是否作为窗口内容显示(macOS风格)
 }
 
 const ALL_SOURCE_IDS: DataSourceId[] = [
@@ -292,7 +293,7 @@ function SourcesTab({ useAllSources, setUseAllSources, enabledSources, toggleSou
 
 // ── Main Panel ────────────────────────────────────────────────────────────────
 
-export default function SpaceLaunchPanel({ renderer, onClose, lang = 'zh', initialConfig, onConfigChange }: Props) {
+export default function SpaceLaunchPanel({ renderer, onClose, lang = 'zh', initialConfig, onConfigChange, asWindowContent = false }: Props) {
   const [useAllSources, setUseAllSources] = useState(initialConfig?.useAllSources ?? true);
   const [enabledSources, setEnabledSources] = useState<DataSourceId[]>(initialConfig?.enabledSources ?? ['launch_library2']);
   const [opacity, setOpacity] = useState(initialConfig?.opacity ?? 0.9);
@@ -353,8 +354,8 @@ export default function SpaceLaunchPanel({ renderer, onClose, lang = 'zh', initi
 
   return (
     <div
-      className="fixed z-[1500] flex flex-col bg-[#0a0a0a] border border-[#333] text-white select-none"
-      style={{
+      className={asWindowContent ? "h-full flex flex-col bg-transparent text-white select-none" : "fixed z-[1500] flex flex-col bg-[#0a0a0a] border border-[#333] text-white select-none"}
+      style={asWindowContent ? {} : {
         bottom: '1rem',
         left: '1rem',
         width: selectedLaunch ? 620 : 300,
@@ -363,9 +364,13 @@ export default function SpaceLaunchPanel({ renderer, onClose, lang = 'zh', initi
         clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
       }}
     >
-      {/* Corner decorations */}
-      <div style={{ position: 'absolute', top: -1, left: -1, width: 10, height: 10, background: '#4488ff', clipPath: 'polygon(0 0, 100% 0, 0 100%)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: -1, right: -1, width: 10, height: 10, background: '#4488ff', clipPath: 'polygon(100% 0, 100% 100%, 0 100%)', pointerEvents: 'none' }} />
+      {/* Corner decorations - 仅在非窗口模式显示 */}
+      {!asWindowContent && (
+        <>
+          <div style={{ position: 'absolute', top: -1, left: -1, width: 10, height: 10, background: '#4488ff', clipPath: 'polygon(0 0, 100% 0, 0 100%)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: -1, right: -1, width: 10, height: 10, background: '#4488ff', clipPath: 'polygon(100% 0, 100% 100%, 0 100%)', pointerEvents: 'none' }} />
+        </>
+      )}
 
       {/* Header */}
       <div

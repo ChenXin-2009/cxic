@@ -15,6 +15,7 @@ export const weatherDisasterManifest: ModManifest = {
   entryPoint: 'onLoad',
   hasConfig: true,
   defaultEnabled: false,
+  icon: '🌪️',
   apiVersion: '1.0.0',
   capabilities: [
     { name: 'render:cesium', required: false },

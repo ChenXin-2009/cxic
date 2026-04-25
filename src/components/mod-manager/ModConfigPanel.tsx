@@ -98,7 +98,8 @@ export const ModConfigPanel: React.FC<ModConfigPanelProps> = ({
         {onClose && (
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white text-xl"
+            className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center text-gray-400 hover:text-white text-sm"
+            aria-label="Close"
           >
             ✕
           </button>
@@ -123,16 +124,16 @@ export const ModConfigPanel: React.FC<ModConfigPanelProps> = ({
 
       {/* 底部按钮 */}
       {hasChanges && (
-        <div className="flex justify-end gap-2 mt-4 pt-4 border-t border-[#333]">
+        <div className="flex justify-end gap-2 mt-4 pt-4 border-t border-white/10">
           <button
             onClick={handleReset}
-            className="px-4 py-2 text-gray-400 hover:text-white hover:bg-[#222] rounded transition-colors"
+            className="px-4 py-2 text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-all"
           >
             {t.reset}
           </button>
           <button
             onClick={handleSave}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
+            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all shadow-md"
           >
             {t.save}
           </button>

@@ -127,7 +127,40 @@ export function Window({ window }: WindowProps) {
 
   // 处理窗口控制按钮
   const handleClose = () => closeWindow(window.id);
-  const handleMinimize = () => minimizeWindow(window.id);
+  
+  const handleMinimize = () => {
+    // 最小化动画: 缩小到 Dock
+    if (windowRef.current) {
+      // 获取窗口当前位置
+      const windowRect = windowRef.current.getBoundingClientRect();
+      
+      // 获取 Dock 位置 (屏幕底部中央)
+      const dockX = typeof globalThis.window !== 'undefined' ? globalThis.window.innerWidth / 2 : 960;
+      const dockY = typeof globalThis.window !== 'undefined' ? globalThis.window.innerHeight - 50 : 1030;
+      
+      // 计算动画目标位置
+      const targetX = dockX - windowRect.width / 2;
+      const targetY = dockY - windowRect.height / 2;
+      
+      // 应用动画
+      windowRef.current.style.transition = 'all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
+      windowRef.current.style.transform = `translate(${targetX - window.position.x}px, ${targetY - window.position.y}px) scale(0.1)`;
+      windowRef.current.style.opacity = '0';
+      
+      // 动画完成后执行最小化
+      setTimeout(() => {
+        minimizeWindow(window.id);
+        if (windowRef.current) {
+          windowRef.current.style.transition = '';
+          windowRef.current.style.transform = '';
+          windowRef.current.style.opacity = '';
+        }
+      }, 300);
+    } else {
+      minimizeWindow(window.id);
+    }
+  };
+  
   const handleMaximize = () => {
     if (window.isMaximized) {
       restoreWindow(window.id);
@@ -140,10 +173,32 @@ export function Window({ window }: WindowProps) {
     return null;
   }
 
+  // 最大化动画变体
+  const windowVariants = {
+    normal: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.2,
+        ease: 'easeOut',
+      },
+    },
+    maximized: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.3,
+        ease: [0.4, 0.0, 0.2, 1],
+      },
+    },
+  };
+
   return (
     <motion.div
       ref={windowRef}
-      className="absolute flex flex-col bg-gray-900/95 backdrop-blur-md rounded-xl shadow-2xl border border-white/10 overflow-hidden"
+      className={`absolute flex flex-col bg-gray-900/95 backdrop-blur-md shadow-2xl border border-white/10 overflow-hidden ${
+        window.isMaximized ? 'rounded-none' : 'rounded-xl'
+      }`}
       style={{
         left: window.position.x,
         top: window.position.y,
@@ -152,9 +207,9 @@ export function Window({ window }: WindowProps) {
         zIndex: window.zIndex,
       }}
       initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
+      animate={window.isMaximized ? 'maximized' : 'normal'}
+      variants={windowVariants}
       exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.2 }}
       onClick={handleWindowClick}
     >
       {/* 标题栏 */}

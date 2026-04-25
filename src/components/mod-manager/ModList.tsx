@@ -85,7 +85,7 @@ export const ModList: React.FC<ModListProps> = ({
             placeholder={t.search}
             value={internalSearchQuery}
             onChange={(e) => setInternalSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 bg-[#1a1a1a] border border-[#333] rounded text-white placeholder-gray-500 focus:outline-none focus:border-[#555]"
+            className="w-full px-4 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
           />
         </div>
       )}
@@ -101,12 +101,12 @@ export const ModList: React.FC<ModListProps> = ({
             <div
               key={modId}
               onClick={() => onModClick?.(modId)}
-              className="p-3 border border-[#333] rounded-lg hover:bg-[#1a1a1a] cursor-pointer transition-colors"
+              className="p-3 border border-white/10 rounded-xl hover:bg-white/10 cursor-pointer transition-all bg-white/5 backdrop-blur-sm"
             >
               <div className="flex items-center justify-between">
                 <span className="font-medium text-white">{entry.manifest.name}</span>
-                <span className={`text-xs px-2 py-1 rounded ${
-                  entry.state === 'enabled' ? 'bg-green-600 text-white' : 'bg-gray-600 text-gray-200'
+                <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                  entry.state === 'enabled' ? 'bg-green-500/80 text-white' : 'bg-gray-500/80 text-gray-200'
                 }`}>
                   {entry.state}
                 </span>

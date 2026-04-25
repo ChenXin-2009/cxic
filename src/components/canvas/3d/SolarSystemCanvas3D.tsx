@@ -21,6 +21,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { useSolarSystemStore } from '@/lib/state';
 import { useSatelliteStore } from '@/lib/store/useSatelliteStore';
+import { useSceneStore } from '@/lib/state/sceneStore';
 import { SceneManager } from '@/lib/3d/SceneManager';
 import { getRenderAPI } from '@/lib/mod-manager/api/RenderAPI';
 import { CameraController } from '@/lib/3d/CameraController';
@@ -41,8 +42,6 @@ import ScaleRuler from './ScaleRuler';
 import GridScaleRuler from './GridScaleRuler';
 import DistanceDisplay from './DistanceDisplay';
 import ZoomSlider from './ZoomSlider';
-import SettingsMenu from '@/components/SettingsMenu';
-import CelestialSearch from '@/components/search/CelestialSearch';
 import SearchErrorBoundary from '@/components/search/SearchErrorBoundary';
 import { FAR_VIEW_CONFIG, ORBIT_COLORS, ORBIT_CURVE_POINTS, ORBIT_FADE_CONFIG, SATELLITE_CONFIG, SUN_LIGHT_CONFIG } from '@/lib/config/visualConfig';
 import { CAMERA_CONFIG } from '@/lib/config/cameraConfig';
@@ -225,10 +224,11 @@ interface SolarSystemCanvas3DProps {
   onEarthPlanetReady?: (earthPlanet: any) => void;
   onCameraReady?: (camera: any) => void;
   earthLockEnabled?: boolean;
+  earthLightEnabled?: boolean;
   onInitializationProgress?: (stage: string, progress: number, isComplete: boolean) => void;
 }
 
-export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnabled = false, onEarthPlanetReady, onCameraReady, earthLockEnabled = false, onInitializationProgress }: SolarSystemCanvas3DProps = {}) {
+export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnabled = false, onEarthPlanetReady, onCameraReady, earthLockEnabled = false, earthLightEnabled = true, onInitializationProgress }: SolarSystemCanvas3DProps = {}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneManagerRef = useRef<SceneManager | null>(null);
   const cameraControllerRef = useRef<CameraController | null>(null);
@@ -246,6 +246,8 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
   const cesiumEnabledRef = useRef<boolean>(cesiumEnabled);
   // earthLockEnabled ref — 让动画循环能读到最新值
   const earthLockEnabledRef = useRef<boolean>(earthLockEnabled);
+  // earthLightEnabled ref — 让动画循环能读到最新值
+  const earthLightEnabledRef = useRef<boolean>(earthLightEnabled);
   
   // 卫星跟随状态跟踪
   const isTrackingSatelliteRef = useRef<boolean>(false);
@@ -267,6 +269,9 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
   // 这样可以避免每次状态更新都触发组件重渲染
   // 但初始化时需要获取初始值
   const lang = useSolarSystemStore((state) => state.lang);
+  
+  // 获取场景 store 的 setter 方法
+  const { setSceneManager, setCameraController } = useSceneStore();
 
   // 监听 cesiumEnabled 变化,动态切换 Cesium 渲染
   React.useEffect(() => {
@@ -302,6 +307,12 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
       cameraControllerRef.current.setEarthLockMode(earthLockEnabled);
     }
   }, [earthLockEnabled]);
+
+  // 监听 earthLightEnabled 变化，同步到 ref
+  React.useEffect(() => {
+    earthLightEnabledRef.current = earthLightEnabled;
+  }, [earthLightEnabled]);
+
   // 初始化场景 - 使用 useLayoutEffect 确保 DOM 准备好
   useLayoutEffect(() => {
     if (!containerRef.current) return;
@@ -335,6 +346,9 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
       // 容器有尺寸，开始初始化
       const sceneManager = new SceneManager(containerRef.current);
       sceneManagerRef.current = sceneManager;
+      
+      // 存储到全局 store,供其他组件使用
+      setSceneManager(sceneManager);
 
       onInitializationProgress?.('scene', 20, false);
 
@@ -383,6 +397,9 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
       // 创建相机控制器（不要手动设置 camera.position，让 OrbitControls 控制）
       const cameraController = new CameraController(camera, renderer.domElement);
       cameraControllerRef.current = cameraController;
+      
+      // 存储到全局 store,供其他组件使用
+      setCameraController(cameraController);
       
       // 设置相机控制器的目标点（使用 controls API，不要直接设置 camera.position）
       const controls = cameraController.getControls();
@@ -702,7 +719,9 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
         const currentBodies = currentState.celestialBodies;
 
         // 太阳位置（用于光照计算）
-        const sunPosition = new THREE.Vector3(0, 0, 0);
+        const sunPosition = earthLightEnabledRef.current 
+          ? new THREE.Vector3(0, 0, 0) 
+          : new THREE.Vector3(1000000, 1000000, 1000000); // 远离太阳位置以禁用光照
         
         // 更新行星位置、自转和 LOD
         currentBodies.forEach((body: any) => {
@@ -1955,23 +1974,6 @@ export default function SolarSystemCanvas3D({ onCameraDistanceChange, cesiumEnab
       
       {/* 太阳系参考网格比例尺 */}
       <GridScaleRuler sceneManager={sceneManagerRef.current} />
-      
-      {/* 天体搜索组件 - 只在 SceneManager 和 CameraController 准备好后渲染 */}
-      {sceneManagerRef.current && cameraControllerRef.current && (
-        <SearchErrorBoundary>
-          <CelestialSearch 
-            sceneManager={sceneManagerRef.current}
-            cameraController={cameraControllerRef.current}
-          />
-        </SearchErrorBoundary>
-      )}
-      
-      {/* 设置菜单（仅在 3D 模式下显示） */}
-      {isCameraControllerReady && cameraControllerRef.current && (
-        <SettingsMenu 
-          cameraController={cameraControllerRef.current} 
-        />
-      )}
       
       {/* 卫星详情模态框 */}
       <SatelliteDetailModal lang={lang} />

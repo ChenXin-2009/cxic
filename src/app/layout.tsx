@@ -6,12 +6,12 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";          // ← 新增
 import { SpeedInsights } from "@vercel/speed-insights/next"; // ← 新增
 import LanguageDetector from "@/components/LanguageDetector";
-import LanguageButton from "@/components/LanguageButton";
 import Header from "@/components/Header";
 import { WindowManager } from "@/components/window-manager";
 import { Dock } from "@/components/dock";
 import { DockInitializer } from "@/components/DockInitializer";
 import { DockWindowSync } from "@/components/DockWindowSync";
+import { ModDockSync } from "@/components/ModDockSync";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -164,7 +164,6 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <Header />
-        <LanguageButton />
         <LanguageDetector initialLang={lang} />
         
         {/* Dock 初始化器 */}
@@ -172,6 +171,9 @@ export default async function RootLayout({
         
         {/* Dock 和窗口同步 */}
         <DockWindowSync />
+        
+        {/* MOD 和 Dock 同步 */}
+        <ModDockSync />
         
         {children}
 

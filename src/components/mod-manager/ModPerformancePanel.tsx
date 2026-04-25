@@ -91,7 +91,7 @@ export const ModPerformancePanel: React.FC<ModPerformancePanelProps> = ({
           return (
             <div
               key={modId}
-              className="border border-[#333] rounded-lg p-4 bg-[#0a0a0a]"
+              className="border border-white/10 rounded-xl p-4 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all"
             >
               <div className="flex items-center justify-between mb-3">
                 <span className="font-medium text-white">{entry.manifest.name}</span>

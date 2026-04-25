@@ -41,7 +41,12 @@ export function DockItem({
       >
         {/* 图标 */}
         {typeof item.icon === 'string' ? (
-          <img src={item.icon} alt={item.label} className="w-7 h-7 object-contain" />
+          // 检查是否是 emoji（单个字符或短字符串）或 URL
+          item.icon.startsWith('http') || item.icon.startsWith('/') || item.icon.startsWith('data:') ? (
+            <img src={item.icon} alt={item.label} className="w-7 h-7 object-contain" />
+          ) : (
+            <div className="text-2xl">{item.icon}</div>
+          )
         ) : (
           <div className="w-7 h-7 flex items-center justify-center text-white">
             {item.icon}

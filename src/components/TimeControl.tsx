@@ -90,12 +90,12 @@ const TimeControl = React.memo(() => {
 
   return (
     <>
-      {/* 主控制行：日期 | 状态/日历 | 时间 */}
+      {/* 时间控制面板 */}
       <div 
         className="absolute left-0 right-0 z-10 flex flex-col items-center px-2 sm:px-4" 
         style={{ 
-          bottom: `${cfg.bottomOffset + 80}px`, // 上移 80px 避开 Dock
-          gap: `${cfg.gapMobile}px`,
+          bottom: `${cfg.bottomOffset + 80}px`, // 上移 80px 避开 Dock (16-24px 间距)
+          gap: `${isMobile ? 8 : 12}px`,
           willChange: 'auto', 
           transform: 'translateZ(0)', 
           pointerEvents: 'none',
@@ -103,23 +103,22 @@ const TimeControl = React.memo(() => {
           transition: 'opacity 0.3s ease-out',
         }}
       >
-        {/* 时间信息行 - 一行显示，使用固定宽度中间区域，禁止换行 */}
+        {/* 时间信息行 */}
         <div 
-          className="flex items-center justify-center flex-nowrap" 
+          className="flex items-center justify-center flex-nowrap gap-4" 
           style={{ 
-            pointerEvents: 'none',
-            gap: `${cfg.gapMobile}px`,
             flexWrap: 'nowrap',
+            pointerEvents: 'none',
           }}
         >
-          {/* 左边：日期 - 固定宽度右对齐 */}
+          {/* 左边：日期 */}
           <div 
             className="font-mono font-semibold text-right" 
             style={{ 
-              pointerEvents: 'none', 
-              color: cfg.textColor,
-              fontSize: `${cfg.dateTimeSizeMobile}px`,
-              width: `${dateTimeWidth}px`,
+              pointerEvents: 'none',
+              color: '#ffffff',
+              fontSize: `${isMobile ? 18 : 20}px`,
+              minWidth: `${isMobile ? 120 : 140}px`,
               flexShrink: 0,
             }} 
             suppressHydrationWarning
@@ -127,24 +126,23 @@ const TimeControl = React.memo(() => {
             {formatDate(displayTime)}
           </div>
           
-          {/* 中间：时间差/现在 + 日历按钮 - 固定宽度居中 */}
+          {/* 中间：时间差/现在 + 日历按钮 */}
           <div 
             className="flex items-center justify-center gap-2" 
             style={{ 
               pointerEvents: 'none',
-              width: `${middleSectionWidth}px`,
+              minWidth: `${isMobile ? 100 : 120}px`,
               flexShrink: 0,
             }}
           >
             {absTimeDiff > 0.01 && realTime ? (
               <>
                 <div 
-                  className="font-bold" 
+                  className="font-bold whitespace-nowrap" 
                   style={{ 
-                    pointerEvents: 'none', 
-                    color: timeDiff > 0 ? cfg.futureColor : cfg.pastColor,
-                    fontSize: `${cfg.timeDiffSizeMobile}px`,
-                    whiteSpace: 'nowrap',
+                    pointerEvents: 'none',
+                    color: timeDiff > 0 ? '#60a5fa' : '#9ca3af',
+                    fontSize: `${isMobile ? 12 : 14}px`,
                   }}
                 >
                   {timeDiff > 0 
@@ -154,18 +152,14 @@ const TimeControl = React.memo(() => {
                 </div>
                 <button
                   onClick={handleNowClick}
-                  className="transition-colors font-medium"
+                  className="px-3 py-1 rounded-md font-medium transition-all hover:scale-105"
                   title={t('timeControl.jumpToNow')}
                   style={{ 
                     pointerEvents: 'auto',
-                    backgroundColor: cfg.nowButtonBg,
-                    color: cfg.nowButtonTextColor,
-                    fontSize: `${cfg.nowButtonTextSize}px`,
-                    padding: cfg.nowButtonPadding,
-                    borderRadius: `${cfg.nowButtonRadius}px`,
+                    backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                    color: '#ffffff',
+                    fontSize: `${isMobile ? 11 : 12}px`,
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = cfg.nowButtonHoverBg}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = cfg.nowButtonBg}
                 >
                   {t('common.now')}
                 </button>
@@ -174,9 +168,9 @@ const TimeControl = React.memo(() => {
               <div 
                 className="font-bold" 
                 style={{ 
-                  pointerEvents: 'none', 
-                  color: cfg.nowColor,
-                  fontSize: `${cfg.timeDiffSizeMobile}px`,
+                  pointerEvents: 'none',
+                  color: '#ffffff',
+                  fontSize: `${isMobile ? 12 : 14}px`,
                 }}
               >
                 {t('common.now')}
@@ -187,16 +181,14 @@ const TimeControl = React.memo(() => {
             <button
               ref={calendarButtonRef}
               onClick={handleCalendarClick}
-              className="transition-colors cursor-pointer p-0.5"
+              className="p-1 rounded-md transition-all hover:bg-white/10"
               title={t('timeControl.selectDate')}
-              style={{ pointerEvents: 'auto', color: cfg.calendarButtonColor }}
-              onMouseEnter={(e) => e.currentTarget.style.color = cfg.calendarButtonHoverColor}
-              onMouseLeave={(e) => e.currentTarget.style.color = cfg.calendarButtonColor}
+              style={{ pointerEvents: 'auto', color: 'rgba(255, 255, 255, 0.6)' }}
             >
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
-                width={cfg.calendarButtonSize} 
-                height={cfg.calendarButtonSize} 
+                width={16} 
+                height={16} 
                 viewBox="0 0 24 24" 
                 fill="none" 
                 stroke="currentColor" 
@@ -212,14 +204,14 @@ const TimeControl = React.memo(() => {
             </button>
           </div>
           
-          {/* 右边：时间 - 固定宽度左对齐 */}
+          {/* 右边：时间 */}
           <div 
             className="font-mono font-semibold text-left" 
             style={{ 
-              pointerEvents: 'none', 
-              color: cfg.textColor,
-              fontSize: `${cfg.dateTimeSizeMobile}px`,
-              width: `${dateTimeWidth}px`,
+              pointerEvents: 'none',
+              color: '#ffffff',
+              fontSize: `${isMobile ? 18 : 20}px`,
+              minWidth: `${isMobile ? 120 : 140}px`,
               flexShrink: 0,
             }} 
             suppressHydrationWarning
@@ -231,11 +223,10 @@ const TimeControl = React.memo(() => {
         {/* 精度警告 */}
         {showPrecisionWarning && (
           <div 
-            className="flex items-center gap-1 font-medium" 
+            className="flex items-center gap-1 font-medium text-sm" 
             style={{ 
-              pointerEvents: 'none', 
-              color: cfg.warningColor,
-              fontSize: `${cfg.warningSize}px`,
+              pointerEvents: 'none',
+              color: '#facc15',
             }}
           >
             <span>⚠️</span>
@@ -243,13 +234,13 @@ const TimeControl = React.memo(() => {
           </div>
         )}
 
-        {/* 坐标轴式时间滑块 */}
+        {/* 时间滑块 */}
         <div style={{ pointerEvents: 'auto' }}>
           <TimeSlider width={sliderWidth} height={TIME_SLIDER_CONFIG.height} />
         </div>
       </div>
 
-      {/* 隐藏的日期输入框，用于直接打开日历选择器 */}
+      {/* 隐藏的日期输入框 */}
       <input
         ref={dateInputRef}
         type="date"

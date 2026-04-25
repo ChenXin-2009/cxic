@@ -3,7 +3,7 @@
 /**
  * MOD管理器按钮
  * 
- * 阿肯骑士风格的按钮，用于打开MOD管理器面板。
+ * macOS风格的按钮，用于打开MOD管理器面板。
  */
 
 import React, { useState } from 'react';
@@ -28,53 +28,30 @@ export const ModManagerButton: React.FC<ModManagerButtonProps> = ({
         onClick={() => setIsOpen(true)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="fixed"
+        className="fixed transition-all duration-200"
         style={{
           top: '12.5rem',
           right: '2rem',
           zIndex: 1001,
-          background: '#0a0a0a',
-          border: `2px solid ${isHovered ? '#ffffff' : '#333333'}`,
+          background: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: `1px solid ${isHovered ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)'}`,
           cursor: 'pointer',
-          padding: '8px 16px',
-          transition: 'all 0.3s ease',
+          padding: '10px 20px',
           color: '#ffffff',
           fontSize: '13px',
-          fontWeight: 700,
-          letterSpacing: '1.5px',
-          textTransform: 'uppercase',
-          fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-          clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)',
-          boxShadow: isHovered ? '0 0 20px rgba(255, 255, 255, 0.5)' : 'none',
+          fontWeight: 600,
+          letterSpacing: '0.5px',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          borderRadius: '10px',
+          boxShadow: isHovered 
+            ? '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset' 
+            : '0 4px 16px rgba(0, 0, 0, 0.2)',
+          transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
         }}
         aria-label="MOD Manager"
       >
-        {/* 左上角菱形装饰 */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '-1px',
-            left: '-1px',
-            width: '12px',
-            height: '12px',
-            background: '#ffffff',
-            clipPath: 'polygon(0 0, 100% 0, 0 100%)',
-          }}
-        />
-
-        {/* 右下角菱形装饰 */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '-1px',
-            right: '-1px',
-            width: '12px',
-            height: '12px',
-            background: '#ffffff',
-            clipPath: 'polygon(100% 0, 100% 100%, 0 100%)',
-          }}
-        />
-
         {label}
       </button>
 

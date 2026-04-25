@@ -99,41 +99,39 @@ export const ModManagerPanel: React.FC<ModManagerPanelProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[#0a0a0a] border-2 border-[#333] rounded-lg w-[95vw] max-w-6xl h-[85vh] overflow-hidden flex flex-col"
+        className="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl w-[95vw] max-w-6xl h-[85vh] overflow-hidden flex flex-col shadow-2xl"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)',
-        }}
       >
         {/* 头部 */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#333]">
-          <h2 className="text-xl font-bold text-white">{t.title}</h2>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+          <h2 className="text-xl font-semibold text-white">{t.title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors text-2xl"
+            className="w-8 h-8 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors flex items-center justify-center text-white text-sm"
+            aria-label={t.close}
           >
             ✕
           </button>
         </div>
 
         {/* 标签页 */}
-        <div className="flex border-b border-[#333]">
+        <div className="flex border-b border-white/10 bg-white/5">
           <button
             onClick={() => setActiveTab('mods')}
-            className={`px-8 py-3 text-sm font-medium transition-colors ${
+            className={`px-8 py-3 text-sm font-medium transition-all rounded-t-lg ${
               activeTab === 'mods'
-                ? 'text-white border-b-2 border-white bg-[#111]'
-                : 'text-gray-400 hover:text-white'
+                ? 'text-white bg-white/10 border-b-2 border-blue-500'
+                : 'text-gray-400 hover:text-white hover:bg-white/5'
             }`}
           >
             {t.modsTab}
           </button>
           <button
             onClick={() => setActiveTab('performance')}
-            className={`px-8 py-3 text-sm font-medium transition-colors ${
+            className={`px-8 py-3 text-sm font-medium transition-all rounded-t-lg ${
               activeTab === 'performance'
-                ? 'text-white border-b-2 border-white bg-[#111]'
-                : 'text-gray-400 hover:text-white'
+                ? 'text-white bg-white/10 border-b-2 border-blue-500'
+                : 'text-gray-400 hover:text-white hover:bg-white/5'
             }`}
           >
             {t.performanceTab}
@@ -154,30 +152,30 @@ export const ModManagerPanel: React.FC<ModManagerPanelProps> = ({
                 <div className="flex gap-2 mb-4">
                   <button
                     onClick={() => setFilterState('all')}
-                    className={`px-4 py-2 rounded text-sm transition-colors ${
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       filterState === 'all'
-                        ? 'bg-white text-black'
-                        : 'bg-[#222] text-gray-300 hover:bg-[#333]'
+                        ? 'bg-blue-500 text-white shadow-lg'
+                        : 'bg-white/10 text-gray-300 hover:bg-white/20'
                     }`}
                   >
                     {t.all}
                   </button>
                   <button
                     onClick={() => setFilterState('enabled')}
-                    className={`px-4 py-2 rounded text-sm transition-colors ${
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       filterState === 'enabled'
-                        ? 'bg-green-600 text-white'
-                        : 'bg-[#222] text-gray-300 hover:bg-[#333]'
+                        ? 'bg-green-500 text-white shadow-lg'
+                        : 'bg-white/10 text-gray-300 hover:bg-white/20'
                     }`}
                   >
                     {t.enabled}
                   </button>
                   <button
                     onClick={() => setFilterState('disabled')}
-                    className={`px-4 py-2 rounded text-sm transition-colors ${
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       filterState === 'disabled'
-                        ? 'bg-yellow-600 text-white'
-                        : 'bg-[#222] text-gray-300 hover:bg-[#333]'
+                        ? 'bg-yellow-500 text-white shadow-lg'
+                        : 'bg-white/10 text-gray-300 hover:bg-white/20'
                     }`}
                   >
                     {t.disabled}
@@ -196,10 +194,10 @@ export const ModManagerPanel: React.FC<ModManagerPanelProps> = ({
                         <div
                           key={modId}
                           onClick={() => setSelectedModId(modId)}
-                          className={`p-4 border rounded-lg cursor-pointer transition-all ${
+                          className={`p-4 border rounded-xl cursor-pointer transition-all ${
                             selectedModId === modId
-                              ? 'border-white bg-[#1a1a1a]'
-                              : 'border-[#333] hover:border-[#555] bg-[#111]'
+                              ? 'border-blue-500 bg-white/15 shadow-lg'
+                              : 'border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10'
                           }`}
                         >
                           <div className="flex items-center justify-between mb-2">
@@ -207,8 +205,8 @@ export const ModManagerPanel: React.FC<ModManagerPanelProps> = ({
                               <h3 className="font-medium text-white text-lg">
                                 {lang === 'zh' ? (entry.manifest.nameZh || entry.manifest.name) : entry.manifest.name}
                               </h3>
-                              <span className={`px-2 py-1 text-xs rounded ${
-                                isEnabled ? 'bg-green-600 text-white' : 'bg-yellow-600 text-white'
+                              <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                                isEnabled ? 'bg-green-500/80 text-white' : 'bg-yellow-500/80 text-white'
                               }`}>
                                 {isEnabled ? t.enabled : t.disabled}
                               </span>
@@ -218,10 +216,10 @@ export const ModManagerPanel: React.FC<ModManagerPanelProps> = ({
                                 e.stopPropagation();
                                 handleToggleMod(modId);
                               }}
-                              className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+                              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-md ${
                                 isEnabled
-                                  ? 'bg-red-600 hover:bg-red-700 text-white'
-                                  : 'bg-green-600 hover:bg-green-700 text-white'
+                                  ? 'bg-red-500 hover:bg-red-600 text-white'
+                                  : 'bg-green-500 hover:bg-green-600 text-white'
                               }`}
                             >
                               {isEnabled ? t.disable : t.enable}
@@ -251,10 +249,10 @@ export const ModManagerPanel: React.FC<ModManagerPanelProps> = ({
                                 return (
                                   <span
                                     key={dep.id}
-                                    className={`text-xs px-1.5 py-0.5 rounded border ${
+                                    className={`text-xs px-1.5 py-0.5 rounded-full border ${
                                       depEnabled
-                                        ? 'border-green-700 text-green-400'
-                                        : 'border-red-700 text-red-400'
+                                        ? 'border-green-500/50 text-green-400 bg-green-500/10'
+                                        : 'border-red-500/50 text-red-400 bg-red-500/10'
                                     }`}
                                     title={depEnabled
                                       ? (lang === 'zh' ? '依赖已启用' : 'Dependency enabled')
@@ -284,13 +282,13 @@ export const ModManagerPanel: React.FC<ModManagerPanelProps> = ({
                     modId={selectedModId}
                     onClose={() => setSelectedModId(null)}
                     lang={lang}
-                    className="bg-[#111] rounded-lg h-full"
+                    className="bg-white/5 backdrop-blur-xl rounded-xl h-full border border-white/10"
                   />
                 </div>
               )}
             </div>
           ) : (
-            <ModPerformancePanel lang={lang} className="bg-[#111] rounded-lg" />
+            <ModPerformancePanel lang={lang} className="bg-white/5 backdrop-blur-xl rounded-xl border border-white/10" />
           )}
         </div>
       </div>

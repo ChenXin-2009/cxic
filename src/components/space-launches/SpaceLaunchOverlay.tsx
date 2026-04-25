@@ -16,6 +16,7 @@ import { getRenderAPI } from '@/lib/mod-manager/api/RenderAPI';
 import { LaunchRenderer } from '@/lib/mods/space-launches/LaunchRenderer';
 import SpaceLaunchPanel from './SpaceLaunchPanel';
 import { useSolarSystemStore } from '@/lib/state';
+import { rendererStore } from '@/lib/mods/rendererStore';
 
 interface Props {
   lang?: 'zh' | 'en';
@@ -43,6 +44,7 @@ export const SpaceLaunchOverlay: React.FC<Props> = ({ lang = 'zh', onClose }) =>
         } catch { /* ignore */ }
         renderer.dispose();
         setRenderer(null);
+        rendererStore.setSpaceLaunchesRenderer(null);
       }
       return;
     }
@@ -62,6 +64,7 @@ export const SpaceLaunchOverlay: React.FC<Props> = ({ lang = 'zh', onClose }) =>
       console.warn('[SpaceLaunchOverlay] 场景尚未就绪');
     }
     setRenderer(r);
+    rendererStore.setSpaceLaunchesRenderer(r); // 存储到全局store
 
     let lastTime = Date.now();
     let earthMeshCache: THREE.Object3D | null = null;
@@ -110,15 +113,9 @@ export const SpaceLaunchOverlay: React.FC<Props> = ({ lang = 'zh', onClose }) =>
 
   if (modState !== 'enabled') return null;
 
-  return (
-    <SpaceLaunchPanel
-      renderer={renderer}
-      lang={lang}
-      initialConfig={modConfig as any}
-      onConfigChange={cfg => setModConfig('space-launches', cfg as Record<string, unknown>)}
-      onClose={onClose}
-    />
-  );
+  // Overlay只负责管理3D渲染器,不显示UI
+  // UI通过窗口系统显示
+  return null;
 };
 
 export default SpaceLaunchOverlay;

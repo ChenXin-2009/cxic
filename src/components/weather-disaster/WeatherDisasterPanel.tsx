@@ -143,9 +143,11 @@ interface Props {
   onClose?: () => void;
   onConfigChange?: (cfg: { enabledSources: DataSourceId[]; opacity: number; hiddenCategories: string[] }) => void;
   initialConfig?: { enabledSources?: DataSourceId[]; opacity?: number; hiddenCategories?: string[] };
+  asWindowContent?: boolean; // 是否作为窗口内容显示(macOS风格)
+  lang?: 'zh' | 'en';
 }
 
-export const WeatherDisasterPanel: React.FC<Props> = ({ renderer, onClose, onConfigChange, initialConfig }) => {
+export const WeatherDisasterPanel: React.FC<Props> = ({ renderer, onClose, onConfigChange, initialConfig, asWindowContent = false, lang = 'zh' }) => {
   const [enabledSources, setEnabledSources] = useState<DataSourceId[]>(
     initialConfig?.enabledSources ?? ['usgs_earthquake', 'gdacs']
   );
@@ -210,8 +212,10 @@ export const WeatherDisasterPanel: React.FC<Props> = ({ renderer, onClose, onCon
 
   return (
     <div
-      className="fixed bottom-4 left-4 z-[1500] flex flex-col"
-      style={{
+      className={asWindowContent ? "h-full flex flex-col bg-transparent text-white" : "fixed bottom-4 left-4 z-[1500] flex flex-col"}
+      style={asWindowContent ? {
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+      } : {
         width: 360,
         maxHeight: '82vh',
         background: '#0a0a0a',

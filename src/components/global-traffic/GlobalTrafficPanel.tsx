@@ -19,6 +19,7 @@ interface GlobalTrafficPanelProps {
   onClose?: () => void;
   initialConfig?: Partial<GlobalTrafficConfig>;
   onConfigChange?: (config: GlobalTrafficConfig) => void;
+  asWindowContent?: boolean; // 是否作为窗口内容显示(macOS风格)
 }
 
 const T = {
@@ -92,6 +93,7 @@ export const GlobalTrafficPanel: React.FC<GlobalTrafficPanelProps> = ({
   onClose,
   initialConfig,
   onConfigChange,
+  asWindowContent = false,
 }) => {
   const t = T[lang];
   const [config, setConfig] = useState<GlobalTrafficConfig>({ ...DEFAULT_CONFIG, ...initialConfig });
@@ -154,8 +156,8 @@ export const GlobalTrafficPanel: React.FC<GlobalTrafficPanelProps> = ({
 
   return (
     <div
-      className="fixed bottom-4 left-4 z-[1500] flex flex-col bg-[#0a0a0a] border border-[#333] text-white"
-      style={{
+      className={asWindowContent ? "h-full flex flex-col bg-transparent text-white" : "fixed bottom-4 left-4 z-[1500] flex flex-col bg-[#0a0a0a] border border-[#333] text-white"}
+      style={asWindowContent ? {} : {
         width: 360,
         maxHeight: '80vh',
         clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)',

@@ -16,6 +16,7 @@ export const globalTrafficManifest: ModManifest = {
   hasConfig: true,
   configComponent: 'GlobalTrafficConfig',
   defaultEnabled: false,
+  icon: '🚢',
   apiVersion: '1.0.0',
   capabilities: [
     { name: 'render:3d', required: true },
