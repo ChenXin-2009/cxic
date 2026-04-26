@@ -14,6 +14,11 @@ import type {
 } from '../types';
 import { validateManifest } from '../utils/validateManifest';
 import { DuplicateIdError, ManifestValidationError } from '../error/ModError';
+import { PermissionSystem } from '../permission/PermissionSystem';
+import { ContributionRegistry } from '../contribution/ContributionRegistry';
+import { ServiceRegistry } from '../service/ServiceRegistry';
+import { Sandbox } from '../sandbox/Sandbox';
+import { getEventBus } from './EventBus';
 
 /**
  * MOD注册表
@@ -23,6 +28,20 @@ import { DuplicateIdError, ManifestValidationError } from '../error/ModError';
 export class ModRegistry {
   private mods: Map<string, ModInstance> = new Map();
   private stateListeners: Set<(modId: string, state: ModState) => void> = new Set();
+  
+  // 新增系统组件
+  private permissionSystem: PermissionSystem;
+  private contributionRegistry: ContributionRegistry;
+  private serviceRegistry: ServiceRegistry;
+  private sandbox: Sandbox;
+
+  constructor() {
+    // 初始化新系统
+    this.permissionSystem = new PermissionSystem(this);
+    this.contributionRegistry = new ContributionRegistry(this, getEventBus());
+    this.serviceRegistry = new ServiceRegistry(this.permissionSystem, this);
+    this.sandbox = new Sandbox();
+  }
 
   /**
    * 注册一个MOD
@@ -36,6 +55,15 @@ export class ModRegistry {
       throw new ManifestValidationError(
         manifest.id,
         result.errors
+      );
+    }
+
+    // 验证权限声明
+    const permissionResult = this.permissionSystem.validateManifest(manifest);
+    if (!permissionResult.valid) {
+      throw new ManifestValidationError(
+        manifest.id,
+        permissionResult.errors.map(error => ({ field: 'permissions', message: error }))
       );
     }
 
@@ -57,6 +85,10 @@ export class ModRegistry {
     };
 
     this.mods.set(manifest.id, instance);
+    
+    // 初始化沙箱
+    this.sandbox.initialize(manifest.id, manifest.resourceQuota);
+    
     this.notifyStateChange(manifest.id, 'registered');
   }
 
@@ -203,6 +235,36 @@ export class ModRegistry {
    */
   clear(): void {
     this.mods.clear();
+  }
+
+  // ============ 新增系统访问器 ============
+
+  /**
+   * 获取权限系统
+   */
+  getPermissionSystem(): PermissionSystem {
+    return this.permissionSystem;
+  }
+
+  /**
+   * 获取扩展点注册表
+   */
+  getContributionRegistry(): ContributionRegistry {
+    return this.contributionRegistry;
+  }
+
+  /**
+   * 获取服务注册表
+   */
+  getServiceRegistry(): ServiceRegistry {
+    return this.serviceRegistry;
+  }
+
+  /**
+   * 获取沙箱
+   */
+  getSandbox(): Sandbox {
+    return this.sandbox;
   }
 }
 

@@ -180,7 +180,7 @@ export function Window({ window }: WindowProps) {
       scale: 1,
       transition: {
         duration: 0.2,
-        ease: 'easeOut',
+        ease: [0.4, 0.0, 0.2, 1] as const,
       },
     },
     maximized: {
@@ -188,7 +188,7 @@ export function Window({ window }: WindowProps) {
       scale: 1,
       transition: {
         duration: 0.3,
-        ease: [0.4, 0.0, 0.2, 1],
+        ease: [0.4, 0.0, 0.2, 1] as const,
       },
     },
   };

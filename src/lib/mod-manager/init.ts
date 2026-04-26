@@ -15,10 +15,38 @@ import { getCelestialAPI } from './api/CelestialAPI';
 import { getSatelliteAPI } from './api/SatelliteAPI';
 import { getRenderAPI } from './api/RenderAPI';
 import { getEventBus } from './core/EventBus';
+import { APIProxyFactory } from './proxy/APIProxyFactory';
 import type { ModManifest, ModLifecycleHooks, ModContext } from './types';
 
 // 存储需要自动启用的MOD
 const pendingAutoEnable: Array<{ modId: string; hooks?: ModLifecycleHooks }> = [];
+
+// API 代理工厂实例
+let apiProxyFactory: APIProxyFactory | null = null;
+
+/**
+ * 获取或创建 API 代理工厂
+ */
+function getAPIProxyFactory(): APIProxyFactory {
+  if (!apiProxyFactory) {
+    const registry = getRegistry();
+    const permissionSystem = registry.getPermissionSystem();
+    const sandbox = registry.getSandbox();
+    
+    apiProxyFactory = new APIProxyFactory(
+      permissionSystem,
+      sandbox,
+      {
+        time: getTimeAPI(),
+        camera: getCameraAPI(),
+        celestial: getCelestialAPI(),
+        satellite: getSatelliteAPI(),
+        render: getRenderAPI(),
+      }
+    );
+  }
+  return apiProxyFactory;
+}
 
 /**
  * 初始化MOD管理器
@@ -44,18 +72,63 @@ function createModContext(modId: string, manifest: ModManifest): ModContext {
   const store = useModStore.getState();
   const eventBus = getEventBus();
   const renderAPI = getRenderAPI();
+  const registry = getRegistry();
+  const permissionSystem = registry.getPermissionSystem();
 
   // 为该MOD设置当前modId，用于渲染器注册时的命名空间
   renderAPI._setCurrentModId(modId);
 
+  // 检查是否有权限声明
+  const hasPermissions = permissionSystem.hasPermissionDeclarations(modId);
+  
+  // 向后兼容：如果没有权限声明，输出警告并使用直接 API
+  if (!hasPermissions) {
+    console.warn(
+      `[MOD Manager] MOD "${modId}" 没有声明权限，将自动授予所有权限。` +
+      `建议在清单中添加 permissions 字段以符合新架构。`
+    );
+    
+    // 使用直接 API（向后兼容）
+    return {
+      id: modId,
+      manifest,
+      time: getTimeAPI(),
+      camera: getCameraAPI(),
+      celestial: getCelestialAPI(),
+      satellite: getSatelliteAPI(),
+      render: renderAPI,
+      config: store.mods[modId]?.config || {},
+      setState: (state) => store.setModModState(modId, state),
+      getState: () => store.mods[modId]?.modState || {},
+      subscribe: () => () => {},
+      emit: (event, data) => eventBus.emit(event, data),
+      on: (event, handler) => {
+        eventBus.on(event, handler, modId);
+        return () => eventBus.off(event, handler);
+      },
+      off: (event, handler) => eventBus.off(event, handler),
+      logger: {
+        debug: (...args) => console.debug(`[${modId}]`, ...args),
+        info: (...args) => console.info(`[${modId}]`, ...args),
+        warn: (...args) => console.warn(`[${modId}]`, ...args),
+        error: (...args) => console.error(`[${modId}]`, ...args),
+      },
+      setTimeout: (cb, ms) => window.setTimeout(cb, ms),
+      setInterval: (cb, ms) => window.setInterval(cb, ms),
+      clearTimeout: (id) => window.clearTimeout(id),
+      clearInterval: (id) => window.clearInterval(id),
+    };
+  }
+
+  // 使用 API 代理（新架构）
+  const proxyFactory = getAPIProxyFactory();
+  const proxiedAPIs = proxyFactory.createProxy(modId);
+  const sandbox = registry.getSandbox();
+
   return {
     id: modId,
     manifest,
-    time: getTimeAPI(),
-    camera: getCameraAPI(),
-    celestial: getCelestialAPI(),
-    satellite: getSatelliteAPI(),
-    render: renderAPI,
+    ...proxiedAPIs,
     config: store.mods[modId]?.config || {},
     setState: (state) => store.setModModState(modId, state),
     getState: () => store.mods[modId]?.modState || {},
@@ -72,10 +145,24 @@ function createModContext(modId: string, manifest: ModManifest): ModContext {
       warn: (...args) => console.warn(`[${modId}]`, ...args),
       error: (...args) => console.error(`[${modId}]`, ...args),
     },
-    setTimeout: (cb, ms) => window.setTimeout(cb, ms),
-    setInterval: (cb, ms) => window.setInterval(cb, ms),
-    clearTimeout: (id) => window.clearTimeout(id),
-    clearInterval: (id) => window.clearInterval(id),
+    setTimeout: (cb, ms) => {
+      const timerId = window.setTimeout(cb, ms);
+      sandbox.trackTimer(modId, timerId);
+      return timerId;
+    },
+    setInterval: (cb, ms) => {
+      const timerId = window.setInterval(cb, ms);
+      sandbox.trackTimer(modId, timerId);
+      return timerId;
+    },
+    clearTimeout: (id) => {
+      sandbox.untrackTimer(modId, id);
+      window.clearTimeout(id);
+    },
+    clearInterval: (id) => {
+      sandbox.untrackTimer(modId, id);
+      window.clearInterval(id);
+    },
   };
 }
 

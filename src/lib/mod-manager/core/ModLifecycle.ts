@@ -112,6 +112,28 @@ export class ModLifecycle {
         await updatedInstance.lifecycleHooks.onEnable(updatedInstance.context);
       }
 
+      // 注册扩展点
+      const contributionRegistry = this.registry.getContributionRegistry();
+      if (updatedInstance.manifest.contributes) {
+        contributionRegistry.registerContributions(modId, updatedInstance.manifest.contributes);
+      }
+
+      // 注册服务
+      const serviceRegistry = this.registry.getServiceRegistry();
+      if (updatedInstance.manifest.services) {
+        for (const service of updatedInstance.manifest.services) {
+          // 从上下文中获取服务实现(假设服务实现在context中以serviceId命名)
+          const implementation = (updatedInstance.context as any)[service.id];
+          if (implementation) {
+            serviceRegistry.registerService(modId, service.id, {
+              interface: service.interface,
+              implementation,
+              visibility: service.visibility,
+            });
+          }
+        }
+      }
+
       // 更新状态
       this.registry.setState(modId, 'enabled');
       this.registry.resetErrors(modId);
@@ -208,6 +230,18 @@ export class ModLifecycle {
    * 清理MOD资源
    */
   private async cleanupResources(modId: string): Promise<void> {
+    // 注销扩展点
+    const contributionRegistry = this.registry.getContributionRegistry();
+    contributionRegistry.unregisterContributions(modId);
+
+    // 注销服务
+    const serviceRegistry = this.registry.getServiceRegistry();
+    serviceRegistry.unregisterModServices(modId);
+
+    // 清理沙箱资源
+    const sandbox = this.registry.getSandbox();
+    sandbox.cleanup(modId);
+
     // 取消事件订阅
     this.eventBus.unsubscribeMod(modId);
 

@@ -17,6 +17,17 @@ export const satelliteTrackingManifest: ModManifest = {
   defaultEnabled: true,
   icon: '📡',
   apiVersion: '1.0.0',
+  
+  // 新架构：权限声明
+  permissions: [
+    'satellite:read',    // 读取卫星数据
+    'satellite:write',   // 获取卫星数据
+    'satellite:execute', // 执行卫星轨道计算
+    'render:write',      // 注册渲染器
+    'render:execute',    // 执行渲染回调
+  ],
+  
+  // 旧字段保留以兼容
   capabilities: [
     { name: 'satellite:tracking', required: true },
     { name: 'satellite:realtime', required: true },

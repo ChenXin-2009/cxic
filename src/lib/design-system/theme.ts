@@ -4,7 +4,10 @@
  * 提供主题切换和主题相关的工具函数
  */
 
-import { Theme, designTokens, getThemeColor } from './tokens';
+import type { Theme } from './tokens';
+import { designTokens, getThemeColor } from './tokens';
+export type { Theme } from './tokens';
+export { designTokens, getThemeColor } from './tokens';
 
 /**
  * 主题配置接口
@@ -147,5 +150,3 @@ export function watchSystemTheme(callback: (theme: 'light' | 'dark') => void): (
     mediaQuery.removeEventListener('change', handler);
   };
 }
-
-export { Theme, designTokens, getThemeColor };

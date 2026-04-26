@@ -67,6 +67,7 @@ export default function InitializationOverlay({ progress, lang }: Initialization
         clearTimeout(removeTimer);
       };
     }
+    return undefined;
   }, [progress.isComplete]);
 
   // 如果不应该渲染，直接返回null

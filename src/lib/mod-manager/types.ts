@@ -77,6 +77,69 @@ export interface ModManifest {
   // 国际化（可选中文覆盖）
   nameZh?: string;         // 中文名称
   descriptionZh?: string;  // 中文描述
+
+  // ============ 新增：权限系统 ============
+  /** 必需权限列表 */
+  permissions?: string[];
+  /** 可选权限列表 */
+  optionalPermissions?: string[];
+
+  // ============ 新增：扩展点机制 ============
+  /** 扩展点配置 */
+  contributes?: {
+    /** Dock 图标扩展点 */
+    dockIcons?: Array<{
+      id: string;
+      icon: string;
+      label: string;
+      labelZh?: string;
+      order?: number;
+      command: string;
+      badge?: number | string;
+    }>;
+    /** 窗口扩展点 */
+    windows?: Array<{
+      id: string;
+      title: string;
+      titleZh?: string;
+      component: string;
+      defaultSize?: { width: number; height: number };
+      defaultPosition?: { x: number; y: number };
+      resizable?: boolean;
+      minimizable?: boolean;
+    }>;
+    /** 命令扩展点 */
+    commands?: Array<{
+      id: string;
+      title: string;
+      titleZh?: string;
+      category?: string;
+      keybinding?: string;
+      handler: string;
+    }>;
+  };
+
+  // ============ 新增：配置 Schema ============
+  /** 配置 Schema (JSON Schema Draft 7) */
+  configSchema?: Record<string, unknown>;
+
+  // ============ 新增：服务注册 ============
+  /** 服务声明 */
+  services?: Array<{
+    id: string;
+    interface: string;
+    visibility?: 'public' | 'internal' | 'private';
+  }>;
+
+  // ============ 新增：资源配额 ============
+  /** 资源配额配置 */
+  resourceQuota?: {
+    maxMemoryMB?: number;
+    maxRenderObjects?: number;
+    maxEventListeners?: number;
+    maxTimers?: number;
+    maxAPICallsPerSecond?: number;
+  };
 }
 
 /**

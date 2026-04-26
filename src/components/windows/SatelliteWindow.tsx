@@ -154,11 +154,11 @@ export function SatelliteWindow({ lang = 'zh' }: SatelliteWindowProps) {
 
         {/* 轨道类型分布 */}
         <div className="mt-3 grid grid-cols-4 gap-2">
-          {Object.entries(orbitCounts).map(([type, count]) => (
+          {(Object.entries(orbitCounts) as [OrbitType, number][]).map(([type, count]) => (
             <div key={type} className="p-2 bg-white/5 rounded-lg text-center">
               <div
                 className="text-xs font-medium mb-1"
-                style={{ color: ORBIT_COLORS[type as OrbitType] }}
+                style={{ color: ORBIT_COLORS[type] }}
               >
                 {type}
               </div>
@@ -187,14 +187,14 @@ export function SatelliteWindow({ lang = 'zh' }: SatelliteWindowProps) {
           <div className="space-y-2">
             {satellitesArray.slice(0, 50).map((sat) => (
               <div
-                key={sat.id}
+                key={sat.noradId}
                 className="p-3 bg-white/5 hover:bg-white/10 rounded-lg transition-all cursor-pointer"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="font-medium text-white">{sat.name}</div>
                     <div className="text-xs text-white/60 mt-1">
-                      ID: {sat.id} • {sat.category}
+                      ID: {sat.noradId} • {sat.category}
                     </div>
                   </div>
                   <div

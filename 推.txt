@@ -8,9 +8,9 @@
 ==================
 git status
 git add .
-git commit -m "Release 8.5.0: 更新界面样式"
+git commit -m "Release 8.6.0: 更新mod架构"
 git checkout main
 git pull origin main
-git tag v8.5.0
+git tag v8.6.0
 git push origin main
-git push origin v8.5.0
+git push origin v8.6.0

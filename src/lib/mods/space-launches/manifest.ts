@@ -17,6 +17,17 @@ export const spaceLaunchesManifest: ModManifest = {
   defaultEnabled: false,
   icon: '🚀',
   apiVersion: '1.0.0',
+  
+  // 新架构：权限声明
+  permissions: [
+    'render:write',   // 添加渲染对象
+    'render:execute', // 执行渲染回调
+  ],
+  optionalPermissions: [
+    'network:read',   // 读取网络数据（可选）
+  ],
+  
+  // 旧字段保留以兼容
   capabilities: [
     { name: 'render:3d', required: true },
     { name: 'network:fetch', required: false },

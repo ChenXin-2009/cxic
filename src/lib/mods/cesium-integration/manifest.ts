@@ -17,6 +17,14 @@ export const cesiumIntegrationManifest: ModManifest = {
   defaultEnabled: true,
   icon: '🌍',
   apiVersion: '1.0.0',
+  
+  // 新架构：权限声明
+  permissions: [
+    'render:read',   // 读取渲染场景
+    'render:write',  // 注册 Cesium 图层
+  ],
+  
+  // 旧字段保留以兼容
   capabilities: [
     { name: 'render:cesium', required: true },
     { name: 'render:3d', required: true },

@@ -17,6 +17,15 @@ export const weatherDisasterManifest: ModManifest = {
   defaultEnabled: false,
   icon: '🌪️',
   apiVersion: '1.0.0',
+  
+  // 新架构：权限声明
+  permissions: [
+    'render:read',    // 读取渲染场景
+    'render:write',   // 添加渲染对象
+    'render:execute', // 执行渲染回调
+  ],
+  
+  // 旧字段保留以兼容
   capabilities: [
     { name: 'render:cesium', required: false },
     { name: 'render:3d', required: true },
